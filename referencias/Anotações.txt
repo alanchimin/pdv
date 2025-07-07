@@ -1,0 +1,53 @@
+2 semanas
+
+Sistema PDV
+    PHP raiz
+    MySQL
+    JS JQuery
+    HTML
+    Bootstrap
+
+Tela para cadastro de produtos
+Tela para lançamento dos itens (tela venda mercado)
+
+
+
+unidade_medida
+    unidade_medida_id
+    nome
+    simbolo
+
+categoria
+    categoria_id
+    nome
+
+produto
+    produto_id
+    nome
+    imagem
+    unidade_medida_id
+    valor_unitario
+    categoria_id
+
+forma_pagamento
+    forma_pagamento_id
+    nome
+
+comanda
+    comanda_id
+    data_hora
+    quantidade_total
+    valor_total
+    forma_pagamento_id
+
+item
+    item_id
+    quantidade
+    desconto_porcentagem
+    desconto_valor
+    valor_unitario
+    valor_total
+    produto_id
+    comanda_id
+
+
