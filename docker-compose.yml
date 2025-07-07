@@ -5,25 +5,36 @@ services:
     build: .
     container_name: pdv_app
     ports:
-      - "8080:80"
+      - "${APP_PORT}:80"
     volumes:
-      - ./src:/var/www/html
+      - ./app:/var/www/html/app
+      - ./migrations:/var/www/html/migrations
     depends_on:
       - db
+    environment:
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASS=${DB_PASS}
+    env_file:
+      - .env
 
   db:
     image: mysql:8.0
     container_name: pdv_db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: pdv
-      MYSQL_USER: pdv_user
-      MYSQL_PASSWORD: pdv_pass
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
     ports:
-      - "3306:3306"
+      - "${DB_PORT}:3306"
     volumes:
       - db_data:/var/lib/mysql
+    env_file:
+      - .env
 
 volumes:
   db_data:
+

@@ -1,0 +1,9 @@
+USE pdv;
+
+select * from unidade_medida order by unidade_medida_id desc;
+select * from categoria order by categoria_id desc;
+select * from produto order by produto_id desc;
+select * from forma_pagamento order by forma_pagamento_id desc;
+select * from comanda order by comanda_id desc;
+select * from item order by item_id desc;
+select * from usuario order by usuario_id desc;
