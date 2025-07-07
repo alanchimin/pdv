@@ -5,7 +5,7 @@
     <a href="index.php?c=pedido&a=create" class="btn btn-primary mb-3">Novo Pedido</a>
 
     <?php if (empty($pedidos)): ?>
-        <p>Nenhuma pedido encontrado.</p>
+        <p>Nenhum pedido encontrado.</p>
     <?php else: ?>
         <table class="table table-bordered">
             <thead>
