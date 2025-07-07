@@ -11,14 +11,14 @@ class ProdutoController
     {
         $produtoModel = new Produto();
         $produtos = $produtoModel->all();
-        include "../app/views/produtos/index.php";
+        include "../views/produtos/index.php";
     }
 
     public function create()
     {
         $unidades = (new UnidadeMedida())->all();
         $categorias = (new Categoria())->all();
-        include "../app/views/produtos/create.php";
+        include "../views/produtos/create.php";
     }
 
     public function store()

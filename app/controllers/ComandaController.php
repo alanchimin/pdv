@@ -8,13 +8,13 @@ class ComandaController
     public function index() {
         $comandaModel = new Comanda();
         $comandas = $comandaModel->all();
-        include "../app/views/comandas/index.php";
+        include "../views/comandas/index.php";
     }
 
     public function create() {
         $comandaModel = new Comanda();
         $formasPagamento = $comandaModel->getFormasPagamento();
-        include "../app/views/comandas/create.php";
+        include "../views/comandas/create.php";
     }
 
     public function store() {

@@ -6,11 +6,11 @@ use App\models\Categoria;
 class CategoriaController {
     public function index() {
         $categorias = Categoria::all();
-        include "../app/views/categorias/index.php";
+        include "../views/categorias/index.php";
     }
 
     public function create() {
-        include "../app/views/categorias/create.php";
+        include "../views/categorias/create.php";
     }
 
     public function store() {

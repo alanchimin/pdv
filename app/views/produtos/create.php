@@ -1,4 +1,4 @@
-<?php include '../app/views/layout/header.php'; ?>
+<?php include '../views/layout/header.php'; ?>
 
 <div class="container mt-4">
     <h1>Cadastrar Produto</h1>
@@ -60,4 +60,4 @@
     </form>
 </div>
 
-<?php include '../app/views/layout/footer.php'; ?>
+<?php include '../views/layout/footer.php'; ?>

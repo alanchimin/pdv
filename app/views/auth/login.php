@@ -1,4 +1,4 @@
-<?php include '../app/views/layout/header.php'; ?>
+<?php include '../views/layout/header.php'; ?>
 
 <div class="container mt-5">
     <h2>Login</h2>
@@ -22,4 +22,4 @@
     </form>
 </div>
 
-<?php include '../app/views/layout/footer.php'; ?>
+<?php include '../views/layout/footer.php'; ?>

@@ -6,11 +6,11 @@ use App\models\UnidadeMedida;
 class UnidadeMedidaController {
     public function index() {
         $unidades = UnidadeMedida::all();
-        include "../app/views/unidades/index.php";
+        include "../views/unidades/index.php";
     }
 
     public function create() {
-        include "../app/views/unidades/create.php";
+        include "../views/unidades/create.php";
     }
 
     public function store() {

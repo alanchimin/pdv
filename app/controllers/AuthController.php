@@ -8,7 +8,7 @@ class AuthController
     public function login()
     {
         $this->startSession();
-        include "../app/views/auth/login.php";
+        include "../views/auth/login.php";
     }
 
     public function doLogin()

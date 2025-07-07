@@ -1,4 +1,4 @@
-<?php include '../app/views/layout/header.php'; ?>
+<?php include '../views/layout/header.php'; ?>
 
 <div class="container mt-4">
     <h1>Categorias</h1>
@@ -22,4 +22,4 @@
     </table>
 </div>
 
-<?php include '../app/views/layout/footer.php'; ?>
+<?php include '../views/layout/footer.php'; ?>

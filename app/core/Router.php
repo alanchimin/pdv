@@ -14,7 +14,7 @@ class Router {
             return;
         }
 
-        $controllerClass = "\\App\\Controllers\\" . ucfirst($controller) . "Controller";
+        $controllerClass = "\\App\\controllers\\" . ucfirst($controller) . "Controller";
 
         if (class_exists($controllerClass)) {
             $obj = new $controllerClass();
