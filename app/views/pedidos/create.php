@@ -1,13 +1,13 @@
 <?php include '../views/layout/header.php'; ?>
 
 <div class="container mt-4">
-    <h1>Nova Comanda</h1>
+    <h1>Novo Pedido</h1>
 
     <?php if (!empty($_GET['error'])): ?>
         <div class="alert alert-danger">Por favor, preencha todos os campos corretamente.</div>
     <?php endif; ?>
 
-    <form method="POST" action="index.php?c=comanda&a=store">
+    <form method="POST" action="index.php?c=pedido&a=store">
         <div class="mb-3">
             <label>Quantidade Total:</label>
             <input type="number" name="quantidade_total" class="form-control" min="1" required>
@@ -28,8 +28,8 @@
             </select>
         </div>
 
-        <button class="btn btn-success">Salvar Comanda</button>
-        <a href="index.php?c=comanda" class="btn btn-secondary">Cancelar</a>
+        <button class="btn btn-success">Salvar Pedido</button>
+        <a href="index.php?c=pedido" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 

@@ -6,14 +6,14 @@ use App\core\Model;
 
 class Item extends Model
 {
-    public function allByComanda($comanda_id) {
+    public function allByPedido($pedido_id) {
         $stmt = $this->pdo->prepare("
             SELECT i.*, p.nome AS produto_nome
             FROM item i
             JOIN produto p ON p.produto_id = i.produto_id
-            WHERE i.comanda_id = ?
+            WHERE i.pedido_id = ?
         ");
-        $stmt->execute([$comanda_id]);
+        $stmt->execute([$pedido_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -21,7 +21,7 @@ class Item extends Model
         $stmt = $this->pdo->prepare("
             INSERT INTO item (
                 quantidade, desconto_porcentagem, desconto_valor, valor_unitario,
-                valor_total, produto_id, comanda_id
+                valor_total, produto_id, pedido_id
             ) VALUES (?, ?, ?, ?, ?, ?, ?)
         ");
         $stmt->execute([
@@ -31,7 +31,7 @@ class Item extends Model
             $data['valor_unitario'],
             $data['valor_total'],
             $data['produto_id'],
-            $data['comanda_id']
+            $data['pedido_id']
         ]);
     }
 }

@@ -25,8 +25,8 @@ CREATE TABLE forma_pagamento (
     nome VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE comanda (
-    comanda_id INT AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE pedido (
+    pedido_id INT AUTO_INCREMENT PRIMARY KEY,
     data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
     quantidade_total INT NOT NULL,
     valor_total DECIMAL(10,2) NOT NULL,
@@ -42,9 +42,9 @@ CREATE TABLE item (
     valor_unitario DECIMAL(10,2) NOT NULL,
     valor_total DECIMAL(10,2) NOT NULL,
     produto_id INT NOT NULL,
-    comanda_id INT NOT NULL,
+    pedido_id INT NOT NULL,
     FOREIGN KEY (produto_id) REFERENCES produto(produto_id),
-    FOREIGN KEY (comanda_id) REFERENCES comanda(comanda_id)
+    FOREIGN KEY (pedido_id) REFERENCES pedido(pedido_id)
 );
 
 CREATE TABLE usuario (

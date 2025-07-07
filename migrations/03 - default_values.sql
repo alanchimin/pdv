@@ -94,6 +94,6 @@ INSERT INTO forma_pagamento (nome) VALUES
 
 -- Inserir usuário admin com senha "1234" usando bcrypt (hash gerado via PHP)
 INSERT INTO usuario (usuario, senha) VALUES (
-    'admin', 
-    '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'
+    'admin',
+    'c4ca4238a0b923820dcc509a6f75849b'
 );

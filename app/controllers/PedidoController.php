@@ -1,20 +1,20 @@
 <?php
 namespace App\controllers;
 
-use App\models\Comanda;
+use App\models\Pedido;
 
-class ComandaController
+class PedidoController
 {
     public function index() {
-        $comandaModel = new Comanda();
-        $comandas = $comandaModel->all();
-        include "../views/comandas/index.php";
+        $pedidoModel = new Pedido();
+        $pedidos = $pedidoModel->all();
+        include "../views/pedidos/index.php";
     }
 
     public function create() {
-        $comandaModel = new Comanda();
-        $formasPagamento = $comandaModel->getFormasPagamento();
-        include "../views/comandas/create.php";
+        $pedidoModel = new Pedido();
+        $formasPagamento = $pedidoModel->getFormasPagamento();
+        include "../views/pedidos/create.php";
     }
 
     public function store() {
@@ -23,17 +23,17 @@ class ComandaController
         $forma_pagamento_id = intval($_POST['forma_pagamento_id'] ?? 0);
 
         if ($quantidade_total > 0 && $valor_total > 0 && $forma_pagamento_id > 0) {
-            $comandaModel = new Comanda();
-            $comandaModel->create([
+            $pedidoModel = new Pedido();
+            $pedidoModel->create([
                 'quantidade_total' => $quantidade_total,
                 'valor_total' => $valor_total,
                 'forma_pagamento_id' => $forma_pagamento_id
             ]);
-            header("Location: index.php?c=comanda");
+            header("Location: index.php?c=pedido");
             exit;
         } else {
             // Poderia redirecionar com erro, aqui só simples:
-            header("Location: index.php?c=comanda&a=create&error=1");
+            header("Location: index.php?c=pedido&a=create&error=1");
             exit;
         }
     }
