@@ -2,7 +2,7 @@
 
 <div class="container mt-4">
     <h1>Pedidos</h1>
-    <a href="index.php?c=pedido&a=create" class="btn btn-primary mb-3">Novo Pedido</a>
+    <a href="/pedido/create" class="btn btn-primary mb-3">Novo Pedido</a>
 
     <?php if (empty($pedidos)): ?>
         <p>Nenhum pedido encontrado.</p>

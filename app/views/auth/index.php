@@ -7,7 +7,7 @@
         <div class="alert alert-danger">Usuário ou senha inválidos.</div>
     <?php endif; ?>
 
-    <form method="POST" action="index.php?c=auth&a=doLogin">
+    <form method="POST" action="/auth/login">
         <div class="mb-3">
             <label for="user">Usuário:</label>
             <input type="text" name="user" id="user" class="form-control" required>

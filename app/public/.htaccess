@@ -1,3 +1,9 @@
 RewriteEngine On
+RewriteBase /
+
+# Evita reescrever arquivos e diretórios reais
 RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redireciona tudo para index.php e define PATH_INFO
 RewriteRule ^ index.php [QSA,L]

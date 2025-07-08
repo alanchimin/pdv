@@ -2,7 +2,7 @@
 
 <div class="container mt-4">
     <h1>Nova Categoria</h1>
-    <form method="POST" action="index.php?c=categoria&a=store">
+    <form method="POST" action="/categoria/store">
         <div class="mb-3">
             <label for="nome">Nome:</label>
             <input type="text" name="nome" id="nome" class="form-control" required>

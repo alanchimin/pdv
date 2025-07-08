@@ -7,7 +7,7 @@
         <div class="alert alert-danger">Por favor, preencha todos os campos corretamente.</div>
     <?php endif; ?>
 
-    <form method="POST" action="index.php?c=pedido&a=store">
+    <form method="POST" action="/pedido/store">
         <div class="mb-3">
             <label>Quantidade Total:</label>
             <input type="number" name="quantidade_total" class="form-control" min="1" required>
@@ -29,7 +29,7 @@
         </div>
 
         <button class="btn btn-success">Salvar Pedido</button>
-        <a href="index.php?c=pedido" class="btn btn-secondary">Cancelar</a>
+        <a href="/pedido" class="btn btn-secondary">Cancelar</a>
     </form>
 </div>
 

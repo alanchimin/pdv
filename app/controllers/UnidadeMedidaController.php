@@ -15,6 +15,6 @@ class UnidadeMedidaController {
 
     public function store() {
         UnidadeMedida::create($_POST);
-        header("Location: index.php?c=unidademedida");
+        header("Location: /unidademedida");
     }
 }

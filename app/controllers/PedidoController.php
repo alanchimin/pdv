@@ -29,11 +29,10 @@ class PedidoController
                 'valor_total' => $valor_total,
                 'forma_pagamento_id' => $forma_pagamento_id
             ]);
-            header("Location: index.php?c=pedido");
+            header("Location: /pedido");
             exit;
         } else {
-            // Poderia redirecionar com erro, aqui só simples:
-            header("Location: index.php?c=pedido&a=create&error=1");
+            header("Location: /pedido/create?error=1");
             exit;
         }
     }

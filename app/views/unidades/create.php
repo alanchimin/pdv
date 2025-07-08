@@ -2,7 +2,7 @@
 
 <div class="container mt-4">
     <h1>Nova Unidade de Medida</h1>
-    <form method="POST" action="index.php?c=unidademedida&a=store">
+    <form method="POST" action="/unidademedida/store">
         <div class="mb-3">
             <label for="nome">Nome:</label>
             <input type="text" name="nome" id="nome" class="form-control" required>

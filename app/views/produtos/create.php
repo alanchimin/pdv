@@ -2,7 +2,7 @@
 
 <div class="container mt-4">
     <h1>Cadastrar Produto</h1>
-    <form method="POST" action="index.php?c=produto&a=store" enctype="multipart/form-data">
+    <form method="POST" action="/produto/store" enctype="multipart/form-data">
         <div class="mb-2">
             <label>Nome:</label>
             <input type="text" name="nome" class="form-control" required>

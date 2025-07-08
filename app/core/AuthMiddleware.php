@@ -9,14 +9,29 @@ class AuthMiddleware
             session_start();
         }
 
-        $controller = $_GET['c'] ?? '';
-        $action = $_GET['a'] ?? '';
+        // Captura rota com fallback para REQUEST_URI se PATH_INFO não existir
+        $path = $_SERVER['PATH_INFO'] ?? parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-        $rotaPublica = $controller === 'auth' && in_array($action, ['login', 'doLogin']);
+        $segments = array_values(array_filter(explode('/', trim($path, '/'))));
+        $controller = strtolower($segments[0] ?? 'pedido');
+        $action     = strtolower($segments[1] ?? 'index');
 
-        if (!isset($_SESSION['auth']) && !$rotaPublica) {
-            header("Location: index.php?c=auth&a=login");
-            exit;
+        $currentRoute = "$controller/$action";
+        $authenticated = isset($_SESSION['auth']);
+
+        $publicRoutes = [
+            'auth/index',
+            'auth/login',
+        ];
+
+        $isPublicRoute = in_array($currentRoute, $publicRoutes);
+
+        if (!$authenticated && !$isPublicRoute) {
+            // Evita redirecionamento infinito ao garantir que já não está na tela de login
+            if ($currentRoute !== 'auth/index') {
+                header("Location: /auth");
+                exit;
+            }
         }
     }
 }

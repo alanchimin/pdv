@@ -5,13 +5,13 @@ use App\models\Usuario;
 
 class AuthController
 {
-    public function login()
+    public function index()
     {
         $this->startSession();
-        include "../views/auth/login.php";
+        include "../views/auth/index.php";
     }
 
-    public function doLogin()
+    public function login()
     {
         $this->startSession();
 
@@ -20,6 +20,7 @@ class AuthController
 
         if (empty($user) || empty($pass)) {
             $this->redirectToLoginWithError();
+            return;
         }
 
         $usuarioModel = new Usuario();
@@ -27,8 +28,8 @@ class AuthController
 
         if ($usuario && password_verify($pass, $usuario['senha'])) {
             $_SESSION['auth'] = true;
-            $_SESSION['usuario'] = $usuario['usuario']; // opcional
-            header("Location: index.php?c=pedido&a=index");
+            $_SESSION['usuario'] = $usuario['usuario'];
+            header("Location: /pedido");
             exit;
         }
 
@@ -39,7 +40,7 @@ class AuthController
     {
         $this->startSession();
         session_destroy();
-        header("Location: index.php?c=auth&a=login");
+        header("Location: /auth");
         exit;
     }
 
@@ -52,7 +53,7 @@ class AuthController
 
     private function redirectToLoginWithError()
     {
-        header("Location: index.php?c=auth&a=login&error=1");
+        header("Location: /auth?error=1");
         exit;
     }
 }

@@ -44,7 +44,7 @@ class ProdutoController
         ];
 
         (new Produto())->create($data);
-        header("Location: index.php?c=produto");
+        header("Location: /produto");
         exit;
     }
 

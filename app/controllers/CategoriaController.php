@@ -15,6 +15,6 @@ class CategoriaController {
 
     public function store() {
         Categoria::create($_POST);
-        header("Location: index.php?c=categoria");
+        header("Location: /categoria");
     }
 }
