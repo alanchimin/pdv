@@ -31,6 +31,10 @@ ID | Nome do produto | Un. Medida | Valor Unitário | Ações
 
 Acima da tabela, deve ter um campo para pesquisa do lado esquerdo e um botão para cadastro de novo produto
 
+As telas de cadastro, devem exibir um título com o nome da tela ex: Cadastrar Produto / Editar Produto e, do lado direito, um botão para voltar para a listagem
+O botão de salvar deve ficar embaixo, alinhado à direita, à esquerda de um botão Cancelar
+Os campos devem seguir o padrão do grid system do bootstrap de acordo com o tamanho adequado para o campo, por ex: tamanho 3/12 para o campo nome
+
 
 Painel Principal:
     - Tela de Vendas (tela padrão após login):

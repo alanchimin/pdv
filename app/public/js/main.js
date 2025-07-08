@@ -1,32 +1,49 @@
-// Bootstrap bundle placeholder// Aguarda o DOM estar pronto
+// Aguarda o DOM estar pronto
 $(document).ready(function () {
-    // Pré-visualização de imagem (se presente na página)
+    // Inicializa os selects com bootstrap-select (se presente)
+    if ($('.selectpicker').length) {
+        $('.selectpicker').selectpicker();
+    }
+
+    initImagemPreview();
+    initRadioToggle();
+    initUploadPreview();
+    initAjaxBusca();
+});
+
+/** Pré-visualização de imagem por URL */
+function initImagemPreview() {
+    if (!$('#imagem-url').length || !$('#imagem-preview').length) return;
+
     $('#imagem-url').on('input', function () {
         const url = $(this).val();
-        if (url) {
-            $('#imagem-preview').attr('src', url).show();
-        } else {
-            $('#imagem-preview').hide();
-        }
+        $('#imagem-preview').attr('src', url).toggle(!!url);
     });
+}
+
+/** Alterna campos de imagem entre URL e upload */
+function initRadioToggle() {
+    if (!$('#radio-url').length || !$('#radio-upload').length) return;
 
     $('#radio-url').on('change', function () {
-        if ($(this).is(':checked')) {
+        if (this.checked) {
             $('#imagem-url').show();
-            $('#imagem-upload').hide();
-            $('#imagem-preview').attr('src', $('#imagem-url').val()).show();
+            $('#imagem-upload, #imagem-preview').hide();
         }
     });
 
     $('#radio-upload').on('change', function () {
-        if ($(this).is(':checked')) {
+        if (this.checked) {
             $('#imagem-upload').show();
-            $('#imagem-url').hide();
-            $('#imagem-preview').hide();
+            $('#imagem-url, #imagem-preview').hide();
         }
     });
+}
 
-    // Preview da imagem de upload
+/** Pré-visualização da imagem de upload */
+function initUploadPreview() {
+    if (!$('#imagem-upload').length || !$('#imagem-preview').length) return;
+
     $('#imagem-upload').on('change', function (e) {
         const file = e.target.files[0];
         if (file) {
@@ -37,20 +54,42 @@ $(document).ready(function () {
             reader.readAsDataURL(file);
         }
     });
+}
 
-    // Busca AJAX de produtos (se campo existir)
-    $('#busca').on('input', function () {
+/** Busca AJAX por produtos */
+function initAjaxBusca() {
+    const $busca = $('#busca');
+    const $resultados = $('#resultados');
+
+    if (!$busca.length || !$resultados.length) return;
+
+    $busca.on('input', function () {
         const termo = $(this).val();
+
         if (termo.length >= 2) {
             $.get('index.php?c=produto&a=buscar&q=' + encodeURIComponent(termo), function (data) {
                 let html = '';
                 data.forEach(produto => {
-                    html += `<li>${produto.nome} - R$ ${parseFloat(produto.valor_unitario).toFixed(2).replace('.', ',')}</li>`;
+                    html += `<li>${escapeHtml(produto.nome)} - R$ ${parseFloat(produto.valor_unitario).toFixed(2).replace('.', ',')}</li>`;
                 });
-                $('#resultados').html(html);
+                $resultados.html(html);
             });
         } else {
-            $('#resultados').html('');
+            $resultados.html('');
         }
     });
-});
+}
+
+/** Escapa conteúdo HTML para evitar XSS */
+function escapeHtml(text) {
+    return text.replace(/[&<>"'\/]/g, function (s) {
+        return ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#39;',
+            '/': '&#x2F;'
+        })[s];
+    });
+}

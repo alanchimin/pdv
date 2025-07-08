@@ -9,15 +9,24 @@ class ProdutoController
 {
     public function index()
     {
+        $busca = $_GET['q'] ?? '';
+        $paginaAtual = max(1, (int) ($_GET['pagina'] ?? 1));
+        $limite = 10;
+        $offset = ($paginaAtual - 1) * $limite;
+
         $produtoModel = new Produto();
-        $produtos = $produtoModel->all();
+        $totalProdutos = $produtoModel->count($busca);
+        $totalPaginas = ceil($totalProdutos / $limite);
+
+        $produtos = $produtoModel->all($busca, $limite, $offset);
+
         include "../views/produtos/index.php";
     }
 
     public function create()
     {
-        $unidades = (new UnidadeMedida())->all();
-        $categorias = (new Categoria())->all();
+        $unidades = (new UnidadeMedida())->all(orderBy: 'nome');
+        $categorias = (new Categoria())->all(orderBy: 'nome');
         include "../views/produtos/create.php";
     }
 

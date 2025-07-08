@@ -1,26 +1,45 @@
 <?php include '../views/layout/header.php'; ?>
 
-<div class="container mt-4">
-    <h1>Cadastro de Produtos</h1>
-    <form method="POST" action="/produto/store">
-        <input type="text" name="nome" placeholder="Nome" class="form-control mb-2">
-        <input type="number" step="0.01" name="preco" placeholder="Preço" class="form-control mb-2">
-        <input type="number" name="estoque" placeholder="Estoque" class="form-control mb-2">
-        <button class="btn btn-primary">Salvar</button>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <form method="GET" action="/produto" class="d-flex w-50">
+        <input type="text" name="q" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" class="form-control" placeholder="Buscar produto...">
+        <button class="btn btn-outline-secondary ms-2">Buscar</button>
     </form>
-
-    <a href="/produto/create" class="btn btn-primary mb-3">Novo Produto</a>
-
-    <h2 class="mt-5">Buscar Produtos</h2>
-    <input type="text" id="busca" class="form-control mb-2" placeholder="Digite para buscar">
-    <ul id="resultados"></ul>
-
-    <h2 class="mt-5">Todos os Produtos</h2>
-    <ul>
-        <?php foreach ($produtos as $produto): ?>
-            <li><?= htmlspecialchars($produto['nome']) ?> - R$<?= number_format($produto['valor_unitario'], 2, ',', '.') ?></li>
-        <?php endforeach; ?>
-    </ul>
+    <a href="/produto/create" class="btn btn-success">Novo Produto</a>
 </div>
 
-<?php include '../views/layout/footer.php'; ?>
+<table class="table table-bordered table-hover">
+    <thead class="table-light">
+        <tr>
+            <th>ID</th>
+            <th>Nome do Produto</th>
+            <th>Categoria</th>
+            <th>Un. Medida</th>
+            <th>Valor Unitário</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($produtos as $produto): ?>
+            <tr>
+                <td><?= $produto['produto_id'] ?></td>
+                <td><?= htmlspecialchars($produto['nome']) ?></td>
+                <td><?= htmlspecialchars($produto['categoria_nome']) ?></td>
+                <td><?= htmlspecialchars($produto['simbolo']) ?></td>
+                <td>R$ <?= number_format($produto['valor_unitario'], 2, ',', '.') ?></td>
+                <td>
+                    <a href="/produto/edit/<?= $produto['produto_id'] ?>" class="btn btn-sm btn-primary">✏️</a>
+                    <a href="/produto/delete/<?= $produto['produto_id'] ?>" class="btn btn-sm btn-danger">🗑️</a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
+<?php
+    $baseUrl = '/produto';
+    include __DIR__ . '/../components/paginacao.php';
+?>
+
+<script src="/js/common/form-handlers.js"></script>
+<script src="/js/produtos/index.js"></script>

@@ -6,8 +6,18 @@ use PDO;
 
 class UnidadeMedida extends Model
 {
-    public function all() {
-        $stmt = $this->pdo->query("SELECT * FROM unidade_medida");
+    public function all(string $orderBy = 'nome') {
+        $columns = ['unidade_medida_id', 'nome', 'simbolo'];
+
+        // Verifica se o parâmetro é válido
+        if (!in_array($orderBy, $columns)) {
+            $orderBy = 'nome';
+        }
+
+        $sql = "SELECT * FROM unidade_medida ORDER BY $orderBy";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
