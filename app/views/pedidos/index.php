@@ -1,4 +1,6 @@
 <?php include '../views/layout/header.php'; ?>
+<!-- CSS Personalizado -->
+<link rel="stylesheet" href="/css/pedidos/index.css">
 
 <div class="container-fluid mt-4">
     <div class="row">
@@ -30,11 +32,18 @@
                             data-nome="<?= htmlspecialchars($produto['nome']) ?>"
                             data-valor="<?= $produto['valor_unitario'] ?>"
                             data-categoria-id="<?= $produto['categoria_id'] ?>">
-                            <img src="<?= htmlspecialchars($produto['imagem'] ?? '') ?>" class="card-img-top" alt="<?= htmlspecialchars($produto['nome']) ?>">
-                            <div class="card-body">
-                                <h5 class="card-title text-center"><?= htmlspecialchars($produto['nome']) ?></h5>
+
+                            <img 
+                                src="<?= htmlspecialchars($produto['imagem'] ?? '/images/placeholder.svg') ?>" 
+                                class="card-img-top produto-img" 
+                                alt="<?= htmlspecialchars($produto['nome']) ?>"
+                                onerror="this.onerror=null; this.src='/images/placeholder.svg';">
+
+                            <div class="card-body d-flex align-items-center justify-content-center" style="height: 60px;">
+                                <h5 class="card-title text-center mb-0" style="font-size: 1rem;"><?= htmlspecialchars($produto['nome']) ?></h5>
                             </div>
                         </div>
+
                     </div>
                 <?php endforeach; ?>
             </div>

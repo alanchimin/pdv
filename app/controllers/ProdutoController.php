@@ -38,7 +38,7 @@ class ProdutoController
             if (isset($_FILES['imagem_arquivo']) && $_FILES['imagem_arquivo']['error'] === UPLOAD_ERR_OK) {
                 $ext = pathinfo($_FILES['imagem_arquivo']['name'], PATHINFO_EXTENSION);
                 $imagem_nome = uniqid('produto_') . '.' . $ext;
-                move_uploaded_file($_FILES['imagem_arquivo']['tmp_name'], __DIR__ . '/../../public/img/' . $imagem_nome);
+                move_uploaded_file($_FILES['imagem_arquivo']['tmp_name'], __DIR__ . '/../../public/upload/' . $imagem_nome);
             }
         } elseif ($_POST['tipo_imagem'] === 'url') {
             $imagem_nome = $_POST['imagem_url'];

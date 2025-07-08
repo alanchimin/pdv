@@ -16,7 +16,7 @@ class PedidoController
         $categorias = $categoriaModel->all();
 
         $produtoModel = new Produto();
-        $produtos = $produtoModel->all();
+        $produtos = $produtoModel->all(limit: 0);
 
         include "../views/pedidos/index.php";
     }

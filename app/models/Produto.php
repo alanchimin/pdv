@@ -19,7 +19,7 @@ class Produto extends Model
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':busca', '%' . $busca . '%', PDO::PARAM_STR);
-        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit ?: PHP_INT_MAX, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
         $stmt->execute();
 
