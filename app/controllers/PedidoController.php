@@ -95,7 +95,7 @@ class PedidoController
         // Gera o PDF
         $dompdf = new Dompdf();
         $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->setPaper([0, 0, 300, 1000], 'portrait');
         $dompdf->render();
 
         $output = $dompdf->output();

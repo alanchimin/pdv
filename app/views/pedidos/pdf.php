@@ -5,41 +5,97 @@
 
 $subtotal = 0;
 $descontos = 0;
+$larguraMaxima = 300; // largura típica de cupom
 ?>
-<h2>Pedido #<?= $pedido_id ?></h2>
-<p><strong>Forma de Pagamento:</strong> <?= htmlspecialchars($forma_pagamento) ?></p>
 
-<table border="1" cellspacing="0" cellpadding="5" width="100%">
-    <thead>
-        <tr>
-            <th>Produto</th>
-            <th>Qtd</th>
-            <th>Valor Unitário</th>
-            <th>Desconto</th>
-            <th>Total</th>
-        </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($itens as $item):
-            $valorUnitario = $item['valor_unitario'];
-            $quantidade = $item['quantidade'];
-            $desconto = $item['desconto_valor'];
-            $total = $valorUnitario * $quantidade;
-            $final = $total - $desconto;
-            $subtotal += $total;
-            $descontos += $desconto;
-        ?>
-        <tr>
-            <td><?= htmlspecialchars($item['nome']) ?></td>
-            <td><?= $quantidade ?></td>
-            <td>R$ <?= number_format($valorUnitario, 2, ',', '.') ?></td>
-            <td>R$ <?= number_format($desconto, 2, ',', '.') ?></td>
-            <td>R$ <?= number_format($final, 2, ',', '.') ?></td>
-        </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+<style>
+    body {
+        font-family: monospace;
+        font-size: 12px;
+        max-width: <?= $larguraMaxima ?>px;
+        margin: 0 auto;
+    }
 
-<p><strong>Subtotal:</strong> R$ <?= number_format($subtotal, 2, ',', '.') ?></p>
-<p><strong>Descontos:</strong> R$ <?= number_format($descontos, 2, ',', '.') ?></p>
-<p><strong>Total:</strong> R$ <?= number_format($subtotal - $descontos, 2, ',', '.') ?></p>
+    .center {
+        text-align: center;
+    }
+
+    .linha {
+        border-top: 1px dashed #000;
+        margin: 8px 0;
+    }
+
+    .item {
+        margin-bottom: 5px;
+    }
+
+    .item-header, .item-row {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .total {
+        font-weight: bold;
+        font-size: 13px;
+    }
+</style>
+
+<div class="center">
+    <h3>SUPERMERCADO EXEMPLO</h3>
+    <p>CNPJ: 00.000.000/0001-00</p>
+    <p>Pedido Nº <?= $pedido_id ?></p>
+    <p>Pagamento: <?= htmlspecialchars($forma_pagamento) ?></p>
+</div>
+
+<div class="linha"></div>
+
+<div class="item-header">
+    <span>Produto</span>
+    <span>R$</span>
+</div>
+
+<?php foreach ($itens as $item):
+    $valorUnitario = $item['valor_unitario'];
+    $quantidade = $item['quantidade'];
+    $desconto = $item['desconto_valor'];
+    $total = $valorUnitario * $quantidade;
+    $final = $total - $desconto;
+    $subtotal += $total;
+    $descontos += $desconto;
+?>
+<div class="item">
+    <div><?= htmlspecialchars($item['nome']) ?></div>
+    <div class="item-row">
+        <span><?= $quantidade ?> x <?= number_format($valorUnitario, 2, ',', '.') ?></span>
+        <span><?= number_format($final, 2, ',', '.') ?></span>
+    </div>
+    <?php if ($desconto > 0): ?>
+        <div class="item-row">
+            <small>Desconto</small>
+            <small>-<?= number_format($desconto, 2, ',', '.') ?></small>
+        </div>
+    <?php endif; ?>
+</div>
+<?php endforeach; ?>
+
+<div class="linha"></div>
+
+<div class="item-row total">
+    <span>Subtotal</span>
+    <span>R$ <?= number_format($subtotal, 2, ',', '.') ?></span>
+</div>
+<div class="item-row total">
+    <span>Descontos</span>
+    <span>- R$ <?= number_format($descontos, 2, ',', '.') ?></span>
+</div>
+<div class="item-row total">
+    <span>Total</span>
+    <span>R$ <?= number_format($subtotal - $descontos, 2, ',', '.') ?></span>
+</div>
+
+<div class="linha"></div>
+
+<div class="center">
+    <p>Obrigado pela preferência!</p>
+    <p><?= date('d/m/Y H:i:s') ?></p>
+</div>
