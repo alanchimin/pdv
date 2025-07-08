@@ -92,8 +92,8 @@ INSERT INTO forma_pagamento (nome) VALUES
 ('PIX'),
 ('Vale Alimentação');
 
--- Inserir usuário admin com senha "1234" usando bcrypt (hash gerado via PHP)
+-- Inserir usuário admin com senha "1" usando bcrypt (hash gerado via PHP)
 INSERT INTO usuario (usuario, senha) VALUES (
     'admin',
-    'c4ca4238a0b923820dcc509a6f75849b'
+    '$2y$10$GMoks1SDe31zmw5OYW8vZOTVKeuugT0P5PCDfL/fF2NmZMtOOLmfW'
 );

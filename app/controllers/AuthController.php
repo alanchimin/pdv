@@ -25,7 +25,7 @@ class AuthController
         $usuarioModel = new Usuario();
         $usuario = $usuarioModel->findByUsuario($user);
 
-        if ($usuario && md5($pass) == $usuario['senha']) {
+        if ($usuario && password_verify($pass, $usuario['senha'])) {
             $_SESSION['auth'] = true;
             $_SESSION['usuario'] = $usuario['usuario']; // opcional
             header("Location: index.php?c=pedido&a=index");
