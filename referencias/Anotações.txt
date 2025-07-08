@@ -13,15 +13,24 @@ Ideia inicial:
 
 
 TODO:
-- Corrigir os redirecionamentos de rotas com Location:
 - Separar o arquivo main.js para carregar apenas as funcionalidades da tela atual
 
-Desenvolver as telas:
-Menu Lateral (exibido em todas as telas, exceto login):
-    - Vendas
+## Layout principal
+As telas de listagem devem ter esse padrão:
+
+Menu Lateral Esquerdo (exibido em todas as telas, exceto login) contendo as opções:
+    - Pedidos
     - Produtos
-    - Categorias (opcional)
-    - Unidades de Medida (opcional)
+    - Categorias
+    - Unidades de Medida
+
+O painel principal deve exibir uma tabela, por enquanto sem paginação, ex:
+
+ID | Nome do produto | Un. Medida | Valor Unitário | Ações
+1  | Feijão          | Kg         | 8,50           | Editar (ícone), Excluir (ícone)
+
+Acima da tabela, deve ter um campo para pesquisa do lado esquerdo e um botão para cadastro de novo produto
+
 
 Painel Principal:
     - Tela de Vendas (tela padrão após login):
