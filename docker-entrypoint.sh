@@ -9,7 +9,7 @@ echo "Banco disponível! Rodando migrations..."
 
 for file in /var/www/html/migrations/*.sql; do
   echo "Executando $file"
-  mysql -h"$DB_HOST" -u"$DB_USER" -p"$DB_PASS" "$DB_NAME" < "$file"
+  mysql --default-character-set=utf8mb4 -h"$DB_HOST" -u"$DB_USER" -p"$DB_PASS" "$DB_NAME" < "$file"
 done
 
 echo "Migrations concluídas."
