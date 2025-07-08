@@ -28,8 +28,6 @@ CREATE TABLE forma_pagamento (
 CREATE TABLE pedido (
     pedido_id INT AUTO_INCREMENT PRIMARY KEY,
     data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
-    quantidade_total INT NOT NULL,
-    valor_total DECIMAL(10,2) NOT NULL,
     forma_pagamento_id INT NOT NULL,
     FOREIGN KEY (forma_pagamento_id) REFERENCES forma_pagamento(forma_pagamento_id)
 );
@@ -37,7 +35,6 @@ CREATE TABLE pedido (
 CREATE TABLE item (
     item_id INT AUTO_INCREMENT PRIMARY KEY,
     quantidade INT NOT NULL,
-    desconto_porcentagem DECIMAL(5,2) DEFAULT 0,
     desconto_valor DECIMAL(10,2) DEFAULT 0,
     valor_unitario DECIMAL(10,2) NOT NULL,
     valor_total DECIMAL(10,2) NOT NULL,

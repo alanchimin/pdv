@@ -4,3 +4,12 @@
     object-fit: cover;
     display: block;
 }
+
+.produto-item {
+    cursor: pointer;
+    transition: box-shadow 0.2s ease;
+}
+
+.produto-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}

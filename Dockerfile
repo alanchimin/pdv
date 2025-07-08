@@ -1,10 +1,23 @@
 FROM php:8.2-apache
 
 # Instala dependências do sistema
-RUN apt-get update && apt-get install -y unzip git curl default-mysql-client
+RUN apt-get update && apt-get install -y \
+    unzip \
+    git \
+    curl \
+    default-mysql-client \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libzip-dev \
+    libicu-dev \
+    libonig-dev \
+    fonts-dejavu-core \
+    && rm -rf /var/lib/apt/lists/*
 
 # Instala extensões do PHP
-RUN docker-php-ext-install pdo pdo_mysql mysqli
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-install -j$(nproc) pdo pdo_mysql mysqli gd mbstring zip intl
 
 # Ativa o mod_rewrite
 RUN a2enmod rewrite
@@ -31,7 +44,7 @@ RUN chown -R www-data:www-data /var/www/html
 # Copia configuração personalizada do Apache
 COPY app/apache/000-default.conf /etc/apache2/sites-available/000-default.conf
 
-# Expõe porta 80
+# Expõe a porta 80
 EXPOSE 80
 
 # Copia entrypoint e torna executável

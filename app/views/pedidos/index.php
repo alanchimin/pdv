@@ -52,9 +52,13 @@
         <!-- Painel direito: Carrinho -->
         <div class="col-md-4">
             <h4>Itens do Pedido</h4>
-            <ul class="list-group mb-3" id="lista-itens"></ul>
 
-            <table class="table table-bordered">
+            <div class="border rounded p-2" style="max-height: 300px; overflow-y: auto;">
+                <ul class="list-group mb-3" id="lista-itens"></ul>
+                <div id="lista-placeholder" class="text-muted text-center py-3">Nenhum item adicionado.</div>
+            </div>
+
+            <table class="table table-bordered mt-3">
                 <tr>
                     <th>Subtotal</th>
                     <td id="pedido-subtotal">R$ 0,00</td>
@@ -69,7 +73,10 @@
                 </tr>
             </table>
 
-            <button class="btn btn-primary w-100" id="btn-gerar-pdf">Gerar PDF do Pedido</button>
+            <button class="btn btn-outline-danger w-100 mb-2" data-bs-toggle="modal" data-bs-target="#modalLimparPedido">Limpar Itens do Pedido</button>
+
+            <div id="mensagem-finalizar" class="alert alert-danger d-none" role="alert"></div>
+            <button class="btn btn-primary w-100" id="btn-finalizar-pedido">Finalizar Pedido</button>
         </div>
     </div>
 </div>
@@ -84,6 +91,7 @@
             </div>
             <div class="modal-body">
                 <form id="form-adiciona-produto">
+                    <div id="mensagem-erro" class="alert alert-danger d-none" role="alert"></div>
                     <input type="hidden" id="produto-id">
                     <div class="mb-3">
                         <label for="produto-nome" class="form-label">Produto</label>
@@ -93,15 +101,46 @@
                         <label for="quantidade" class="form-label">Quantidade</label>
                         <input type="number" class="form-control" id="quantidade" required min="1" value="1">
                     </div>
+
                     <div class="mb-3">
-                        <label for="desconto" class="form-label">Desconto (%)</label>
-                        <input type="number" class="form-control" id="desconto" min="0" max="100" value="0">
+                        <label class="form-label">Tipo de Desconto</label><br>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="tipo-desconto" id="desconto-percentual-radio" value="percentual" checked>
+                            <label class="form-check-label" for="desconto-percentual-radio">%</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="tipo-desconto" id="desconto-reais-radio" value="reais">
+                            <label class="form-check-label" for="desconto-reais-radio">R$</label>
+                        </div>
+                    </div>
+                    <div class="mb-3" id="campo-desconto-percentual">
+                        <label for="desconto-porcentagem" class="form-label">Desconto (%)</label>
+                        <input type="number" class="form-control" id="desconto-porcentagem" min="0" max="100" value="0">
+                    </div>
+                    <div class="mb-3 d-none" id="campo-desconto-reais">
+                        <label for="desconto-reais" class="form-label">Desconto (R$)</label>
+                        <input type="number" class="form-control" id="desconto-reais" min="0" step="0.01" value="0.00">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-success" id="btn-adicionar">Adicionar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalLimparPedido" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title">Confirmar Limpeza</h5></div>
+            <div class="modal-body">
+                Deseja realmente limpar todos os itens do pedido?
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button class="btn btn-danger" id="btn-confirmar-limpeza" data-bs-dismiss="modal">Limpar</button>
             </div>
         </div>
     </div>

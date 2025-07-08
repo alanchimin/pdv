@@ -1,1 +1,5 @@
 .env
+!/app/public/upload/.gitkeep
+/app/public/upload/*
+!/app/public/pedidos/.gitkeep
+/app/public/pedidos/*

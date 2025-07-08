@@ -22,7 +22,7 @@ class Categoria extends Model
     }
 
     public function create($data) {
-        $stmt = $this->pdo->prepare("INSERT INTO categoria (nome) VALUES (?)");
-        $stmt->execute([$data['nome']]);
+        $stmt = $this->pdo->prepare("INSERT INTO categoria (nome) VALUES (:nome)");
+        $stmt->execute($data);
     }
 }

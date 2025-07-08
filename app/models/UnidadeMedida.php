@@ -22,7 +22,10 @@ class UnidadeMedida extends Model
     }
 
     public function create($data) {
-        $stmt = $this->pdo->prepare("INSERT INTO unidade_medida (nome, simbolo) VALUES (?, ?)");
-        $stmt->execute([$data['nome'], $data['simbolo']]);
+        $sql = "INSERT INTO unidade_medida (nome, simbolo)
+                VALUES (:nome, :simbolo)";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($data);
     }
 }

@@ -17,21 +17,11 @@ class Item extends Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function create($data) {
-        $stmt = $this->pdo->prepare("
-            INSERT INTO item (
-                quantidade, desconto_porcentagem, desconto_valor, valor_unitario,
-                valor_total, produto_id, pedido_id
-            ) VALUES (?, ?, ?, ?, ?, ?, ?)
-        ");
-        $stmt->execute([
-            $data['quantidade'],
-            $data['desconto_porcentagem'] ?? 0,
-            $data['desconto_valor'] ?? 0,
-            $data['valor_unitario'],
-            $data['valor_total'],
-            $data['produto_id'],
-            $data['pedido_id']
-        ]);
+    public function create(array $data) {
+        $sql = "INSERT INTO item (quantidade, desconto_valor, valor_unitario, valor_total, produto_id, pedido_id)
+                VALUES (:quantidade, :desconto_valor, :valor_unitario, :valor_total, :produto_id, :pedido_id)";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($data);
     }
 }

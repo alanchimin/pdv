@@ -34,16 +34,10 @@ class Produto extends Model
     }
 
     public function create(array $data): void {
-        $stmt = $this->pdo->prepare("
-            INSERT INTO produto (nome, imagem, unidade_medida_id, valor_unitario, categoria_id)
-            VALUES (?, ?, ?, ?, ?)
-        ");
-        $stmt->execute([
-            $data['nome'],
-            $data['imagem'],
-            $data['unidade_medida_id'],
-            $data['valor_unitario'],
-            $data['categoria_id']
-        ]);
+        $sql = "INSERT INTO produto (nome, imagem, unidade_medida_id, valor_unitario, categoria_id)
+                VALUES (:nome, :imagem, :unidade_medida_id, :valor_unitario, :categoria_id)";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($data);
     }
 }

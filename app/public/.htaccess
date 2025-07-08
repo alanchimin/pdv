@@ -1,9 +1,12 @@
-RewriteEngine On
-RewriteBase /
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
 
-# Evita reescrever arquivos e diretórios reais
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+    # Evita reescrever arquivos e diretórios reais
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
 
-# Redireciona tudo para index.php e define PATH_INFO
-RewriteRule ^ index.php [QSA,L]
+    # Redireciona tudo para index.php
+    RewriteRule ^ index.php [QSA,L]
+</IfModule>
