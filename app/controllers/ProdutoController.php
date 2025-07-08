@@ -25,8 +25,8 @@ class ProdutoController
 
     public function create()
     {
-        $unidades = (new UnidadeMedida())->all(orderBy: 'nome');
-        $categorias = (new Categoria())->all(orderBy: 'nome');
+        $unidades = (new UnidadeMedida())->all();
+        $categorias = (new Categoria())->all();
         include "../views/produtos/create.php";
     }
 

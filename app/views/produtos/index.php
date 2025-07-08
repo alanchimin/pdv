@@ -41,5 +41,7 @@
     include __DIR__ . '/../components/paginacao.php';
 ?>
 
+<?php include '../views/layout/footer.php'; ?>
+
 <script src="/js/common/form-handlers.js"></script>
 <script src="/js/produtos/index.js"></script>

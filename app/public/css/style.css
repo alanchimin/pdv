@@ -8,17 +8,3 @@ nav.bg-dark {
 main {
     overflow-x: auto;
 }
-
-/* Garante fundo branco, borda padrão e padding apropriado */
-.selectpicker, .form-select {
-    background-color: #fff;
-    border: 1px solid #ced4da;
-    padding-right: 2.5rem;
-    appearance: none; /* remove estilo nativo */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23666' d='M4.646 6.646a.5.5 0 01.708 0L8 9.293l2.646-2.647a.5.5 0 01.708.708l-3 3a.5.5 0 01-.708 0l-3-3a.5.5 0 010-.708z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    background-size: 1rem;
-}

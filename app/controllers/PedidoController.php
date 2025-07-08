@@ -2,12 +2,22 @@
 namespace App\controllers;
 
 use App\models\Pedido;
+use App\models\Categoria;
+use App\models\Produto;
+
 
 class PedidoController
 {
     public function index() {
         $pedidoModel = new Pedido();
         $pedidos = $pedidoModel->all();
+
+        $categoriaModel = new Categoria();
+        $categorias = $categoriaModel->all();
+
+        $produtoModel = new Produto();
+        $produtos = $produtoModel->all();
+
         include "../views/pedidos/index.php";
     }
 

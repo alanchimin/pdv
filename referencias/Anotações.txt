@@ -37,12 +37,14 @@ Os campos devem seguir o padrão do grid system do bootstrap de acordo com o tam
 
 
 Painel Principal:
-    - Tela de Vendas (tela padrão após login):
-        - Campo de pesquisa
-        - Grid de produtos disponíveis com imagens e nome de cada um
-            -> Ao clicar abre o modal para informar a quantidade e o desconto
-        - Ao lado, exibir uma lista contendo os itens adicionados com o nome, valor unitário de valor total do item 
-        - Embaixo, exibir uma tabela com valores totais calculados e uma opção para gerar PDF do pedido
+    - Tela de Pedidos (tela padrão após login):
+        - Painel principal:
+            - Campo de pesquisa
+            - Lista horizontal com as categorias
+            - Grid de produtos disponíveis com imagens e nome de cada um
+                -> Ao clicar abre o modal para informar a quantidade e o desconto
+        - Ao lado direito do painel principal, exibir uma lista contendo os itens adicionados com o nome, valor unitário de valor total do item 
+        - Embaixo da lista, exibir uma tabela com valores totais calculados e uma opção para gerar PDF do pedido
     - Tela de Produtos:
         - Listagem com CRUD (Plantae)
         - Adicionar o select com botão + para categorias e unidades de medida
