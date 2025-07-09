@@ -23,7 +23,7 @@ class ProdutoController
         $produtos = $produtoModel->all($busca, $limite, $offset, $ordem, $direcao);
 
         if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
-            include "../views/produtos/tabela.php";
+            include "../views/produtos/table.php";
             exit;
         }
 

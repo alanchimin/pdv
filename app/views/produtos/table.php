@@ -29,6 +29,6 @@
 
     <?php
         $baseUrl = '/produto';
-        include __DIR__ . '/../components/paginacao.php';
+        include __DIR__ . '/../components/pagination.php';
     ?>
 </div>

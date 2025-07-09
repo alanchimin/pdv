@@ -39,7 +39,7 @@ class ProdutoListagem {
             this.buscar();
         });
 
-        this.$ctrl.on('click', '.paginacao a', (e) => {
+        this.$ctrl.on('click', '.pagination a', (e) => {
             e.preventDefault();
             const $a = $(e.currentTarget);
             const pagina = parseInt($a.data('pagina'));

@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <?php include 'tabela.php'; ?>
+    <?php include 'table.php'; ?>
 
     <!-- Modal confirmação exclusão -->
     <div class="modal fade" id="modal_confirmar_exclusao" tabindex="-1" aria-labelledby="modal_confirmar_exclusao_label" aria-hidden="true">
