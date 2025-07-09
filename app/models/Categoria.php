@@ -9,7 +9,6 @@ class Categoria extends Model
     public function all(string $orderBy = 'nome') {
         $columns = ['categoria_id', 'nome'];
 
-        // Verifica se o parâmetro é válido
         if (!in_array($orderBy, $columns)) {
             $orderBy = 'nome';
         }
@@ -24,5 +23,13 @@ class Categoria extends Model
     public function create($data) {
         $stmt = $this->pdo->prepare("INSERT INTO categoria (nome) VALUES (:nome)");
         $stmt->execute($data);
+
+        return $this->pdo->lastInsertId();
+    }
+
+    public function findById($id) {
+        $stmt = $this->pdo->prepare("SELECT * FROM categoria WHERE categoria_id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

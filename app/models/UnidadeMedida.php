@@ -22,10 +22,15 @@ class UnidadeMedida extends Model
     }
 
     public function create($data) {
-        $sql = "INSERT INTO unidade_medida (nome, simbolo)
-                VALUES (:nome, :simbolo)";
-
+        $sql = "INSERT INTO unidade_medida (nome, simbolo) VALUES (:nome, :simbolo)";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($data);
+        return $this->pdo->lastInsertId();
+    }
+
+    public function findById($id) {
+        $stmt = $this->pdo->prepare("SELECT * FROM unidade_medida WHERE unidade_medida_id = :id");
+        $stmt->execute(['id' => $id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 }

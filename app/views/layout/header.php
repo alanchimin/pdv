@@ -24,7 +24,7 @@
             <li class="nav-item"><a href="/pedido" class="nav-link text-white">Pedidos</a></li>
             <li class="nav-item"><a href="/produto" class="nav-link text-white">Produtos</a></li>
             <li class="nav-item"><a href="/categoria" class="nav-link text-white">Categorias</a></li>
-            <li class="nav-item"><a href="/unidademedida" class="nav-link text-white">Unidades de Medida</a></li>
+            <li class="nav-item"><a href="/unidadeMedida" class="nav-link text-white">Unidades de Medida</a></li>
         </ul>
     </nav>
     <main class="flex-grow-1 p-4">

@@ -40,20 +40,29 @@ class ProdutoController
     public function store()
     {
         $imagem_nome = null;
+        $tipo_imagem = $_POST['tipo_imagem'];
 
-        if ($_POST['tipo_imagem'] === 'upload') {
+        if ($tipo_imagem === 'upload') {
             if (isset($_FILES['imagem_arquivo']) && $_FILES['imagem_arquivo']['error'] === UPLOAD_ERR_OK) {
                 $ext = pathinfo($_FILES['imagem_arquivo']['name'], PATHINFO_EXTENSION);
                 $imagem_nome = uniqid('produto_') . '.' . $ext;
-                move_uploaded_file($_FILES['imagem_arquivo']['tmp_name'], __DIR__ . '/../../public/upload/' . $imagem_nome);
+                $path = __DIR__ . '/../public/upload/' . $imagem_nome;
+
+                // Garante que o diretório existe
+                if (!is_dir(dirname($path))) {
+                    mkdir(dirname($path), 0755, true);
+                }
+
+                move_uploaded_file($_FILES['imagem_arquivo']['tmp_name'], $path);
             }
-        } elseif ($_POST['tipo_imagem'] === 'url') {
-            $imagem_nome = $_POST['imagem_url'];
+        } elseif ($tipo_imagem === 'url') {
+            $imagem_nome = $_POST['imagem_url'] ?: null;
         }
 
         $data = [
             'nome' => $_POST['nome'],
             'imagem' => $imagem_nome,
+            'tipo_imagem' => $tipo_imagem,
             'unidade_medida_id' => $_POST['unidade_medida_id'],
             'valor_unitario' => $_POST['valor_unitario'],
             'categoria_id' => $_POST['categoria_id']
@@ -63,4 +72,15 @@ class ProdutoController
         header("Location: /produto");
         exit;
     }
+
+    public function delete($id)
+    {
+        $produtoModel = new Produto();
+        $produtoModel->delete($id);
+
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true]);
+        exit;
+    }
+
 }

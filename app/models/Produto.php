@@ -38,10 +38,31 @@ class Produto extends Model
     }
 
     public function create(array $data): void {
-        $sql = "INSERT INTO produto (nome, imagem, unidade_medida_id, valor_unitario, categoria_id)
-                VALUES (:nome, :imagem, :unidade_medida_id, :valor_unitario, :categoria_id)";
+        $sql = "INSERT INTO produto (nome, imagem, tipo_imagem, unidade_medida_id, valor_unitario, categoria_id)
+                VALUES (:nome, :imagem, :tipo_imagem, :unidade_medida_id, :valor_unitario, :categoria_id)";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($data);
     }
+
+    public function delete(int $id): void
+    {
+        // Busca o nome da imagem para excluir da pasta 'upload'
+        $stmt = $this->pdo->prepare("SELECT imagem, tipo_imagem FROM produto WHERE produto_id = :id");
+        $stmt->execute(['id' => $id]);
+        $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$produto) return;
+
+        if ($produto['tipo_imagem'] === 'upload' && $produto['imagem']) {
+            $file = __DIR__ . '/../public/upload/' . $produto['imagem'];
+            if (file_exists($file)) {
+                unlink($file);
+            }
+        }
+
+        $stmt = $this->pdo->prepare("DELETE FROM produto WHERE produto_id = :id");
+        $stmt->execute(['id' => $id]);
+    }
+
 }

@@ -97,11 +97,19 @@
             <div class="modal-content">
                 <div class="modal-header"><h5 class="modal-title">Unidade de Medida</h5></div>
                 <div class="modal-body">
-                    <input type="text" class="form-control" placeholder="Nome da unidade de medida">
+                    <div id="modal_nova_unidade_medida_erro" class="mt-3"></div>
+                    <div class="mb-3">
+                        <label for="nova_unidade_nome" class="form-label">Nome da unidade:</label>
+                        <input type="text" class="form-control" id="nova_unidade_nome" placeholder="Ex: Quilograma">
+                    </div>
+                    <div>
+                        <label for="nova_unidade_simbolo" class="form-label">Símbolo:</label>
+                        <input type="text" class="form-control" id="nova_unidade_simbolo" placeholder="Ex: kg">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button class="btn btn-success">Salvar</button>
+                    <button id="btn-salvar-unidade-medida" class="btn btn-success">Salvar</button>
                 </div>
             </div>
         </div>
@@ -113,11 +121,12 @@
             <div class="modal-content">
                 <div class="modal-header"><h5 class="modal-title">Nova Categoria</h5></div>
                 <div class="modal-body">
-                    <input type="text" class="form-control" placeholder="Nome da categoria">
+                    <div id="modal_nova_categoria_erro" class="mt-3"></div>
+                    <input type="text" class="form-control" id="nova_categoria_nome" name="nome" placeholder="Nome da categoria" placeholder="Ex: Bebidas">
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button class="btn btn-success">Salvar</button>
+                    <button id="btn-salvar-categoria" class="btn btn-success">Salvar</button>
                 </div>
             </div>
         </div>

@@ -7,6 +7,10 @@ class ProdutoListagem {
         this.pagina = 1;
         this.timer = null;
 
+        this.idExcluir = null;
+
+        this.$modalConfirmarExclusaoErro = this.$ctrl.find('#modal_confirmar_exclusao_erro');
+
         this.listen();
         this.buscar();
     }
@@ -43,6 +47,29 @@ class ProdutoListagem {
                 this.pagina = pagina;
                 this.buscar();
             }
+        });
+
+        this.$ctrl.on('click', '.btn-excluir', (e) => {
+            const $btn = $(e.currentTarget);
+            this.idExcluir = $btn.data('id');
+            this.modalExcluir = new bootstrap.Modal(document.getElementById('modal_confirmar_exclusao'));
+            this.modalExcluir.show();
+        });
+
+        this.$ctrl.on('click', '#btn_confirmar_excluir', () => {
+            if (!this.idExcluir) return;
+            $.ajax({
+                url: `/produto/delete/${this.idExcluir}?ajax=1`,
+                method: 'POST',
+                success: () => {
+                    this.idExcluir = null;
+                    this.modalExcluir.hide();
+                    this.buscar();
+                },
+                error: () => {
+                    Utils.showAlert(this.$modalConfirmarExclusaoErro, 'Erro ao excluir o produto.');
+                }
+            });
         });
     }
 

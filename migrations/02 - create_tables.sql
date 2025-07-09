@@ -13,6 +13,7 @@ CREATE TABLE produto (
     produto_id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     imagem VARCHAR(255),
+    tipo_imagem ENUM('upload', 'url') NOT NULL DEFAULT 'url',
     unidade_medida_id INT NOT NULL,
     valor_unitario DECIMAL(10,2) NOT NULL,
     categoria_id INT NOT NULL,

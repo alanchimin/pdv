@@ -20,7 +20,7 @@
                     <td>R$ <?= number_format($produto['valor_unitario'], 2, ',', '.') ?></td>
                     <td>
                         <a href="/produto/edit/<?= $produto['produto_id'] ?>" class="btn btn-sm btn-primary">✏️</a>
-                        <a href="/produto/delete/<?= $produto['produto_id'] ?>" class="btn btn-sm btn-danger">🗑️</a>
+                        <a class="btn btn-sm btn-danger btn-excluir" href="#" data-id="<?= $produto['produto_id'] ?>">🗑️</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
