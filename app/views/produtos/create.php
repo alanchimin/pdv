@@ -12,20 +12,20 @@
             <!-- Nome -->
             <div class="col-xs-12 col-md-6 col-lg-4">
                 <label for="nome" class="form-label">Nome:</label>
-                <input type="text" name="nome" class="form-control" required>
+                <input type="text" id="nome" name="nome" class="form-control" required>
             </div>
 
             <!-- Valor Unitário -->
             <div class="col-xs-12 col-md-6 col-lg-2">
                 <label for="valor_unitario" class="form-label">Valor Unitário:</label>
-                <input type="number" name="valor_unitario" step="0.01" class="form-control" required>
+                <input type="number" id="valor_unitario" name="valor_unitario" step="0.01" class="form-control" required>
             </div>
 
             <!-- Un. Medida -->
             <div class="col-xs-12 col-md-6 col-lg-3">
                 <label for="unidade_medida_id" class="form-label">Un. Medida:</label><br>
                 <div class="input-group">
-                    <select name="unidade_medida_id" class="selectpicker" data-live-search="true" required>
+                    <select id="unidade_medida_id" name="unidade_medida_id" class="selectpicker" data-live-search="true" required>
                         <option value="">Selecione</option>
                         <?php foreach ($unidades as $unidade): ?>
                             <option value="<?= $unidade['unidade_medida_id'] ?>">
@@ -41,7 +41,7 @@
             <div class="col-xs-12 col-md-6 col-lg-3">
                 <label for="categoria_id" class="form-label">Categoria:</label><br>
                 <div class="input-group">
-                    <select name="categoria_id" class="selectpicker" data-live-search="true" required>
+                    <select id="categoria_id" name="categoria_id" class="selectpicker" data-live-search="true" required>
                         <option value="">Selecione</option>
                         <?php foreach ($categorias as $categoria): ?>
                             <option value="<?= $categoria['categoria_id'] ?>">
