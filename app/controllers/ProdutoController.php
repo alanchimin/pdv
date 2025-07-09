@@ -20,7 +20,7 @@ class ProdutoController
         $totalProdutos = $produtoModel->count($search);
         $totalPages = ceil($totalProdutos / $limit);
 
-        $produtos = $produtoModel->all($search, $limit, $offset, $orderBy, $direction);
+        $produtos = $produtoModel->list($search, $limit, $offset, $orderBy, $direction);
 
         if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
             include "../views/produtos/table.php";
@@ -47,7 +47,7 @@ class ProdutoController
             if (isset($_FILES['imagem_arquivo']) && $_FILES['imagem_arquivo']['error'] === UPLOAD_ERR_OK) {
                 $ext = pathinfo($_FILES['imagem_arquivo']['name'], PATHINFO_EXTENSION);
                 $imagem_nome = uniqid('produto_') . '.' . $ext;
-                $path = __DIR__ . '/../public/upload/' . $imagem_nome;
+                $path = $_SERVER['DOCUMENT_ROOT'] . '/upload/' . $imagem_nome;
 
                 // Garante que o diretório existe
                 if (!is_dir(dirname($path))) {

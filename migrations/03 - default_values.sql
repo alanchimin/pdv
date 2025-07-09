@@ -1,9 +1,9 @@
 -- Inserindo unidades de medida
 INSERT INTO unidade_medida (nome, simbolo) VALUES
-('Unidade', 'un'),
-('Quilograma', 'kg'),
-('Litro', 'l'),
-('Pacote', 'pct');
+('Unidade', 'Un'),
+('Quilograma', 'Kg'),
+('Litro', 'L'),
+('Pacote', 'Pct');
 
 -- Inserindo categorias de produtos
 INSERT INTO categoria (categoria_id, nome) VALUES

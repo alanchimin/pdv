@@ -12,14 +12,11 @@ use App\models\Produto;
 class PedidoController
 {
     public function index() {
-        $pedidoModel = new Pedido();
-        $pedidos = $pedidoModel->all();
-
         $categoriaModel = new Categoria();
         $categorias = $categoriaModel->all();
 
         $produtoModel = new Produto();
-        $produtos = $produtoModel->all(limit: 0);
+        $produtos = $produtoModel->all();
 
         include "../views/pedidos/index.php";
     }
@@ -53,6 +50,10 @@ class PedidoController
 
             // Insere os itens do pedido
             foreach ($itens as $item) {
+                if (!isset($item['quantidade'], $item['desconto'], $item['valorUnitario'], $item['produtoId'])) {
+                    throw new \Exception("Dados do item inválidos.");
+                }
+
                 $itemModel->create([
                     'quantidade' => $item['quantidade'],
                     'desconto_valor' => $item['desconto'],
@@ -65,6 +66,7 @@ class PedidoController
 
             $pdo->commit();
 
+            header('Content-Type: application/json');
             echo json_encode(['success' => true, 'pedido_id' => $pedido_id]);
 
         } catch (\Exception $e) {
@@ -99,10 +101,9 @@ class PedidoController
         $dompdf->render();
 
         $output = $dompdf->output();
-        $filename = 'pedido_' . time() . '.pdf';
+        $filename = "pedido_$pedido_id_" . time() . '.pdf';
 
-        // Caminho físico no servidor/container
-        $path = __DIR__ . '/../public/pedidos/' . $filename;
+        $path = $_SERVER['DOCUMENT_ROOT'] . '/pedidos/' . $filename;
 
         // Garante que o diretório existe
         if (!is_dir(dirname($path))) {

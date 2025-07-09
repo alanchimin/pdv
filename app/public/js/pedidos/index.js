@@ -1,216 +1,209 @@
-$(document).ready(function () {
-    // Filtro de categoria
-    $('.btn-group [data-categoria-id]').on('click', function () {
-        const categoriaId = $(this).data('categoria-id');
+class Pedido {
+    constructor() {
+        this.$categoriaBtns = $('.btn-group [data-categoria-id]');
+        this.$produtos = $('.produto-item');
+        this.$modal = $('#modalProduto');
+        this.$listaItens = $('#lista-itens');
+        this.$btnAdicionar = $('#btn-adicionar');
+        this.$btnFinalizar = $('#btn-finalizar-pedido');
+        this.$btnConfirmarLimpeza = $('#btn-confirmar-limpeza');
+        this.$mensagemErro = $('#mensagem-erro');
+        this.$mensagemFinalizar = $('#mensagem-finalizar');
+        this.$placeholder = $('#lista-placeholder');
 
+        this.listen();
+        this.carregarTela();
+    }
+
+    listen() {
+        this.$categoriaBtns.on('click', this.handleCategoriaClick.bind(this));
+        this.$produtos.on('click', this.abrirModalProduto.bind(this));
+        $('input[name="tipo-desconto"]').on('change', this.toggleTipoDesconto.bind(this));
+        this.$btnAdicionar.on('click', this.adicionarItem.bind(this));
+        this.$btnFinalizar.on('click', this.finalizarPedido.bind(this));
+        this.$btnConfirmarLimpeza.on('click', this.limparCarrinho.bind(this));
+    }
+
+    handleCategoriaClick(e) {
+        const categoriaId = $(e.currentTarget).data('categoria-id');
         $('.btn-group .btn').removeClass('active');
-        $(this).addClass('active');
+        $(e.currentTarget).addClass('active');
 
-        $('.produto-item').each(function () {
+        this.$produtos.each(function () {
+            const $col = $(this).closest('.col-md-3');
             const prodCatId = $(this).data('categoria-id');
-            $(this).closest('.col-md-3').toggle(categoriaId === 0 || prodCatId == categoriaId);
+            $col.toggle(categoriaId === 0 || prodCatId == categoriaId);
         });
-    });
+    }
 
-    // Abrir modal ao clicar no produto
-    $('.produto-item').on('click', function () {
-        const id = $(this).data('id');
-        const nome = $(this).data('nome');
-        const valor = parseFloat($(this).data('valor'));
-
-        $('#produto-id').val(id);
-        $('#produto-nome').val(nome);
+    abrirModalProduto(e) {
+        const $el = $(e.currentTarget);
+        $('#produto-id').val($el.data('id'));
+        $('#produto-nome').val($el.data('nome'));
         $('#quantidade').val(1);
         $('#desconto-porcentagem').val(0);
         $('#desconto-reais').val(0.00);
-        $('#btn-adicionar').data('valor', valor);
 
-        $('#modalProduto').modal('show');
-    });
+        this.$btnAdicionar
+            .data('valor', parseFloat($el.data('valor')))
+            .data('unidade', $el.data('unidade'));
 
-    // Alternar entre os tipos de desconto
-    $('input[name="tipo-desconto"]').on('change', function () {
-        const tipo = $(this).val();
-        if (tipo === 'percentual') {
-            $('#campo-desconto-percentual').removeClass('d-none');
-            $('#campo-desconto-reais').addClass('d-none');
-        } else {
-            $('#campo-desconto-reais').removeClass('d-none');
-            $('#campo-desconto-percentual').addClass('d-none');
-        }
-    });
+        this.$modal.modal('show');
+    }
 
+    toggleTipoDesconto() {
+        const tipo = $('input[name="tipo-desconto"]:checked').val();
+        $('#campo-desconto-percentual').toggleClass('d-none', tipo !== 'percentual');
+        $('#campo-desconto-reais').toggleClass('d-none', tipo !== 'reais');
+    }
 
-    $('#btn-adicionar').on('click', function () {
-        limparErro();
-
+    adicionarItem() {
+        this.limparErro();
         const id = $('#produto-id').val();
         const nome = $('#produto-nome').val();
-        const quantidade = parseInt($('#quantidade').val());
-        const valor = parseFloat($(this).data('valor'));
+        const qtd = parseInt($('#quantidade').val());
+        const valor = parseFloat(this.$btnAdicionar.data('valor'));
+        const unidade = this.$btnAdicionar.data('unidade')
         const tipoDesconto = $('input[name="tipo-desconto"]:checked').val();
 
-        if (!quantidade || quantidade <= 0) {
-            mostrarErro('Informe uma quantidade válida maior que zero.');
-            return;
-        }
+        if (!qtd || qtd <= 0) return this.mostrarErro('Informe uma quantidade válida maior que zero.');
 
-        const valorTotal = valor * quantidade;
-        let valorDesconto = 0;
+        let desconto = 0;
+        const total = qtd * valor;
 
         if (tipoDesconto === 'percentual') {
-            const descontoPct = parseFloat($('#desconto-porcentagem').val()) || 0;
-            if (descontoPct < 0 || descontoPct > 100) {
-                mostrarErro('O desconto percentual deve estar entre 0% e 100%.');
-                return;
-            }
-            valorDesconto = (valorTotal * descontoPct) / 100;
+            const pct = parseFloat($('#desconto-porcentagem').val()) || 0;
+            if (pct < 0 || pct > 100) return this.mostrarErro('O desconto percentual deve estar entre 0% e 100%.');
+            desconto = total * (pct / 100);
         } else {
-            valorDesconto = parseFloat($('#desconto-reais').val()) || 0;
+            desconto = parseFloat($('#desconto-reais').val()) || 0;
         }
 
-        if (valorDesconto > valorTotal) {
-            mostrarErro('O desconto não pode ser maior que o valor total do produto.');
-            return;
-        }
+        if (desconto > total) return this.mostrarErro('O desconto não pode ser maior que o valor total do produto.');
 
-        const valorFinal = valorTotal - valorDesconto;
+        const final = total - desconto;
 
-        const itemHtml = `
-            <li class="list-group-item d-flex justify-content-between align-items-center" data-produto-id="${id}">
+        const html = `
+            <li class="list-group-item d-flex justify-content-between align-items-center"
+                data-produto-id="${id}"
+                data-nome="${nome}"
+                data-quantidade="${qtd}"
+                data-valor-unitario="${valor}"
+                data-desconto="${desconto}"
+                data-unidade="${unidade}">
+                
                 <div>
                     <strong>${nome}</strong><br>
-                    <small>${quantidade} un x R$ ${valor.toFixed(2)} - Desc: R$ ${valorDesconto.toFixed(2)}</small>
+                    <small>${qtd} ${unidade} x R$ ${valor.toFixed(2)} - Desc: R$ ${desconto.toFixed(2)}</small>
                 </div>
-                <span class="badge bg-primary rounded-pill">R$ ${valorFinal.toFixed(2)}</span>
+                <span class="badge bg-primary rounded-pill">R$ ${final.toFixed(2)}</span>
             </li>
         `;
 
+        this.$listaItens.append(html);
+        this.$modal.modal('hide');
+        this.atualizarTotais();
+        this.salvarListaEmLocalStorage();
 
-        $('#lista-itens').append(itemHtml);
-        $('#modalProduto').modal('hide');
-        atualizarTotais();
+        this.$listaItens.closest('.border').animate({ scrollTop: this.$listaItens.prop('scrollHeight') }, 300);
+    }
 
-        // Scroll para o final da lista
-        const lista = $('#lista-itens').closest('.border');
-        lista.animate({ scrollTop: lista.prop('scrollHeight') }, 300);
+    finalizarPedido() {
+        const itens = this.obterItens();
+        if (itens.length === 0) return this.mostrarErroFinalizar('Nenhum item no pedido.');
 
-        salvarListaEmLocalStorage();
-    });
-
-    $('#btn-finalizar-pedido').on('click', function () {
-        const itens = JSON.parse(localStorage.getItem('itensPedido') || '[]');
-        if (itens.length === 0) {
-            mostrarErroFinalizar('Nenhum item no pedido.');
-            return;
-        }
-
-        $.post('/pedido/store', { itens: JSON.stringify(itens) }, function (response) {
-            if (response.success) {
-                $.getJSON('/pedido/getPdfLink/' + response.pedido_id, function (pdfData) {
+        $.post('/pedido/store', { itens: JSON.stringify(itens) }, (res) => {
+            if (res.success) {
+                $.getJSON(`/pedido/getPdfLink/${res.pedido_id}`, (pdfData) => {
                     if (pdfData.url) {
                         window.open(pdfData.url, '_blank');
-                        limparCarrinho();
+                        this.limparCarrinho();
                     } else {
-                        mostrarErroFinalizar('Erro ao gerar o PDF.');
+                        this.mostrarErroFinalizar('Erro ao gerar o PDF.');
                     }
                 });
             } else {
-                mostrarErroFinalizar('Erro ao salvar o pedido.');
+                this.mostrarErroFinalizar('Erro ao salvar o pedido.');
             }
         }, 'json');
-    });
+    }
 
-
-    $('#btn-confirmar-limpeza').on('click', function () {
-        limparCarrinho();
-    });
-
-    function limparCarrinho() {
-        $('#lista-itens').empty();
+    limparCarrinho() {
+        this.$listaItens.empty();
         localStorage.removeItem('itensPedido');
-        atualizarTotais();
+        this.atualizarTotais();
     }
 
-    function mostrarErro(mensagem) {
-        const erro = $('#mensagem-erro');
-        erro.text(mensagem).removeClass('d-none');
+    mostrarErro(msg) {
+        this.$mensagemErro.text(msg).removeClass('d-none');
     }
 
-    function limparErro() {
-        $('#mensagem-erro').addClass('d-none').text('');
+    limparErro() {
+        this.$mensagemErro.text('').addClass('d-none');
     }
 
-    function mostrarErroFinalizar(mensagem) {
-        const div = $('#mensagem-finalizar');
-        div.text(mensagem).removeClass('d-none');
-        setTimeout(() => div.addClass('d-none').text(''), 4000);
+    mostrarErroFinalizar(msg) {
+        this.$mensagemFinalizar.text(msg).removeClass('d-none');
+        setTimeout(() => this.$mensagemFinalizar.text('').addClass('d-none'), 4000);
     }
 
-
-    function salvarListaEmLocalStorage() {
-        const itens = [];
-
-        $('#lista-itens li').each(function () {
-            const produtoId = $(this).data('produto-id');
-            const texto = $(this).find('small').text();
-            const nome = $(this).find('strong').text();
-            const match = texto.match(/(\d+) un x R\$ ([\d,.]+) - Desc: R\$ ([\d,.]+)/);
-
-            if (match) {
-                itens.push({
-                    produtoId,
-                    nome,
-                    quantidade: parseInt(match[1]),
-                    valorUnitario: parseFloat(match[2].replace(',', '.')),
-                    desconto: parseFloat(match[3].replace(',', '.'))
-                });
-            }
-        });
-
+    salvarListaEmLocalStorage() {
+        const itens = this.obterItens();
         localStorage.setItem('itensPedido', JSON.stringify(itens));
     }
 
-    function carregarListaDoLocalStorage() {
-        const itens = JSON.parse(localStorage.getItem('itensPedido') || '[]');
-        $('#lista-itens').empty();
-
-        itens.forEach(item => {
-            const total = item.valorUnitario * item.quantidade;
-            const final = total - item.desconto;
-
-            const html = `
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <strong>${item.nome}</strong><br>
-                        <small>${item.quantidade} un x R$ ${item.valorUnitario.toFixed(2)} - Desc: R$ ${item.desconto.toFixed(2)}</small>
-                    </div>
-                    <span class="badge bg-primary rounded-pill">R$ ${final.toFixed(2)}</span>
-                </li>
-            `;
-            $('#lista-itens').append(html);
+    obterItens() {
+        const itens = [];
+        this.$listaItens.find('li').each(function () {
+            const $el = $(this);
+            itens.push({
+                produtoId: $el.data('produto-id'),
+                nome: $el.data('nome'),
+                quantidade: parseInt($el.data('quantidade')),
+                valorUnitario: parseFloat($el.data('valor-unitario')),
+                desconto: parseFloat($el.data('desconto')),
+                unidade: $el.data('unidade'),
+            });
         });
-
-        atualizarTotais();
+        return itens;
     }
 
-    function atualizarTotais() {
+    carregarListaDoLocalStorage() {
+        const itens = JSON.parse(localStorage.getItem('itensPedido') || '[]');
+        this.$listaItens.empty();
+
+        itens.forEach(item => {
+            const html = `
+                <li class="list-group-item d-flex justify-content-between align-items-center"
+                    data-produto-id="${item.produtoId}"
+                    data-nome="${item.nome}"
+                    data-quantidade="${item.quantidade}"
+                    data-valor-unitario="${item.valorUnitario}"
+                    data-desconto="${item.desconto}"
+                    data-unidade="${item.unidade}">
+                    
+                    <div>
+                        <strong>${item.nome}</strong><br>
+                        <small>${item.quantidade} ${item.unidade} x R$ ${item.valorUnitario.toFixed(2)} - Desc: R$ ${item.desconto.toFixed(2)}</small>
+                    </div>
+                    <span class="badge bg-primary rounded-pill">R$ ${(item.valorUnitario * item.quantidade - item.desconto).toFixed(2)}</span>
+                </li>
+            `;
+            this.$listaItens.append(html);
+        });
+    }
+
+    atualizarTotais() {
         let subtotal = 0;
         let descontos = 0;
 
-        const items = $('#lista-itens li');
-        items.each(function () {
-            const texto = $(this).find('small').text();
-            const total = parseFloat($(this).find('.badge').text().replace('R$', '').replace(',', '.'));
-            const match = texto.match(/(\d+) un x R\$ ([\d,.]+) - Desc: R\$ ([\d,.]+)/);
-
-            if (match) {
-                const qtd = parseInt(match[1]);
-                const valor = parseFloat(match[2].replace(',', '.'));
-                const desc = parseFloat(match[3].replace(',', '.'));
-                subtotal += qtd * valor;
-                descontos += desc;
-            }
+        this.$listaItens.find('li').each(function () {
+            const $el = $(this);
+            const qtd = parseInt($el.data('quantidade'));
+            const valor = parseFloat($el.data('valor-unitario'));
+            const desc = parseFloat($el.data('desconto'));
+            subtotal += qtd * valor;
+            descontos += desc;
         });
 
         const totalFinal = subtotal - descontos;
@@ -219,14 +212,15 @@ $(document).ready(function () {
         $('#pedido-descontos').text(`R$ ${descontos.toFixed(2).replace('.', ',')}`);
         $('#pedido-total').text(`R$ ${totalFinal.toFixed(2).replace('.', ',')}`);
 
-        // Placeholder de lista
-        $('#lista-placeholder').toggle(items.length === 0);
+        this.$placeholder.toggle(this.$listaItens.find('li').length === 0);
     }
 
-    function carregarTela() {
-        atualizarTotais();
-        carregarListaDoLocalStorage();
-    }
 
-    carregarTela();
-});
+    carregarTela() {
+        this.carregarListaDoLocalStorage();
+        this.atualizarTotais();
+    }
+}
+
+let pedido;
+$(() => pedido = new Pedido());

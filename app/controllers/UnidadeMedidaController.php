@@ -18,7 +18,7 @@ class UnidadeMedidaController
         $total = $unidadeModel->count($search);
         $totalPages = ceil($total / $limit);
 
-        $unidades = $unidadeModel->all($search, $limit, $offset, $orderBy, $direction);
+        $unidades = $unidadeModel->list($search, $limit, $offset, $orderBy, $direction);
 
         if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
             include "../views/unidades/table.php";

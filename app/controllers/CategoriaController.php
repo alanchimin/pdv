@@ -18,7 +18,7 @@ class CategoriaController
         $total = $categoriaModel->count($search);
         $totalPages = ceil($total / $limit);
 
-        $categorias = $categoriaModel->all($search, $limit, $offset, $orderBy, $direction);
+        $categorias = $categoriaModel->list($search, $limit, $offset, $orderBy, $direction);
 
         if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
             include "../views/categorias/table.php";

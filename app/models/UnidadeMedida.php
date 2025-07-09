@@ -6,7 +6,12 @@ use PDO;
 
 class UnidadeMedida extends Model
 {
-    public function all(string $search = '', int $limit = 10, int $offset = 0, string $orderBy = 'unidade_medida_id', string $direction = 'desc'): array {
+    public function all()
+    {
+        return $this->list(limit: PHP_INT_MAX, orderBy: 'nome', direction: 'asc');
+    }
+
+    public function list(string $search = '', int $limit = 10, int $offset = 0, string $orderBy = 'unidade_medida_id', string $direction = 'desc'): array {
         $columns = ['unidade_medida_id', 'nome', 'simbolo'];
         $orderBy = in_array($orderBy, $columns) ? $orderBy : 'nome';
         $direction = strtolower($direction) === 'desc' ? 'DESC' : 'ASC';

@@ -6,7 +6,12 @@ use App\core\Model;
 
 class Produto extends Model
 {
-    public function all(string $search = '', int $limit = 10, int $offset = 0, string $orderBy = 'produto_id', string $direction = 'desc'): array {
+    public function all()
+    {
+        return $this->list(limit: PHP_INT_MAX, orderBy: 'nome', direction: 'asc');
+    }
+
+    public function list(string $search = '', int $limit = 10, int $offset = 0, string $orderBy = 'produto_id', string $direction = 'desc'): array {
         $columns = ['produto_id', 'nome', 'valor_unitario', 'simbolo', 'categoria_nome'];
         $orderBy = in_array($orderBy, $columns) ? $orderBy : 'produto_id';
         $direction = strtolower($direction) === 'asc' ? 'ASC' : 'DESC';
@@ -66,7 +71,7 @@ class Produto extends Model
         if (!$produto) return;
 
         if ($produto['tipo_imagem'] === 'upload' && $produto['imagem']) {
-            $file = __DIR__ . '/../public/upload/' . $produto['imagem'];
+            $path = $_SERVER['DOCUMENT_ROOT'] . '/upload/' . $produto['imagem'];
             if (file_exists($file)) {
                 unlink($file);
             }

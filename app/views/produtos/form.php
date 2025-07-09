@@ -131,7 +131,7 @@
                     <div class="modal-header"><h5 class="modal-title">Nova Categoria</h5></div>
                     <div class="modal-body">
                         <div id="modal_nova_categoria_erro" class="mt-3"></div>
-                        <input type="text" class="form-control" id="nova_categoria_nome" name="nome" placeholder="Nome da categoria" placeholder="Ex: Bebidas">
+                        <input type="text" class="form-control" id="nova_categoria_nome" name="nome" placeholder="Ex: Bebidas">
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

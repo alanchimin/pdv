@@ -6,7 +6,7 @@ use App\core\Model;
 
 class Pedido extends Model
 {
-    public function all() {
+    public function list() {
         $stmt = $this->pdo->query("
             SELECT p.*, f.nome AS forma_pagamento
             FROM pedido p

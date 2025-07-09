@@ -31,7 +31,8 @@
                             data-id="<?= $produto['produto_id'] ?>"
                             data-nome="<?= htmlspecialchars($produto['nome']) ?>"
                             data-valor="<?= $produto['valor_unitario'] ?>"
-                            data-categoria-id="<?= $produto['categoria_id'] ?>">
+                            data-categoria-id="<?= $produto['categoria_id'] ?>"
+                            data-unidade="<?= htmlspecialchars($produto['simbolo']) ?>">
 
                             <img 
                                 src="<?= htmlspecialchars($produto['imagem'] ?? '/images/placeholder.svg') ?>" 
