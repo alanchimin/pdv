@@ -24,27 +24,33 @@
             <!-- Un. Medida -->
             <div class="col-xs-12 col-md-6 col-lg-3">
                 <label for="unidade_medida_id" class="form-label">Un. Medida:</label><br>
-                <select name="unidade_medida_id" class="selectpicker" data-live-search="true" required>
-                    <option value="">Selecione</option>
-                    <?php foreach ($unidades as $unidade): ?>
-                        <option value="<?= $unidade['unidade_medida_id'] ?>">
-                            <?= htmlspecialchars($unidade['nome']) ?> (<?= $unidade['simbolo'] ?>)
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <div class="input-group">
+                    <select name="unidade_medida_id" class="selectpicker" data-live-search="true" required>
+                        <option value="">Selecione</option>
+                        <?php foreach ($unidades as $unidade): ?>
+                            <option value="<?= $unidade['unidade_medida_id'] ?>">
+                                <?= htmlspecialchars($unidade['nome']) ?> (<?= $unidade['simbolo'] ?>)
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal_nova_unidade_medida">+</button>
+                </div>
             </div>
 
             <!-- Categoria -->
             <div class="col-xs-12 col-md-6 col-lg-3">
                 <label for="categoria_id" class="form-label">Categoria:</label><br>
-                <select name="categoria_id" class="selectpicker" data-live-search="true" required>
-                    <option value="">Selecione</option>
-                    <?php foreach ($categorias as $categoria): ?>
-                        <option value="<?= $categoria['categoria_id'] ?>">
-                            <?= htmlspecialchars($categoria['nome']) ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
+                <div class="input-group">
+                    <select name="categoria_id" class="selectpicker" data-live-search="true" required>
+                        <option value="">Selecione</option>
+                        <?php foreach ($categorias as $categoria): ?>
+                            <option value="<?= $categoria['categoria_id'] ?>">
+                                <?= htmlspecialchars($categoria['nome']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal_nova_categoria">+</button>
+                </div>
             </div>
 
             <!-- Tipo de imagem -->
@@ -84,9 +90,41 @@
             <button class="btn btn-success">Salvar Produto</button>
         </div>
     </form>
+
+    <!-- Modal Nova Unidade de Medida -->
+    <div class="modal fade" id="modal_nova_unidade_medida" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"><h5 class="modal-title">Unidade de Medida</h5></div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="Nome da unidade de medida">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-success">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nova Categoria -->
+    <div class="modal fade" id="modal_nova_categoria" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header"><h5 class="modal-title">Nova Categoria</h5></div>
+                <div class="modal-body">
+                    <input type="text" class="form-control" placeholder="Nome da categoria">
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-success">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <?php include '../views/layout/footer.php'; ?>
 
-<script src="/js/common/form-handlers.js"></script>
 <script src="/js/produtos/create.js"></script>

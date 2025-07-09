@@ -8,3 +8,12 @@ nav.bg-dark {
 main {
     overflow-x: auto;
 }
+
+th.sorted-asc::after {
+    content: " ▲";
+    color: #000;
+}
+th.sorted-desc::after {
+    content: " ▼";
+    color: #000;
+}

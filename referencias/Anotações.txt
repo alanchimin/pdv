@@ -13,6 +13,10 @@ Ideia inicial:
 
 
 TODO:
+    - Login:
+        admin:1 -> Todas as funcionalidades
+        autoatendimento:1 -> Apenas a tela de Pedidos
+
     - Tela de Pedidos:
         - Adicionar título
         - Alterar Itens do Pedido para Itens Adicionados
@@ -21,10 +25,30 @@ TODO:
         - Melhorar a lista das categorias adicionando um ícone intuitivo (adicionar campo no BD e permitir adicionar o ícone no cadastro da categoria)
         - Adicionar paginação na grid de produtos
     - Tela de Produtos:
-        - Adicionar título
-        - Remover o botão Buscar da listagem, deve buscar automaticamente ao digitar, adicionando apenas um timeout
-        - Adicionar o select com botão + para categorias e unidades de medida
-        - Tornar as colunas ordenáveis, com exceção da coluna de ações
-        - Corrigir a paginação para recarregar via AJAX
-    - Separar e refatorar arquivos javascript
-    - Corrigir responsividade
+        - As telas devem ter título (Produtos para a tela de listagem e Cadastro de Produto para o formulário de cadastro)
+        - Remover o botão Buscar da listagem, deve buscar automaticamente ao digitar por ajax, adicionando apenas um timeout
+        - Adicionar o select com botão + para categorias e unidades de medida, ao clicar no botão + deve abrir um modal para cadastrar a categoria ou unidade de medida (ignorar backend por enquanto, apenas exibir os campos)
+        - Tornar as colunas da tabela de listagem ordenáveis, com exceção da coluna de ações. Por padrão, deve ser ordenado por ID decrescente
+        - A paginação e busca devem recarregar via AJAX, sem recarregar a página
+        - A tela de listagem com busca, cadastro, etc, deve ser abstraída para ser reutilizada em outras telas
+
+- implementar produtos/index.js
+- Os arquivos javascript devem seguir o formato de classes, ex:
+class Produto {
+    constructor() {
+        this.$ctrl = $('#container-principal');
+        this.$campo1 = this.$ctrl.find('#campo1');
+        this.listen();
+    }
+
+    listen () {
+        this.$campo1.on('click', this.handleClickCampo1.bind(this));
+    }
+
+    handleClickCampo1() {
+        console.log('click');
+    }
+}
+
+var produto;
+$(() => produto = new Produto());

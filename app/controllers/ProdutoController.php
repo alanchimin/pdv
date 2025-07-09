@@ -13,12 +13,19 @@ class ProdutoController
         $paginaAtual = max(1, (int) ($_GET['pagina'] ?? 1));
         $limite = 10;
         $offset = ($paginaAtual - 1) * $limite;
+        $ordem = $_GET['ordem'] ?? 'produto_id';
+        $direcao = $_GET['direcao'] ?? 'desc';
 
         $produtoModel = new Produto();
         $totalProdutos = $produtoModel->count($busca);
         $totalPaginas = ceil($totalProdutos / $limite);
 
-        $produtos = $produtoModel->all($busca, $limite, $offset);
+        $produtos = $produtoModel->all($busca, $limite, $offset, $ordem, $direcao);
+
+        if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
+            include "../views/produtos/tabela.php";
+            exit;
+        }
 
         include "../views/produtos/index.php";
     }
@@ -54,16 +61,6 @@ class ProdutoController
 
         (new Produto())->create($data);
         header("Location: /produto");
-        exit;
-    }
-
-    public function buscar()
-    {
-        $termo = $_GET['q'] ?? '';
-        $resultados = (new Produto())->buscar($termo);
-
-        header('Content-Type: application/json');
-        echo json_encode($resultados);
         exit;
     }
 }
