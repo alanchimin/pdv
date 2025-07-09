@@ -4,6 +4,7 @@ services:
   app:
     build: .
     container_name: pdv_app
+    restart: always
     ports:
       - "${APP_PORT}:80"
     volumes:
