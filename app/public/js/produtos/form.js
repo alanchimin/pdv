@@ -34,7 +34,7 @@ class ProdutoForm {
         this.initUploadPreview();
         this.initSalvarCategoria();
         this.initSalvarUnidadeMedida();
-        this.preencherCamposSeEdicao();
+        this.initUpdate();
     }
 
     initSelects() {
@@ -151,7 +151,7 @@ class ProdutoForm {
         });
     }
 
-    preencherCamposSeEdicao() {
+    initUpdate() {
         if (!window.updateData) return;
 
         const p = window.updateData;

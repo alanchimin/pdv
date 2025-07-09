@@ -3,27 +3,79 @@ namespace App\controllers;
 
 use App\models\Categoria;
 
-class CategoriaController {
-    public function index() {
-        $categorias = Categoria::all();
+class CategoriaController
+{
+    public function index()
+    {
+        $search = $_GET['q'] ?? '';
+        $currentPage = max(1, (int) ($_GET['pagina'] ?? 1));
+        $limit = 10;
+        $offset = ($currentPage - 1) * $limit;
+        $orderBy = $_GET['ordem'] ?? 'categoria_id';
+        $direction = $_GET['direcao'] ?? 'asc';
+
+        $categoriaModel = new Categoria();
+        $total = $categoriaModel->count($search);
+        $totalPages = ceil($total / $limit);
+
+        $categorias = $categoriaModel->all($search, $limit, $offset, $orderBy, $direction);
+
+        if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
+            include "../views/categorias/table.php";
+            exit;
+        }
+
         include "../views/categorias/index.php";
     }
 
-    public function form() {
+    public function form()
+    {
+        $isUpdate = false;
         include "../views/categorias/form.php";
     }
 
-    public function store() {
-        Categoria::create($_POST);
+    public function store()
+    {
+        $data = [
+            'categoria_id' => $_POST['categoria_id'] ?? null,
+            'nome' => $_POST['nome']
+        ];
+
+        (new Categoria())->upsert($data);
         header("Location: /categoria");
+        exit;
     }
 
-    public function storeAjax() {
+    public function edit($id)
+    {
+        $isUpdate = true;
+        $categoriaModel = new Categoria();
+        $categoria = $categoriaModel->findById((int)$id);
+
+        if (!$categoria) {
+            header('Location: /categoria');
+            exit;
+        }
+
+        include "../views/categorias/form.php";
+    }
+
+    public function delete($id)
+    {
+        $categoriaModel = new Categoria();
+        $categoriaModel->delete((int)$id);
+
+        header('Content-Type: application/json');
+        echo json_encode(['success' => true]);
+        exit;
+    }
+
+    public function storeAjax()
+    {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['nome'])) {
             $nome = trim($_POST['nome']);
             $categoria = new Categoria();
-            $id = $categoria->create(['nome' => $nome]);
-
+            $id = $categoria->upsert(['nome' => $nome]);
             $nova = $categoria->findById($id);
 
             header('Content-Type: application/json');

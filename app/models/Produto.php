@@ -6,23 +6,23 @@ use App\core\Model;
 
 class Produto extends Model
 {
-    public function all(string $busca = '', int $limit = 10, int $offset = 0, string $ordem = 'produto_id', string $direcao = 'desc'): array {
-        $colunasPermitidas = ['produto_id', 'nome', 'valor_unitario', 'simbolo', 'categoria_nome'];
-        $direcao = strtolower($direcao) === 'asc' ? 'ASC' : 'DESC';
-        $ordem = in_array($ordem, $colunasPermitidas) ? $ordem : 'produto_id';
+    public function all(string $search = '', int $limit = 10, int $offset = 0, string $orderBy = 'produto_id', string $direction = 'desc'): array {
+        $columns = ['produto_id', 'nome', 'valor_unitario', 'simbolo', 'categoria_nome'];
+        $orderBy = in_array($orderBy, $columns) ? $orderBy : 'produto_id';
+        $direction = strtolower($direction) === 'asc' ? 'ASC' : 'DESC';
 
         $sql = "
             SELECT p.*, u.nome AS unidade_nome, u.simbolo, c.nome AS categoria_nome
             FROM produto p
             JOIN unidade_medida u ON u.unidade_medida_id = p.unidade_medida_id
             JOIN categoria c ON c.categoria_id = p.categoria_id
-            WHERE p.nome LIKE :busca
-            ORDER BY $ordem $direcao
+            WHERE p.nome LIKE :search
+            ORDER BY $orderBy $direction
             LIMIT :limit OFFSET :offset
         ";
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->bindValue(':busca', '%' . $busca . '%', PDO::PARAM_STR);
+        $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
         $stmt->execute();
@@ -37,7 +37,7 @@ class Produto extends Model
         return (int) $stmt->fetchColumn();
     }
 
-    public function upsert(array $data): void {
+    public function upsert(array $data): int {
         $sql = "
             INSERT INTO produto (produto_id, nome, imagem, tipo_imagem, unidade_medida_id, valor_unitario, categoria_id)
             VALUES (:produto_id, :nome, :imagem, :tipo_imagem, :unidade_medida_id, :valor_unitario, :categoria_id)
@@ -52,6 +52,8 @@ class Produto extends Model
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($data);
+
+        return $data['produto_id'] ?? $this->pdo->lastInsertId();
     }
 
     public function delete(int $id): void

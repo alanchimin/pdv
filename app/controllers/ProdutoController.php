@@ -9,18 +9,18 @@ class ProdutoController
 {
     public function index()
     {
-        $busca = $_GET['q'] ?? '';
-        $paginaAtual = max(1, (int) ($_GET['pagina'] ?? 1));
-        $limite = 10;
-        $offset = ($paginaAtual - 1) * $limite;
-        $ordem = $_GET['ordem'] ?? 'produto_id';
-        $direcao = $_GET['direcao'] ?? 'desc';
+        $search = $_GET['q'] ?? '';
+        $currentPage = max(1, (int) ($_GET['pagina'] ?? 1));
+        $limit = 10;
+        $offset = ($currentPage - 1) * $limit;
+        $orderBy = $_GET['ordem'] ?? 'produto_id';
+        $direction = $_GET['direcao'] ?? 'desc';
 
         $produtoModel = new Produto();
-        $totalProdutos = $produtoModel->count($busca);
-        $totalPaginas = ceil($totalProdutos / $limite);
+        $totalProdutos = $produtoModel->count($search);
+        $totalPages = ceil($totalProdutos / $limit);
 
-        $produtos = $produtoModel->all($busca, $limite, $offset, $ordem, $direcao);
+        $produtos = $produtoModel->all($search, $limit, $offset, $orderBy, $direction);
 
         if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
             include "../views/produtos/table.php";

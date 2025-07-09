@@ -6,31 +6,54 @@ use PDO;
 
 class UnidadeMedida extends Model
 {
-    public function all(string $orderBy = 'nome') {
+    public function all(string $search = '', int $limit = 10, int $offset = 0, string $orderBy = 'unidade_medida_id', string $direction = 'desc'): array {
         $columns = ['unidade_medida_id', 'nome', 'simbolo'];
+        $orderBy = in_array($orderBy, $columns) ? $orderBy : 'nome';
+        $direction = strtolower($direction) === 'desc' ? 'DESC' : 'ASC';
 
-        // Verifica se o parâmetro é válido
-        if (!in_array($orderBy, $columns)) {
-            $orderBy = 'nome';
-        }
-
-        $sql = "SELECT * FROM unidade_medida ORDER BY $orderBy";
+        $sql = "SELECT * FROM unidade_medida WHERE nome LIKE :search ORDER BY $orderBy $direction LIMIT :limit OFFSET :offset";
         $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function create($data) {
-        $sql = "INSERT INTO unidade_medida (nome, simbolo) VALUES (:nome, :simbolo)";
+    public function count(string $busca = ''): int {
+        $sql = "SELECT COUNT(*) FROM unidade_medida WHERE nome LIKE :busca";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($data);
-        return $this->pdo->lastInsertId();
+        $stmt->bindValue(':busca', '%' . $busca . '%', PDO::PARAM_STR);
+        $stmt->execute();
+        return (int) $stmt->fetchColumn();
     }
 
-    public function findById($id) {
+    public function upsert(array $data): int {
+        $sql = "
+            INSERT INTO unidade_medida (unidade_medida_id, nome, simbolo)
+            VALUES (:unidade_medida_id, :nome, :simbolo)
+            ON DUPLICATE KEY UPDATE
+                nome = VALUES(nome),
+                simbolo = VALUES(simbolo)
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute($data);
+
+        return $data['unidade_medida_id'] ?? $this->pdo->lastInsertId();
+    }
+
+    public function delete(int $id): void {
+        $stmt = $this->pdo->prepare("DELETE FROM unidade_medida WHERE unidade_medida_id = :id");
+        $stmt->execute(['id' => $id]);
+    }
+
+    public function findById(int $id): ?array {
         $stmt = $this->pdo->prepare("SELECT * FROM unidade_medida WHERE unidade_medida_id = :id");
         $stmt->execute(['id' => $id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row ?: null;
     }
 }
