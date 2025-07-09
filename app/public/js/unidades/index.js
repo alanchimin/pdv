@@ -5,7 +5,6 @@ class UnidadeListagem {
         this.ordem = 'unidade_medida_id';
         this.direcao = 'desc';
         this.pagina = 1;
-        this.timer = null;
 
         this.idExcluir = null;
 
@@ -16,13 +15,10 @@ class UnidadeListagem {
     }
 
     listen() {
-        this.$inputBusca.on('input', () => {
-            clearTimeout(this.timer);
-            this.timer = setTimeout(() => {
-                this.pagina = 1;
-                this.buscar();
-            }, 300);
-        });
+        this.$inputBusca.on('input', Utils.debounce(() => {
+            this.pagina = 1;
+            this.buscar();
+        }, 300));
 
         this.$ctrl.on('click', 'th.sortable', (e) => {
             const $th = $(e.currentTarget);

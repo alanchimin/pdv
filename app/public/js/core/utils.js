@@ -14,6 +14,14 @@ Utils.setSelectOption = function($select, value) {
     $select.selectpicker();
 };
 
+Utils.debounce = function (fn, delay = 300) {
+    let timer = null;
+    return function (...args) {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
+    };
+};
+
 Utils.showAlert = function($container, message, type = 'danger', duration = 5000) {
     $container.empty();
     const alertId = `alert-${Date.now()}`;

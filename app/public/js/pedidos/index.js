@@ -10,18 +10,31 @@ class Pedido {
         this.$mensagemErro = $('#mensagem-erro');
         this.$mensagemFinalizar = $('#mensagem-finalizar');
         this.$placeholder = $('#lista-placeholder');
+        this.$buscaProduto = $('#busca-produto');
 
         this.listen();
         this.carregarTela();
     }
 
     listen() {
+        this.$buscaProduto.on('input', Utils.debounce(this.buscarProdutos.bind(this)));
         this.$categoriaBtns.on('click', this.handleCategoriaClick.bind(this));
         this.$produtos.on('click', this.abrirModalProduto.bind(this));
         $('input[name="tipo-desconto"]').on('change', this.toggleTipoDesconto.bind(this));
         this.$btnAdicionar.on('click', this.adicionarItem.bind(this));
         this.$btnFinalizar.on('click', this.finalizarPedido.bind(this));
         this.$btnConfirmarLimpeza.on('click', this.limparCarrinho.bind(this));
+    }
+
+    buscarProdutos() {
+        const termo = $('#busca-produto').val().toLowerCase();
+
+        this.$produtos.each(function () {
+            const $el = $(this);
+            const nome = $el.data('nome').toLowerCase();
+            const match = nome.includes(termo);
+            $el.closest('.col-md-3').toggle(match);
+        });
     }
 
     handleCategoriaClick(e) {
