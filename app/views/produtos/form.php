@@ -144,4 +144,4 @@
 
 <?php include '../views/layout/footer.php'; ?>
 
-<script src="/js/produtos/create.js"></script>
+<script src="/js/produtos/form.js"></script>

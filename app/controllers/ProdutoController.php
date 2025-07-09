@@ -30,12 +30,12 @@ class ProdutoController
         include "../views/produtos/index.php";
     }
 
-    public function create()
+    public function form()
     {
         $isUpdate = false;
         $unidades = (new UnidadeMedida())->all();
         $categorias = (new Categoria())->all();
-        include "../views/produtos/create.php";
+        include "../views/produtos/form.php";
     }
 
     public function store()
@@ -88,7 +88,7 @@ class ProdutoController
 
         $unidades = (new UnidadeMedida())->all();
         $categorias = (new Categoria())->all();
-        include "../views/produtos/create.php";
+        include "../views/produtos/form.php";
     }
 
     public function delete($id)

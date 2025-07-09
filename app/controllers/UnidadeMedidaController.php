@@ -9,8 +9,8 @@ class UnidadeMedidaController {
         include "../views/unidades/index.php";
     }
 
-    public function create() {
-        include "../views/unidades/create.php";
+    public function form() {
+        include "../views/unidades/form.php";
     }
 
     public function store() {

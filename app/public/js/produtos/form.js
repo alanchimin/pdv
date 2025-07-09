@@ -1,4 +1,4 @@
-class ProdutoCreate {
+class ProdutoForm {
     constructor() {
         this.$ctrl = $('.container');
         this.$selects = this.$ctrl.find('.selectpicker');
@@ -173,5 +173,5 @@ class ProdutoCreate {
     }
 }
 
-let produtoCreate;
-$(() => produtoCreate = new ProdutoCreate());
+let produtoForm;
+$(() => produtoForm = new ProdutoForm());

@@ -2,7 +2,7 @@
 
 <div class="container mt-4">
     <h1>Unidades de Medida</h1>
-    <a href="index.php?c=unidademedida&a=create" class="btn btn-primary mb-3">Nova Unidade</a>
+    <a href="/unidadeMedida/form" class="btn btn-primary mb-3">Nova Unidade</a>
 
     <table class="table table-bordered">
         <thead>

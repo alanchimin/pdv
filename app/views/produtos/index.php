@@ -9,7 +9,7 @@
             </form>
         </div>
         <div>
-            <a href="/produto/create" class="btn btn-success">Novo Produto</a>
+            <a href="/produto/form" class="btn btn-success">Novo Produto</a>
         </div>
     </div>
 

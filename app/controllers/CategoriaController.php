@@ -9,8 +9,8 @@ class CategoriaController {
         include "../views/categorias/index.php";
     }
 
-    public function create() {
-        include "../views/categorias/create.php";
+    public function form() {
+        include "../views/categorias/form.php";
     }
 
     public function store() {
