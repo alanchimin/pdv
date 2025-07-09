@@ -2,11 +2,19 @@
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="mb-0">Cadastrar Produto</h2>
+        <h2 class="mb-0"><?= $isUpdate ? 'Editar Produto' : 'Cadastrar Produto' ?></h2>
         <a href="/produto" class="btn btn-outline-secondary">← Voltar</a>
     </div>
 
     <form method="POST" action="/produto/store" enctype="multipart/form-data">
+
+        <?php if ($isUpdate): ?>
+            <input type="hidden" name="produto_id" value="<?= $produto['produto_id'] ?>">
+            <script>
+                window.updateData = <?= json_encode($produto, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+            </script>
+        <?php endif; ?>
+
         <div class="row g-3">
 
             <!-- Nome -->

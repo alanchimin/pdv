@@ -32,6 +32,7 @@ class ProdutoController
 
     public function create()
     {
+        $isUpdate = false;
         $unidades = (new UnidadeMedida())->all();
         $categorias = (new Categoria())->all();
         include "../views/produtos/create.php";
@@ -60,6 +61,7 @@ class ProdutoController
         }
 
         $data = [
+            'produto_id' => $_POST['produto_id'] ?? null,
             'nome' => $_POST['nome'],
             'imagem' => $imagem_nome,
             'tipo_imagem' => $tipo_imagem,
@@ -68,9 +70,25 @@ class ProdutoController
             'categoria_id' => $_POST['categoria_id']
         ];
 
-        (new Produto())->create($data);
+        (new Produto())->upsert($data);
         header("Location: /produto");
         exit;
+    }
+
+    public function edit($id)
+    {
+        $isUpdate = true;
+        $produtoModel = new Produto();
+        $produto = $produtoModel->findById((int)$id);
+
+        if (!$produto) {
+            header('Location: /produto');
+            exit;
+        }
+
+        $unidades = (new UnidadeMedida())->all();
+        $categorias = (new Categoria())->all();
+        include "../views/produtos/create.php";
     }
 
     public function delete($id)
@@ -82,5 +100,4 @@ class ProdutoController
         echo json_encode(['success' => true]);
         exit;
     }
-
 }

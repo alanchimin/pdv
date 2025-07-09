@@ -34,6 +34,7 @@ class ProdutoCreate {
         this.initUploadPreview();
         this.initSalvarCategoria();
         this.initSalvarUnidadeMedida();
+        this.preencherCamposSeEdicao();
     }
 
     initSelects() {
@@ -148,6 +149,27 @@ class ProdutoCreate {
                 Utils.showAlert(this.$modalNovaUnidadeMedidaErro, 'Erro ao salvar unidade de medida.');
             });
         });
+    }
+
+    preencherCamposSeEdicao() {
+        if (!window.updateData) return;
+
+        const p = window.updateData;
+
+        this.$ctrl.find('#nome').val(p.nome);
+        this.$ctrl.find('#valor_unitario').val(p.valor_unitario);
+        Utils.setSelectOption(this.$selectUnidade, p.unidade_medida_id);
+        Utils.setSelectOption(this.$selectCategoria, p.categoria_id);
+
+        if (p.tipo_imagem === 'url') {
+            this.$radioUrl.prop('checked', true).trigger('change');
+            this.$imagemUrl.val(p.imagem).trigger('input');
+        } else if (p.tipo_imagem === 'upload') {
+            this.$radioUpload.prop('checked', true).trigger('change');
+            const caminho = `/upload/${p.imagem}`;
+            this.uploadAtual = caminho;
+            this.$imagemPreview.attr('src', caminho).show();
+        }
     }
 }
 

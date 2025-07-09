@@ -8,6 +8,12 @@ Utils.addNewSelectOption = function($select, value, text) {
     $select.selectpicker();
 };
 
+Utils.setSelectOption = function($select, value) {
+    $select.selectpicker('destroy');
+    $select.val(value);
+    $select.selectpicker();
+};
+
 Utils.showAlert = function($container, message, type = 'danger', duration = 5000) {
     $container.empty();
     const alertId = `alert-${Date.now()}`;

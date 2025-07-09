@@ -37,9 +37,18 @@ class Produto extends Model
         return (int) $stmt->fetchColumn();
     }
 
-    public function create(array $data): void {
-        $sql = "INSERT INTO produto (nome, imagem, tipo_imagem, unidade_medida_id, valor_unitario, categoria_id)
-                VALUES (:nome, :imagem, :tipo_imagem, :unidade_medida_id, :valor_unitario, :categoria_id)";
+    public function upsert(array $data): void {
+        $sql = "
+            INSERT INTO produto (produto_id, nome, imagem, tipo_imagem, unidade_medida_id, valor_unitario, categoria_id)
+            VALUES (:produto_id, :nome, :imagem, :tipo_imagem, :unidade_medida_id, :valor_unitario, :categoria_id)
+            ON DUPLICATE KEY UPDATE
+                nome = VALUES(nome),
+                imagem = VALUES(imagem),
+                tipo_imagem = VALUES(tipo_imagem),
+                unidade_medida_id = VALUES(unidade_medida_id),
+                valor_unitario = VALUES(valor_unitario),
+                categoria_id = VALUES(categoria_id)
+        ";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($data);
@@ -65,4 +74,20 @@ class Produto extends Model
         $stmt->execute(['id' => $id]);
     }
 
+    public function findById(int $id): ?array {
+        $sql = "
+            SELECT p.*, u.nome AS unidade_nome, u.simbolo, c.nome AS categoria_nome
+            FROM produto p
+            JOIN unidade_medida u ON u.unidade_medida_id = p.unidade_medida_id
+            JOIN categoria c ON c.categoria_id = p.categoria_id
+            WHERE p.produto_id = :id
+            LIMIT 1
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        $produto = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $produto ?: null;
+    }
 }
