@@ -9,7 +9,7 @@ $paginaAtual = $paginaAtual ?? 1;
 $totalPaginas = $totalPaginas ?? 1;
 ?>
 
-<nav class="pagination">
+<nav class="nav-pagination">
     <ul class="pagination justify-content-center">
 
         <!-- Primeira página -->
