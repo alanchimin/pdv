@@ -17,3 +17,15 @@ th.sorted-desc::after {
     content: " ▼";
     color: #000;
 }
+
+.form-wrapper {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0.375rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+}
+
+.list-wrapper {
+    padding: 1.5rem;
+}

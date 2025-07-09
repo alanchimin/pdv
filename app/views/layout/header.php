@@ -27,5 +27,5 @@
             <li class="nav-item"><a href="/unidadeMedida" class="nav-link text-white">Unidades de Medida</a></li>
         </ul>
     </nav>
-    <main class="flex-grow-1 p-4">
+    <main class="flex-grow-1 p-0">
 <?php endif; ?>

@@ -1,6 +1,6 @@
 <?php include '../views/layout/header.php'; ?>
 
-<div id="produto-container">
+<div id="produto-container" class="list-wrapper">
     <div class="d-flex justify-content-between align-items-end mb-3 flex-wrap gap-2">
         <div class="flex-grow-1">
             <h2 class="mb-2">Produtos</h2>
