@@ -67,35 +67,11 @@
 
                 <!-- Desconto -->
                 <div class="col-xs-12 col-md-6 col-lg-3">
-                    <div class="d-flex">
-                        <label class="form-label mb-0">Desconto</label>
-                        <div class="ms-2">
-                            <div class="form-check form-check-inline mb-0">
-                                <input class="form-check-input" type="radio" name="tipo_desconto" id="desconto-percentual-radio" value="percentual" checked>
-                                <label class="form-check-label" for="desconto-percentual-radio">%</label>
-                            </div>
-                            <div class="form-check form-check-inline mb-0">
-                                <input class="form-check-input" type="radio" name="tipo_desconto" id="desconto-reais-radio" value="reais">
-                                <label class="form-check-label" for="desconto-reais-radio">R$</label>
-                            </div>
-                        </div>
+                    <label for="desconto" class="form-label">Desconto:</label>
+                    <div class="input-group">
+                        <input type="number" id="desconto" name="desconto" min="0" max="100" value="0" class="form-control" required>
+                        <span class="input-group-text">%</span>
                     </div>
-
-                    <div class="mt-2" id="campo-desconto-percentual">
-                        <div class="input-group">
-                            <input type="number" class="form-control" id="desconto_porcentagem" min="0" max="100" value="0">
-                            <span class="input-group-text">%</span>
-                        </div>
-                    </div>
-
-                    <div class="mt-2 d-none" id="campo-desconto-reais">
-                        <div class="input-group">
-                            <input type="number" class="form-control" id="desconto_reais" min="0" step="0.01" value="0.00">
-                            <span class="input-group-text">R$</span>
-                        </div>
-                    </div>
-
-                    <input type="hidden" name="desconto" id="desconto_valor">
                 </div>
 
                 <!-- Tipo de imagem -->

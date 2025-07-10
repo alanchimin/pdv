@@ -82,32 +82,29 @@
                     <div id="mensagem-erro" class="alert alert-danger d-none" role="alert"></div>
                     <input type="hidden" id="produto-id">
                     <div class="mb-3">
-                        <label for="produto-nome" class="form-label">Produto</label>
+                        <label for="produto-nome" class="form-label">Produto:</label>
                         <input type="text" class="form-control" id="produto-nome" disabled>
                     </div>
                     <div class="mb-3">
-                        <label for="quantidade" class="form-label">Quantidade</label>
-                        <input type="number" class="form-control" id="quantidade" required min="1" value="1">
+                        <label for="quantidade" class="form-label">Quantidade:</label>
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="quantidade" required min="1" value="1">
+                            <span class="input-group-text" id="unidade-label">und</span>
+                        </div>
                     </div>
-
+                    <div id="desconto-container" class="mb-3">
+                        <label for="desconto" class="form-label">Desconto:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="desconto" disabled>
+                            <span class="input-group-text">R$</span>
+                        </div>
+                    </div>
                     <div class="mb-3">
-                        <label class="form-label">Tipo de Desconto</label><br>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="tipo-desconto" id="desconto-percentual-radio" value="percentual" checked>
-                            <label class="form-check-label" for="desconto-percentual-radio">%</label>
+                        <label for="total" class="form-label">Total:</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="total" disabled>
+                            <span class="input-group-text">R$</span>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="tipo-desconto" id="desconto-reais-radio" value="reais">
-                            <label class="form-check-label" for="desconto-reais-radio">R$</label>
-                        </div>
-                    </div>
-                    <div class="mb-3" id="campo-desconto-percentual">
-                        <label for="desconto-porcentagem" class="form-label">Desconto (%)</label>
-                        <input type="number" class="form-control" id="desconto-porcentagem" min="0" max="100" value="0">
-                    </div>
-                    <div class="mb-3 d-none" id="campo-desconto-reais">
-                        <label for="desconto-reais" class="form-label">Desconto (R$)</label>
-                        <input type="number" class="form-control" id="desconto-reais" min="0" step="0.01" value="0.00">
                     </div>
                 </form>
             </div>

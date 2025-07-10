@@ -11,6 +11,13 @@ class Pedido {
         this.$mensagemFinalizar = $('#mensagem-finalizar');
         this.$placeholder = $('#lista-placeholder');
         this.$buscaProduto = $('#busca-produto');
+        this.$produtoId = $('#produto-id');
+        this.$produtoNome = $('#produto-nome');
+        this.$quantidade = $('#quantidade');
+        this.$unidade = $('#unidade-label');
+        this.$descontoContainer = $('#desconto-container');
+        this.$descontoUnitario = $('#desconto-unitario');
+        this.$descontoTotal = $('#desconto-total');
 
         this.listen();
         this.carregarTela();
@@ -20,11 +27,11 @@ class Pedido {
         this.$buscaProduto.on('input', Utils.debounce(() => this.carregarProdutos()));
         this.$categoriaBtns.on('click', this.handleCategoriaClick.bind(this));
         this.$produtos.on('click', this.abrirModalProduto.bind(this));
-        $('input[name="tipo-desconto"]').on('change', this.toggleTipoDesconto.bind(this));
         this.$btnAdicionar.on('click', this.adicionarItem.bind(this));
         this.$btnFinalizar.on('click', this.finalizarPedido.bind(this));
         this.$btnConfirmarLimpeza.on('click', this.limparCarrinho.bind(this));
         this.$listaItens.on('click', '.btn-remover-item', this.handleClickBtnRemoverItem.bind(this));
+        this.$quantidade.on('input', this.atualizarResumoPreco.bind(this));
     }
 
     handleCategoriaClick(e) {
@@ -35,50 +42,71 @@ class Pedido {
 
     abrirModalProduto(e) {
         const $el = $(e.currentTarget);
-        $('#produto-id').val($el.data('id'));
-        $('#produto-nome').val($el.data('nome'));
-        $('#quantidade').val(1);
-        $('#desconto-porcentagem').val(0);
-        $('#desconto-reais').val(0.00);
+        this.$produtoId.val($el.data('id'));
+        this.$produtoNome.val($el.data('nome'));
+
+        const valor = parseFloat($el.data('valor'));
+        const descontoPercentual = parseFloat($el.data('desconto')) || 0;
+        const qtd = 1;
+
+        this.$quantidade.val(qtd);
+        this.$unidade.text($el.data('unidade'));
+
+        const valorComDescontoUnitario = valor * (1 - descontoPercentual / 100);
+        const totalComDesconto = valorComDescontoUnitario * qtd;
 
         this.$btnAdicionar
-            .data('valor', parseFloat($el.data('valor')))
-            .data('unidade', $el.data('unidade'));
+            .data('valor', valor)
+            .data('unidade', $el.data('unidade'))
+            .data('desconto', descontoPercentual);
+
+        if (descontoPercentual > 0) {
+            $('#desconto-container').removeClass('d-none');
+            $('#desconto').val((valor * descontoPercentual / 100).toFixed(2).replace('.', ','));
+        } else {
+            $('#desconto-container').addClass('d-none');
+            $('#desconto').val('');
+        }
+
+        $('#total').val(totalComDesconto.toFixed(2).replace('.', ','));
 
         this.$modal.modal('show');
+
+        this.atualizarResumoPreco();
     }
 
-    toggleTipoDesconto() {
-        const tipo = $('input[name="tipo-desconto"]:checked').val();
-        $('#campo-desconto-percentual').toggleClass('d-none', tipo !== 'percentual');
-        $('#campo-desconto-reais').toggleClass('d-none', tipo !== 'reais');
+    atualizarResumoPreco() {
+        const valor = parseFloat(this.$btnAdicionar.data('valor'));
+        const descontoPercentual = parseFloat(this.$btnAdicionar.data('desconto')) || 0;
+        const qtd = parseInt(this.$quantidade.val()) || 1;
+
+        if (descontoPercentual > 0) {
+            const descontoTotal = (valor * (descontoPercentual / 100)) * qtd;
+            $('#desconto-container').removeClass('d-none');
+            $('#desconto').val(descontoTotal.toFixed(2).replace('.', ','));
+        } else {
+            $('#desconto-container').addClass('d-none');
+            $('#desconto').val('');
+        }
+
+        const total = valor * qtd * (1 - descontoPercentual / 100);
+        $('#total').val(total.toFixed(2).replace('.', ','));
     }
 
     adicionarItem() {
         this.limparErro();
         const id = $('#produto-id').val();
         const nome = $('#produto-nome').val();
-        const qtd = parseInt($('#quantidade').val());
+        const qtd = parseInt(this.$quantidade.val());
         const valor = parseFloat(this.$btnAdicionar.data('valor'));
-        const unidade = this.$btnAdicionar.data('unidade')
-        const tipoDesconto = $('input[name="tipo-desconto"]:checked').val();
+        const unidade = this.$btnAdicionar.data('unidade');
+        const descontoPercentual = parseFloat(this.$btnAdicionar.data('desconto')) || 0;
 
         if (!qtd || qtd <= 0) return this.mostrarErro('Informe uma quantidade válida maior que zero.');
 
-        let desconto = 0;
-        const total = qtd * valor;
-
-        if (tipoDesconto === 'percentual') {
-            const pct = parseFloat($('#desconto-porcentagem').val()) || 0;
-            if (pct < 0 || pct > 100) return this.mostrarErro('O desconto percentual deve estar entre 0% e 100%.');
-            desconto = total * (pct / 100);
-        } else {
-            desconto = parseFloat($('#desconto-reais').val()) || 0;
-        }
-
-        if (desconto > total) return this.mostrarErro('O desconto não pode ser maior que o valor total do produto.');
-
-        const final = total - desconto;
+        const descontoTotal = (valor * (descontoPercentual / 100)) * qtd;
+        const total = qtd * valor - descontoTotal;
+        const descontoStr = descontoTotal > 0 ? ` - Desc: R$ ${descontoTotal.toFixed(2)}` : '';
 
         const html = `
             <li class="list-group-item d-flex justify-content-between align-items-center"
@@ -86,15 +114,15 @@ class Pedido {
                 data-nome="${nome}"
                 data-quantidade="${qtd}"
                 data-valor-unitario="${valor}"
-                data-desconto="${desconto}"
+                data-desconto="${descontoTotal}"
                 data-unidade="${unidade}">
                 
                 <div>
                     <strong>${nome}</strong><br>
-                    <small>${qtd} ${unidade} x R$ ${valor.toFixed(2)} - Desc: R$ ${desconto.toFixed(2)}</small>
+                    <small>${qtd} ${unidade} x R$ ${valor.toFixed(2)}${descontoStr}</small>
                 </div>
                 <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-primary rounded-pill">R$ ${final.toFixed(2)}</span>
+                    <span class="badge bg-primary rounded-pill">R$ ${total.toFixed(2)}</span>
                     <button class="btn btn-sm btn-outline-danger btn-remover-item" title="Remover item">
                         <i class="bi bi-trash"></i>
                     </button>
@@ -183,6 +211,7 @@ class Pedido {
         itens.forEach(item => {
             const total = item.valorUnitario * item.quantidade;
             const final = total - item.desconto;
+            const descontoStr = item.desconto > 0 ? ` - Desc: R$ ${item.desconto.toFixed(2)}` : '';
 
             const html = `
                 <li class="list-group-item d-flex justify-content-between align-items-center"
@@ -195,7 +224,7 @@ class Pedido {
                     
                     <div>
                         <strong>${item.nome}</strong><br>
-                        <small>${item.quantidade} ${item.unidade} x R$ ${item.valorUnitario.toFixed(2)} - Desc: R$ ${item.desconto.toFixed(2)}</small>
+                        <small>${item.quantidade} ${item.unidade} x R$ ${item.valorUnitario.toFixed(2)}${descontoStr}</small>
                     </div>
                     <div class="d-flex align-items-center gap-2">
                         <span class="badge bg-primary rounded-pill">R$ ${final.toFixed(2)}</span>

@@ -45,7 +45,7 @@ $larguraMaxima = 300;
             </tr>
             <tr>
                 <td><?= $quantidade ?> x <?= number_format($valorUnitario, 2, ',', '.') ?></td>
-                <td class="right"><?= number_format($final, 2, ',', '.') ?></td>
+                <td class="right"><?= number_format($total, 2, ',', '.') ?></td>
             </tr>
             <?php if ($desconto > 0): ?>
             <tr class="small">

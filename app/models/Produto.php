@@ -50,8 +50,8 @@ class Produto extends Model
 
     public function upsert(array $data): int {
         $sql = "
-            INSERT INTO produto (produto_id, nome, imagem, tipo_imagem, unidade_medida_id, valor_unitario, categoria_id, desconto, tipo_desconto)
-            VALUES (:produto_id, :nome, :imagem, :tipo_imagem, :unidade_medida_id, :valor_unitario, :categoria_id, :desconto, :tipo_desconto)
+            INSERT INTO produto (produto_id, nome, imagem, tipo_imagem, unidade_medida_id, valor_unitario, categoria_id, desconto)
+            VALUES (:produto_id, :nome, :imagem, :tipo_imagem, :unidade_medida_id, :valor_unitario, :categoria_id, :desconto)
             ON DUPLICATE KEY UPDATE
                 nome = VALUES(nome),
                 imagem = VALUES(imagem),
@@ -59,8 +59,7 @@ class Produto extends Model
                 unidade_medida_id = VALUES(unidade_medida_id),
                 valor_unitario = VALUES(valor_unitario),
                 categoria_id = VALUES(categoria_id),
-                desconto = VALUES(desconto),
-                tipo_desconto = VALUES(tipo_desconto)
+                desconto = VALUES(desconto)
         ";
 
         $stmt = $this->pdo->prepare($sql);
