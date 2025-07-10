@@ -38,7 +38,8 @@ class CategoriaController
     {
         $data = [
             'categoria_id' => $_POST['categoria_id'] ?? null,
-            'nome' => $_POST['nome']
+            'nome' => $_POST['nome'],
+            'icone' => $_POST['icone'] ?? null
         ];
 
         (new Categoria())->upsert($data);

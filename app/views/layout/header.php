@@ -7,6 +7,9 @@
     
     <title>PDV Supermercado</title>
     
+    <!-- Font Awesome -->
+    <link href="/assets/fontawesome/css/all.min.css" rel="stylesheet" />
+    
     <!-- CSS Bootstrap -->
     <link rel="stylesheet" href="/css/lib/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="/css/lib/bootstrap/bootstrap-select.min.css">

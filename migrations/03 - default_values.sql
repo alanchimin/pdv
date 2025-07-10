@@ -6,18 +6,18 @@ INSERT INTO unidade_medida (nome, simbolo) VALUES
 ('Pacote', 'Pct');
 
 -- Inserindo categorias de produtos
-INSERT INTO categoria (categoria_id, nome) VALUES
-(1, 'Mercearia'),
-(2, 'Hortifruti'),
-(3, 'Bebidas'),
-(4, 'Limpeza'),
-(5, 'Padaria'),
-(6, 'Congelados'),
-(7, 'Laticínios'),
-(8, 'Carnes'),
-(9, 'Higiene Pessoal'),
-(10, 'Pet Shop'),
-(11, 'Utilidades');
+INSERT INTO categoria (categoria_id, nome, icone) VALUES
+(1, 'Mercearia', 'fa-solid fa-shopping-cart'),
+(2, 'Hortifruti', 'fa-solid fa-leaf'),
+(3, 'Bebidas', 'fa-solid fa-coffee'),
+(4, 'Limpeza', 'fa-solid fa-broom'),
+(5, 'Padaria', 'fa-solid fa-bread-slice'),
+(6, 'Congelados', 'fa-solid fa-snowflake'),
+(7, 'Laticínios', 'fa-solid fa-cheese'),
+(8, 'Carnes', 'fa-solid fa-drumstick-bite'),
+(9, 'Higiene Pessoal', 'fa-solid fa-soap'),
+(10, 'Pet Shop', 'fa-solid fa-paw'),
+(11, 'Utilidades', 'fa-solid fa-wrench');
 
 -- Inserindo produtos
 INSERT INTO produto (produto_id, nome, imagem, unidade_medida_id, valor_unitario, categoria_id) VALUES

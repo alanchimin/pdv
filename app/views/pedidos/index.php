@@ -15,10 +15,16 @@
             <!-- Lista horizontal de categorias -->
             <div class="mb-3 overflow-auto">
                 <div class="btn-group" role="group" aria-label="Categorias">
-                    <button type="button" class="btn btn-outline-secondary active" data-categoria-id="0">Todas</button>
+                    <button type="button" class="btn btn-outline-secondary active" data-categoria-id="0">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Todas</span>
+                    </button>
                     <?php foreach ($categorias as $cat): ?>
                         <button type="button" class="btn btn-outline-secondary" data-categoria-id="<?= $cat['categoria_id'] ?>">
-                            <?= htmlspecialchars($cat['nome']) ?>
+                            <?php if (!empty($cat['icone'])): ?>
+                                <i class="<?= htmlspecialchars($cat['icone']) ?>"></i>
+                            <?php endif; ?>
+                            <span><?= htmlspecialchars($cat['nome']) ?></span>
                         </button>
                     <?php endforeach; ?>
                 </div>

@@ -1,0 +1,17 @@
+#dropdown-container {
+    height: 260px;
+    overflow: visible;
+}
+
+#icone-dropdown {
+    height: 180px;
+    overflow-y: auto;
+}
+
+#dropdown-container > .px-2 {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+    padding: 8px;
+}

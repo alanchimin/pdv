@@ -37,10 +37,11 @@ class Categoria extends Model
 
     public function upsert(array $data): int {
         $sql = "
-            INSERT INTO categoria (categoria_id, nome)
-            VALUES (:categoria_id, :nome)
+            INSERT INTO categoria (categoria_id, nome, icone)
+            VALUES (:categoria_id, :nome, :icone)
             ON DUPLICATE KEY UPDATE
-                nome = VALUES(nome)
+                nome = VALUES(nome),
+                icone = VALUES(icone)
         ";
 
         $stmt = $this->pdo->prepare($sql);

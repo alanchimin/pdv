@@ -18,7 +18,7 @@ TODO:
         autoatendimento:1 -> Apenas a tela de Pedidos
 
     - Tela de Pedidos:
-        - Melhorar a lista das categorias adicionando um ícone intuitivo (adicionar campo no BD e permitir adicionar o ícone no cadastro da categoria)
+        - Adicionar o modal para selecionar a forma de pagamento ao finalizar o pedido
     - Tela de Produtos:
         - A tela de listagem com busca, cadastro, etc, deve ser abstraída para ser reutilizada em outras telas
 

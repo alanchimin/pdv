@@ -17,7 +17,7 @@ class Pedido {
     }
 
     listen() {
-        this.$buscaProduto.on('input', Utils.debounce(() => this.carregarProdutos(), 300));
+        this.$buscaProduto.on('input', Utils.debounce(() => this.carregarProdutos()));
         this.$categoriaBtns.on('click', (e) => {
             $('.btn-group .btn').removeClass('active');
             $(e.currentTarget).addClass('active');

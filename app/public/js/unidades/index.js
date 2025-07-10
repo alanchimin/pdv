@@ -18,7 +18,7 @@ class UnidadeListagem {
         this.$inputBusca.on('input', Utils.debounce(() => {
             this.pagina = 1;
             this.buscar();
-        }, 300));
+        }));
 
         this.$ctrl.on('click', 'th.sortable', (e) => {
             const $th = $(e.currentTarget);
