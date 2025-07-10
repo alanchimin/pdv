@@ -29,6 +29,7 @@ class Pedido {
         this.$btnAdicionar.on('click', this.adicionarItem.bind(this));
         this.$btnFinalizar.on('click', this.finalizarPedido.bind(this));
         this.$btnConfirmarLimpeza.on('click', this.limparCarrinho.bind(this));
+        this.$listaItens.on('click', '.btn-remover-item', this.handleClickBtnRemoverItem.bind(this));
     }
 
     handleCategoriaClick(e) {
@@ -103,7 +104,12 @@ class Pedido {
                     <strong>${nome}</strong><br>
                     <small>${qtd} ${unidade} x R$ ${valor.toFixed(2)} - Desc: R$ ${desconto.toFixed(2)}</small>
                 </div>
-                <span class="badge bg-primary rounded-pill">R$ ${final.toFixed(2)}</span>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-primary rounded-pill">R$ ${final.toFixed(2)}</span>
+                    <button class="btn btn-sm btn-outline-danger btn-remover-item" title="Remover item">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
             </li>
         `;
 
@@ -113,6 +119,12 @@ class Pedido {
         this.salvarListaEmLocalStorage();
 
         this.$listaItens.closest('.border').animate({ scrollTop: this.$listaItens.prop('scrollHeight') }, 300);
+    }
+
+    handleClickBtnRemoverItem(e) {
+        $(e.currentTarget).closest('li').remove();
+        this.atualizarTotais();
+        this.salvarListaEmLocalStorage();
     }
 
     finalizarPedido() {
@@ -180,6 +192,9 @@ class Pedido {
         this.$listaItens.empty();
 
         itens.forEach(item => {
+            const total = item.valorUnitario * item.quantidade;
+            const final = total - item.desconto;
+
             const html = `
                 <li class="list-group-item d-flex justify-content-between align-items-center"
                     data-produto-id="${item.produtoId}"
@@ -193,7 +208,12 @@ class Pedido {
                         <strong>${item.nome}</strong><br>
                         <small>${item.quantidade} ${item.unidade} x R$ ${item.valorUnitario.toFixed(2)} - Desc: R$ ${item.desconto.toFixed(2)}</small>
                     </div>
-                    <span class="badge bg-primary rounded-pill">R$ ${(item.valorUnitario * item.quantidade - item.desconto).toFixed(2)}</span>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-primary rounded-pill">R$ ${final.toFixed(2)}</span>
+                        <button class="btn btn-sm btn-outline-danger btn-remover-item" title="Remover item">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
                 </li>
             `;
             this.$listaItens.append(html);

@@ -8,11 +8,12 @@
     <title>PDV Supermercado</title>
     
     <!-- CSS Bootstrap -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="/css/lib/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/lib/bootstrap/bootstrap-select.min.css">
+    <link rel="stylesheet" href="/css/lib/bootstrap/bootstrap-icons.min.css">
     
     <!-- CSS Personalizado -->
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/core/core.css">
 </head>
 <body>
 

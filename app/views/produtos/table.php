@@ -19,8 +19,12 @@
                     <td><?= htmlspecialchars($produto['simbolo']) ?></td>
                     <td>R$ <?= number_format($produto['valor_unitario'], 2, ',', '.') ?></td>
                     <td>
-                        <a href="/produto/edit/<?= $produto['produto_id'] ?>" class="btn btn-sm btn-primary">✏️</a>
-                        <a class="btn btn-sm btn-danger btn-excluir" href="#" data-id="<?= $produto['produto_id'] ?>">🗑️</a>
+                        <a href="/produto/edit/<?= $produto['produto_id'] ?>" class="btn btn-sm btn-outline-primary" title="Editar">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <button type="button" class="btn btn-sm btn-outline-danger btn-excluir" data-id="<?= $produto['produto_id'] ?>" title="Excluir">
+                            <i class="bi bi-trash"></i>
+                        </button>
                     </td>
                 </tr>
             <?php endforeach; ?>

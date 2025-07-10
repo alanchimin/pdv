@@ -117,7 +117,7 @@ class PedidoController
         $dompdf->render();
 
         $output = $dompdf->output();
-        $filename = "pedido_$pedido_id_" . time() . '.pdf';
+        $filename = "pedido_{$pedido_id}_" . time() . '.pdf';
 
         $path = $_SERVER['DOCUMENT_ROOT'] . '/pedidos/' . $filename;
 

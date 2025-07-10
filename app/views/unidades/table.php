@@ -15,8 +15,12 @@
                     <td><?= htmlspecialchars($unidade['nome']) ?></td>
                     <td><?= htmlspecialchars($unidade['simbolo']) ?></td>
                     <td>
-                        <a href="/unidadeMedida/edit/<?= $unidade['unidade_medida_id'] ?>" class="btn btn-sm btn-primary">✏️</a>
-                        <a class="btn btn-sm btn-danger btn-excluir" href="#" data-id="<?= $unidade['unidade_medida_id'] ?>">🗑️</a>
+                        <a href="/unidadeMedida/edit/<?= $unidade['unidade_medida_id'] ?>" class="btn btn-sm btn-outline-primary" title="Editar">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <button type="button" class="btn btn-sm btn-outline-danger btn-excluir" data-id="<?= $unidade['unidade_medida_id'] ?>" title="Excluir">
+                            <i class="bi bi-trash"></i>
+                        </button>
                     </td>
                 </tr>
             <?php endforeach; ?>
