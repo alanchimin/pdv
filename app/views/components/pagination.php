@@ -6,7 +6,7 @@
  */
 
 $currentPage = $currentPage ?? 1;
-$totalPages = $totalPages ?? 1;
+$totalPages = max(1, $totalPages ?? 1);
 ?>
 
 <nav class="nav-pagination">

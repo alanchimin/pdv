@@ -21,6 +21,22 @@ class PedidoController
         include "../views/pedidos/index.php";
     }
 
+    public function grid()
+    {
+        $search = $_GET['q'] ?? '';
+        $currentPage = max(1, (int) ($_GET['pagina'] ?? 1));
+        $limit = 12;
+        $offset = ($currentPage - 1) * $limit;
+        $categoriaId = $_GET['categoria_id'] ?? null;
+
+        $produtoModel = new Produto();
+        $total = $produtoModel->count($search, $categoriaId);
+        $totalPages = ceil($total / $limit);
+        $produtos = $produtoModel->list($search, $limit, $offset, 'nome', 'asc', $categoriaId);
+
+        include "../views/pedidos/grid.php";
+    }
+
     public function store() {
         $itens = json_decode($_POST['itens'] ?? '[]', true);
 

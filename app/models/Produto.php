@@ -11,17 +11,18 @@ class Produto extends Model
         return $this->list(limit: PHP_INT_MAX, orderBy: 'nome', direction: 'asc');
     }
 
-    public function list(string $search = '', int $limit = 10, int $offset = 0, string $orderBy = 'produto_id', string $direction = 'desc'): array {
+    public function list(string $search = '', int $limit = 10, int $offset = 0, string $orderBy = 'produto_id', string $direction = 'desc', int $categoryId = 0): array {
         $columns = ['produto_id', 'nome', 'valor_unitario', 'simbolo', 'categoria_nome'];
         $orderBy = in_array($orderBy, $columns) ? $orderBy : 'produto_id';
         $direction = strtolower($direction) === 'asc' ? 'ASC' : 'DESC';
+        $filterCategory = $categoryId ? " AND p.categoria_id = :categoria_id " : "";
 
         $sql = "
             SELECT p.*, u.nome AS unidade_nome, u.simbolo, c.nome AS categoria_nome
             FROM produto p
             JOIN unidade_medida u ON u.unidade_medida_id = p.unidade_medida_id
             JOIN categoria c ON c.categoria_id = p.categoria_id
-            WHERE p.nome LIKE :search
+            WHERE p.nome LIKE :search $filterCategory
             ORDER BY $orderBy $direction
             LIMIT :limit OFFSET :offset
         ";
@@ -30,14 +31,19 @@ class Produto extends Model
         $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
-        $stmt->execute();
+        if ($categoryId) $stmt->bindValue(':categoria_id', $categoryId, PDO::PARAM_INT);
 
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function count(string $busca = ''): int {
-        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM produto WHERE nome LIKE :busca");
+    public function count(string $busca = '', int $categoriaId = 0): int {
+        $filterCategory = $categoriaId ? " AND categoria_id = :categoria_id " : "";
+
+        $stmt = $this->pdo->prepare("SELECT COUNT(*) FROM produto WHERE nome $filterCategory LIKE :busca");
         $stmt->bindValue(':busca', '%' . $busca . '%', PDO::PARAM_STR);
+        if ($categoriaId) $stmt->bindValue(':categoria_id', $categoriaId, PDO::PARAM_INT);
+
         $stmt->execute();
         return (int) $stmt->fetchColumn();
     }

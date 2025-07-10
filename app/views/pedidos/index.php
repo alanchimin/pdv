@@ -24,29 +24,10 @@
             </div>
 
             <!-- Grid de produtos -->
-            <div class="row" id="grid-produtos">
-                <?php foreach ($produtos as $produto): ?>
-                    <div class="col-md-3 mb-4">
-                        <div class="card h-100 produto-item"
-                            data-id="<?= $produto['produto_id'] ?>"
-                            data-nome="<?= htmlspecialchars($produto['nome']) ?>"
-                            data-valor="<?= $produto['valor_unitario'] ?>"
-                            data-categoria-id="<?= $produto['categoria_id'] ?>"
-                            data-unidade="<?= htmlspecialchars($produto['simbolo']) ?>">
-
-                            <img 
-                                src="<?= htmlspecialchars($produto['imagem'] ?? '/images/placeholder.svg') ?>" 
-                                class="card-img-top produto-img" 
-                                alt="<?= htmlspecialchars($produto['nome']) ?>"
-                                onerror="this.onerror=null; this.src='/images/placeholder.svg';">
-
-                            <div class="card-body d-flex align-items-center justify-content-center" style="height: 60px;">
-                                <h5 class="card-title text-center mb-0" style="font-size: 1rem;"><?= htmlspecialchars($produto['nome']) ?></h5>
-                            </div>
-                        </div>
-
-                    </div>
-                <?php endforeach; ?>
+            <div id="produtos-grid-content">
+                <div class="text-center my-5">
+                    <div class="spinner-border text-primary" role="status"></div>
+                </div>
             </div>
         </div>
 

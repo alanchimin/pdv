@@ -18,12 +18,7 @@ TODO:
         autoatendimento:1 -> Apenas a tela de Pedidos
 
     - Tela de Pedidos:
-        - Adicionar título
-        - Alterar Itens do Pedido para Itens Adicionados
-        - Após fazer login, deve limpar os itens do localStorage
-        - Corrigir o campo de pesquisa
         - Melhorar a lista das categorias adicionando um ícone intuitivo (adicionar campo no BD e permitir adicionar o ícone no cadastro da categoria)
-        - Adicionar paginação na grid de produtos
     - Tela de Produtos:
         - A tela de listagem com busca, cadastro, etc, deve ser abstraída para ser reutilizada em outras telas
 

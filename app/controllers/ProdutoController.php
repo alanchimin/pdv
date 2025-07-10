@@ -17,8 +17,8 @@ class ProdutoController
         $direction = $_GET['direcao'] ?? 'desc';
 
         $produtoModel = new Produto();
-        $totalProdutos = $produtoModel->count($search);
-        $totalPages = ceil($totalProdutos / $limit);
+        $total = $produtoModel->count($search);
+        $totalPages = ceil($total / $limit);
 
         $produtos = $produtoModel->list($search, $limit, $offset, $orderBy, $direction);
 

@@ -17,24 +17,18 @@ class Pedido {
     }
 
     listen() {
-        this.$buscaProduto.on('input', Utils.debounce(this.buscarProdutos.bind(this)));
+        this.$buscaProduto.on('input', Utils.debounce(() => this.carregarProdutos(), 300));
+        this.$categoriaBtns.on('click', (e) => {
+            $('.btn-group .btn').removeClass('active');
+            $(e.currentTarget).addClass('active');
+            this.carregarProdutos();
+        });
         this.$categoriaBtns.on('click', this.handleCategoriaClick.bind(this));
         this.$produtos.on('click', this.abrirModalProduto.bind(this));
         $('input[name="tipo-desconto"]').on('change', this.toggleTipoDesconto.bind(this));
         this.$btnAdicionar.on('click', this.adicionarItem.bind(this));
         this.$btnFinalizar.on('click', this.finalizarPedido.bind(this));
         this.$btnConfirmarLimpeza.on('click', this.limparCarrinho.bind(this));
-    }
-
-    buscarProdutos() {
-        const termo = $('#busca-produto').val().toLowerCase();
-
-        this.$produtos.each(function () {
-            const $el = $(this);
-            const nome = $el.data('nome').toLowerCase();
-            const match = nome.includes(termo);
-            $el.closest('.col-md-3').toggle(match);
-        });
     }
 
     handleCategoriaClick(e) {
@@ -228,10 +222,37 @@ class Pedido {
         this.$placeholder.toggle(this.$listaItens.find('li').length === 0);
     }
 
-
     carregarTela() {
         this.carregarListaDoLocalStorage();
         this.atualizarTotais();
+        this.carregarProdutos();
+    }
+
+    carregarProdutos(pagina = 1) {
+        const termo = this.$buscaProduto.val();
+        const categoriaId = $('.btn-group .btn.active').data('categoria-id');
+
+        $('#grid-produtos').html('<div class="text-center w-100 my-5"><div class="spinner-border text-primary" role="status"></div></div>');
+
+        $.get('/pedido/grid', {
+            q: termo,
+            categoria_id: categoriaId,
+            pagina: pagina,
+            ajax: 1
+        }, (html) => {
+            $('#produtos-grid-content').replaceWith(html);
+            this.$produtos = $('.produto-item'); // rebind
+            this.$produtos.on('click', this.abrirModalProduto.bind(this));
+            this.bindPaginacao();
+        });
+    }
+
+    bindPaginacao() {
+        $('#produtos-grid-content .pagination a.page-link').on('click', (e) => {
+            e.preventDefault();
+            const pagina = $(e.currentTarget).data('pagina');
+            this.carregarProdutos(pagina);
+        });
     }
 }
 
