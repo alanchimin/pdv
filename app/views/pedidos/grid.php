@@ -32,10 +32,10 @@
 
                         <?php if ($desconto > 0): ?>
                             <div class="small text-muted text-decoration-line-through" style="line-height: 1;">
-                                De R$ <?= number_format($valor, 2, ',', '.') ?>
+                                De: R$ <?= number_format($valor, 2, ',', '.') ?>
                             </div>
                             <div class="fw-semibold text-success" style="font-size: 1rem; line-height: 1.1;">
-                                Por R$ <?= number_format($valorFinal, 2, ',', '.') ?>
+                                Por: R$ <?= number_format($valorFinal, 2, ',', '.') ?>
                             </div>
                         <?php else: ?>
                             <div class="fw-semibold text-dark" style="font-size: 1rem;">

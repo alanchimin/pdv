@@ -18,6 +18,8 @@ class Pedido {
         this.$descontoContainer = $('#desconto-container');
         this.$descontoUnitario = $('#desconto-unitario');
         this.$descontoTotal = $('#desconto-total');
+        this.$btnConfirmarPedido = $('#btn-confirmar-pedido');
+        this.$selectFormaPagamento = $('#forma_pagamento_id');
 
         this.listen();
         this.carregarTela();
@@ -32,6 +34,7 @@ class Pedido {
         this.$btnConfirmarLimpeza.on('click', this.limparCarrinho.bind(this));
         this.$listaItens.on('click', '.btn-remover-item', this.handleClickBtnRemoverItem.bind(this));
         this.$quantidade.on('input', this.atualizarResumoPreco.bind(this));
+        this.$btnConfirmarPedido.on('click', this.handleClickBtnConfirmarPedido.bind(this));
     }
 
     handleCategoriaClick(e) {
@@ -148,26 +151,76 @@ class Pedido {
         const itens = this.obterItens();
         if (itens.length === 0) return this.mostrarErroFinalizar('Nenhum item no pedido.');
 
-        $.post('/pedido/store', { itens: JSON.stringify(itens) }, (res) => {
-            if (res.success) {
-                $.getJSON(`/pedido/getPdfLink/${res.pedido_id}`, (pdfData) => {
-                    if (pdfData.url) {
-                        window.open(pdfData.url, '_blank');
-                        this.limparCarrinho();
-                    } else {
-                        this.mostrarErroFinalizar('Erro ao gerar o PDF.');
-                    }
-                });
-            } else {
-                this.mostrarErroFinalizar('Erro ao salvar o pedido.');
-            }
-        }, 'json');
+        const $tbody = $('#modalConfirmarPedido table tbody');
+        $tbody.empty(); // limpa o conteúdo atual
+
+        // Renderiza até os 3 primeiros itens
+        itens.slice(0, 3).forEach(item => {
+            $tbody.append(`
+                <tr class="item-pedido">
+                    <td colspan="2">${item.nome} - ${item.quantidade} ${item.unidade}</td>
+                </tr>
+            `);
+        });
+
+        // Se houver mais de 3 itens, mostra o "+N itens"
+        if (itens.length > 3) {
+            const restante = itens.length - 3;
+            const texto = restante === 1 ? 'item' : 'itens';
+            $tbody.append(`<tr class="item-pedido"><td colspan="2">+${restante} ${texto}</td></tr>`);
+        }
+
+        // Totalizadores
+        $tbody.append(`
+            <tr class="totalizador">
+                <td class="text-start"><b>Subtotal</b></td>
+                <td class="text-end" id="resumo-subtotal">${$('#pedido-subtotal').text()}</td>
+            </tr>
+            <tr class="totalizador">
+                <td class="text-start"><b>Descontos</b></td>
+                <td class="text-end" id="resumo-descontos">${$('#pedido-descontos').text()}</td>
+            </tr>
+            <tr class="totalizador">
+                <td class="text-start"><b>Total</b></td>
+                <td class="text-end" id="resumo-total">${$('#pedido-total').text()}</td>
+            </tr>
+        `);
+
+        // Limpa erros anteriores e reset no select
+        $('#erro-confirmacao-pedido').addClass('d-none').text('');
+        this.$selectFormaPagamento.val('');
+
+        $('#modalConfirmarPedido').modal('show');
     }
 
     limparCarrinho() {
         this.$listaItens.empty();
         localStorage.removeItem('itensPedido');
         this.atualizarTotais();
+    }
+
+    handleClickBtnConfirmarPedido() {
+        const formaPagamentoId = this.$selectFormaPagamento.val();
+        const itens = this.obterItens();
+
+        $.post('/pedido/store', {
+            forma_pagamento_id: formaPagamentoId,
+            itens: JSON.stringify(itens)
+        }, (res) => {
+            if (res.success) {
+                $.getJSON(`/pedido/getPdfLink/${res.pedido_id}`, (pdfData) => {
+                    if (pdfData.url) {
+                        window.open(pdfData.url, '_blank');
+                        $('#modalConfirmarPedido').modal('hide');
+                        this.limparCarrinho();
+                    } else {
+                        $('#erro-confirmacao-pedido').removeClass('d-none').text('Erro ao gerar o PDF.');
+                    }
+                });
+            } else {
+                $('#erro-confirmacao-pedido').removeClass('d-none').text(res.error || 'Erro ao salvar o pedido.');
+            }
+        }, 'json');
     }
 
     mostrarErro(msg) {

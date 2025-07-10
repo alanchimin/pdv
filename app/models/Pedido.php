@@ -6,16 +6,6 @@ use App\core\Model;
 
 class Pedido extends Model
 {
-    public function list() {
-        $stmt = $this->pdo->query("
-            SELECT p.*, f.nome AS forma_pagamento
-            FROM pedido p
-            JOIN forma_pagamento f ON f.forma_pagamento_id = p.forma_pagamento_id
-            ORDER BY p.data_hora DESC
-        ");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
     public function create($data) {
         $sql = "INSERT INTO pedido (forma_pagamento_id) VALUES (:forma_pagamento_id)";
 
@@ -23,11 +13,6 @@ class Pedido extends Model
         $stmt->execute($data);
 
         return $this->pdo->lastInsertId();
-    }
-
-    public function getFormasPagamento() {
-        $stmt = $this->pdo->query("SELECT * FROM forma_pagamento ORDER BY nome");
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function find($pedido_id) {

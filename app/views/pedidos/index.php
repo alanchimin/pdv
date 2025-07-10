@@ -39,7 +39,7 @@
 
         <!-- Coluna 3: Carrinho -->
         <div class="col-md-4">
-            <h4>Itens do Pedido</h4>
+            <h4><i class="fa-solid fa-shopping-cart me-2"></i>Carrinho</h4>
 
             <div class="border rounded p-2" style="max-height: 300px; overflow-y: auto;">
                 <ul class="list-group mb-3" id="lista-itens"></ul>
@@ -61,7 +61,7 @@
                 </tr>
             </table>
 
-            <button class="btn btn-outline-danger w-100 mb-2" data-bs-toggle="modal" data-bs-target="#modalLimparPedido">Limpar Itens do Pedido</button>
+            <button class="btn btn-outline-danger w-100 mb-2" data-bs-toggle="modal" data-bs-target="#modalLimparCarrinho">Limpar Carrinho</button>
 
             <div id="mensagem-finalizar" class="alert alert-danger d-none" role="alert"></div>
             <button class="btn btn-primary w-100" id="btn-finalizar-pedido">Finalizar Pedido</button>
@@ -116,16 +116,54 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalLimparPedido" tabindex="-1" aria-hidden="true">
+<!-- Modal de Confirmação de Limpeza do Carrinho -->
+<div class="modal fade" id="modalLimparCarrinho" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header"><h5 class="modal-title">Confirmar Limpeza</h5></div>
             <div class="modal-body">
-                Deseja realmente limpar todos os itens do pedido?
+                Deseja realmente remover todos os itens do carrinho?
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button class="btn btn-danger" id="btn-confirmar-limpeza" data-bs-dismiss="modal">Limpar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Confirmação de Pedido -->
+<div class="modal fade" id="modalConfirmarPedido" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar Pedido</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <table class="table table-sm mb-0">
+                        <tbody id="resumo-itens-lista"></tbody>
+                    </table>
+                </div>
+
+                <div class="mb-3">
+                    <label for="forma_pagamento_id" class="form-label">Forma de Pagamento:</label>
+                    <select class="form-select" id="forma_pagamento_id" required>
+                        <option value="">Selecione</option>
+                        <?php foreach ($formasPagamento as $fp): ?>
+                        <option value="<?= $fp['forma_pagamento_id'] ?>">
+                            <?= htmlspecialchars($fp['nome']) ?>
+                        </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="alert alert-danger d-none" id="erro-confirmacao-pedido"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btn-confirmar-pedido">Finalizar</button>
             </div>
         </div>
     </div>

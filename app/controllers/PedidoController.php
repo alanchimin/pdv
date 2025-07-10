@@ -8,6 +8,7 @@ use App\models\Pedido;
 use App\models\Item;
 use App\models\Categoria;
 use App\models\Produto;
+use App\models\FormaPagamento;
 
 class PedidoController
 {
@@ -17,6 +18,9 @@ class PedidoController
 
         $produtoModel = new Produto();
         $produtos = $produtoModel->all();
+
+        $formasPagamentoModel = new FormaPagamento();
+        $formasPagamento = $formasPagamentoModel->all();
 
         include "../views/pedidos/index.php";
     }
@@ -54,14 +58,8 @@ class PedidoController
             // Inicia transação
             $pdo->beginTransaction();
 
-            // Usa a primeira forma de pagamento disponível (ajuste conforme seu fluxo)
-            $formasPagamento = $pedidoModel->getFormasPagamento();
-            if (empty($formasPagamento)) {
-                throw new \Exception("Nenhuma forma de pagamento cadastrada.");
-            }
-
             $pedido_id = $pedidoModel->create([
-                'forma_pagamento_id' => $formasPagamento[0]['forma_pagamento_id']
+                'forma_pagamento_id' => $_POST['forma_pagamento_id']
             ]);
 
             // Insere os itens do pedido
