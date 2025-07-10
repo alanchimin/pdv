@@ -17,6 +17,8 @@ CREATE TABLE produto (
     tipo_imagem ENUM('upload', 'url') NOT NULL DEFAULT 'url',
     unidade_medida_id INT NOT NULL,
     valor_unitario DECIMAL(10,2) NOT NULL,
+    desconto DECIMAL(10,2),
+    tipo_desconto ENUM('percentual', 'reais'),
     categoria_id INT NOT NULL,
     FOREIGN KEY (unidade_medida_id) REFERENCES unidade_medida(unidade_medida_id),
     FOREIGN KEY (categoria_id) REFERENCES categoria(categoria_id)
