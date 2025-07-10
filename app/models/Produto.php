@@ -12,7 +12,7 @@ class Produto extends Model
     }
 
     public function list(string $search = '', int $limit = 10, int $offset = 0, string $orderBy = 'produto_id', string $direction = 'desc', int $categoryId = 0): array {
-        $columns = ['produto_id', 'nome', 'valor_unitario', 'simbolo', 'categoria_nome'];
+        $columns = ['produto_id', 'nome', 'valor_unitario', 'simbolo', 'categoria_nome', 'desconto'];
         $orderBy = in_array($orderBy, $columns) ? $orderBy : 'produto_id';
         $direction = strtolower($direction) === 'asc' ? 'ASC' : 'DESC';
         $filterCategory = $categoryId ? " AND p.categoria_id = :categoria_id " : "";
@@ -50,15 +50,17 @@ class Produto extends Model
 
     public function upsert(array $data): int {
         $sql = "
-            INSERT INTO produto (produto_id, nome, imagem, tipo_imagem, unidade_medida_id, valor_unitario, categoria_id)
-            VALUES (:produto_id, :nome, :imagem, :tipo_imagem, :unidade_medida_id, :valor_unitario, :categoria_id)
+            INSERT INTO produto (produto_id, nome, imagem, tipo_imagem, unidade_medida_id, valor_unitario, categoria_id, desconto, tipo_desconto)
+            VALUES (:produto_id, :nome, :imagem, :tipo_imagem, :unidade_medida_id, :valor_unitario, :categoria_id, :desconto, :tipo_desconto)
             ON DUPLICATE KEY UPDATE
                 nome = VALUES(nome),
                 imagem = VALUES(imagem),
                 tipo_imagem = VALUES(tipo_imagem),
                 unidade_medida_id = VALUES(unidade_medida_id),
                 valor_unitario = VALUES(valor_unitario),
-                categoria_id = VALUES(categoria_id)
+                categoria_id = VALUES(categoria_id),
+                desconto = VALUES(desconto),
+                tipo_desconto = VALUES(tipo_desconto)
         ";
 
         $stmt = $this->pdo->prepare($sql);

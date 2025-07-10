@@ -60,6 +60,13 @@ class ProdutoController
             $imagem_nome = $_POST['imagem_url'] ?: null;
         }
 
+        $desconto = null;
+        $tipoDesconto = null;
+        if (!empty($_POST['desconto']) && !empty($_POST['tipo_desconto'])) {
+            $desconto = $_POST['desconto'];
+            $tipoDesconto = $_POST['tipo_desconto'];
+        }
+
         $data = [
             'produto_id' => $_POST['produto_id'] ?? null,
             'nome' => $_POST['nome'],
@@ -67,6 +74,8 @@ class ProdutoController
             'tipo_imagem' => $tipo_imagem,
             'unidade_medida_id' => $_POST['unidade_medida_id'],
             'valor_unitario' => $_POST['valor_unitario'],
+            'desconto' => $desconto,
+            'tipo_desconto' => $tipoDesconto,
             'categoria_id' => $_POST['categoria_id']
         ];
 

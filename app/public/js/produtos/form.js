@@ -8,6 +8,14 @@ class ProdutoForm {
         this.$radioUrl = this.$ctrl.find('#radio-url');
         this.$radioUpload = this.$ctrl.find('#radio-upload');
 
+        this.$radioPercentual = this.$ctrl.find('#desconto-percentual-radio');
+        this.$radioReais = this.$ctrl.find('#desconto-reais-radio');
+        this.$campoPercentual = this.$ctrl.find('#campo-desconto-percentual');
+        this.$campoReais = this.$ctrl.find('#campo-desconto-reais');
+        this.$inputPercentual = this.$ctrl.find('#desconto_porcentagem');
+        this.$inputReais = this.$ctrl.find('#desconto_reais');
+        this.$inputHidden = this.$ctrl.find('#desconto_valor');
+
         this.$selectCategoria = this.$ctrl.find('#categoria_id');
         this.$novaCategoriaNome = this.$ctrl.find('#nova_categoria_nome');
         this.$btnSalvarCategoria = this.$ctrl.find('#btn-salvar-categoria');
@@ -34,6 +42,7 @@ class ProdutoForm {
         this.initUploadPreview();
         this.initSalvarCategoria();
         this.initSalvarUnidadeMedida();
+        this.initTipoDesconto();
         this.initUpdate();
     }
 
@@ -151,6 +160,27 @@ class ProdutoForm {
         });
     }
 
+    initTipoDesconto() {
+        this.$radioPercentual.on('change', this.atualizarDesconto.bind(this));
+        this.$radioReais.on('change', this.atualizarDesconto.bind(this));
+        this.$inputPercentual.on('input', this.atualizarDesconto.bind(this));
+        this.$inputReais.on('input', this.atualizarDesconto.bind(this));
+
+        this.atualizarDesconto();
+    }
+
+    atualizarDesconto() {
+        if (this.$radioPercentual.is(':checked')) {
+            this.$campoPercentual.removeClass('d-none');
+            this.$campoReais.addClass('d-none');
+            this.$inputHidden.val(this.$inputPercentual.val());
+        } else {
+            this.$campoPercentual.addClass('d-none');
+            this.$campoReais.removeClass('d-none');
+            this.$inputHidden.val(this.$inputReais.val());
+        }
+    }
+
     initUpdate() {
         if (!window.updateData) return;
 
@@ -170,6 +200,11 @@ class ProdutoForm {
             this.uploadAtual = caminho;
             this.$imagemPreview.attr('src', caminho).show();
         }
+
+        this.$inputPercentual.val(p.tipo_desconto === 'percentual' ? p.desconto : 0);
+        this.$inputReais.val(p.tipo_desconto === 'reais' ? p.desconto : 0);
+        const $radio = p.tipo_desconto == 'reais' ? this.$radioReais : this.$radioPercentual;
+        $radio.prop('checked', true).trigger('change');
     }
 }
 

@@ -19,15 +19,25 @@
             <div class="row g-3">
 
                 <!-- Nome -->
-                <div class="col-xs-12 col-md-6 col-lg-4">
+                <div class="col-xs-12 col-md-6">
                     <label for="nome" class="form-label">Nome:</label>
                     <input type="text" id="nome" name="nome" class="form-control" required>
                 </div>
 
-                <!-- Valor Unitário -->
-                <div class="col-xs-12 col-md-6 col-lg-2">
-                    <label for="valor_unitario" class="form-label">Valor Unitário:</label>
-                    <input type="number" id="valor_unitario" name="valor_unitario" step="0.01" class="form-control" required>
+                <!-- Categoria -->
+                <div class="col-xs-12 col-md-6 col-lg-3">
+                    <label for="categoria_id" class="form-label">Categoria:</label><br>
+                    <div class="input-group">
+                        <select id="categoria_id" name="categoria_id" class="selectpicker" data-live-search="true" required>
+                            <option value="">Selecione</option>
+                            <?php foreach ($categorias as $categoria): ?>
+                                <option value="<?= $categoria['categoria_id'] ?>">
+                                    <?= htmlspecialchars($categoria['nome']) ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal_nova_categoria">+</button>
+                    </div>
                 </div>
 
                 <!-- Un. Medida -->
@@ -46,20 +56,46 @@
                     </div>
                 </div>
 
-                <!-- Categoria -->
+                <!-- Valor Unitário -->
                 <div class="col-xs-12 col-md-6 col-lg-3">
-                    <label for="categoria_id" class="form-label">Categoria:</label><br>
+                    <label for="valor_unitario" class="form-label">Valor Unitário:</label>
                     <div class="input-group">
-                        <select id="categoria_id" name="categoria_id" class="selectpicker" data-live-search="true" required>
-                            <option value="">Selecione</option>
-                            <?php foreach ($categorias as $categoria): ?>
-                                <option value="<?= $categoria['categoria_id'] ?>">
-                                    <?= htmlspecialchars($categoria['nome']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modal_nova_categoria">+</button>
+                        <input type="number" id="valor_unitario" name="valor_unitario" step="0.01" class="form-control" required>
+                        <span class="input-group-text">R$</span>
                     </div>
+                </div>
+
+                <!-- Desconto -->
+                <div class="col-xs-12 col-md-6 col-lg-3">
+                    <div class="d-flex">
+                        <label class="form-label mb-0">Desconto</label>
+                        <div class="ms-2">
+                            <div class="form-check form-check-inline mb-0">
+                                <input class="form-check-input" type="radio" name="tipo_desconto" id="desconto-percentual-radio" value="percentual" checked>
+                                <label class="form-check-label" for="desconto-percentual-radio">%</label>
+                            </div>
+                            <div class="form-check form-check-inline mb-0">
+                                <input class="form-check-input" type="radio" name="tipo_desconto" id="desconto-reais-radio" value="reais">
+                                <label class="form-check-label" for="desconto-reais-radio">R$</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-2" id="campo-desconto-percentual">
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="desconto_porcentagem" min="0" max="100" value="0">
+                            <span class="input-group-text">%</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-2 d-none" id="campo-desconto-reais">
+                        <div class="input-group">
+                            <input type="number" class="form-control" id="desconto_reais" min="0" step="0.01" value="0.00">
+                            <span class="input-group-text">R$</span>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="desconto" id="desconto_valor">
                 </div>
 
                 <!-- Tipo de imagem -->
