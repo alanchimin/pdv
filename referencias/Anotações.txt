@@ -16,9 +16,6 @@ TODO:
     - Login:
         admin:1 -> Todas as funcionalidades
         autoatendimento:1 -> Apenas a tela de Pedidos
-
-    - Tela de Pedidos:
-        - Adicionar o modal para selecionar a forma de pagamento ao finalizar o pedido
     - Tela de Produtos:
         - A tela de listagem com busca, cadastro, etc, deve ser abstraída para ser reutilizada em outras telas
 
