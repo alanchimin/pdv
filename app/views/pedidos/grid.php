@@ -15,8 +15,9 @@
                         alt="<?= htmlspecialchars($produto['nome']) ?>"
                         onerror="this.onerror=null; this.src='/images/placeholder.svg';">
 
-                    <div class="card-body d-flex align-items-center justify-content-center" style="height: 60px;">
-                        <h5 class="card-title text-center mb-0" style="font-size: 1rem;">
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        <h5 class="card-title text-center mb-0"
+                            title="<?= htmlspecialchars($produto['nome']) ?>">
                             <?= htmlspecialchars($produto['nome']) ?>
                         </h5>
                     </div>

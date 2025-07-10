@@ -5,29 +5,28 @@
 
 <div class="container-fluid mt-4">
     <div class="row">
-        <!-- Painel esquerdo: Produtos disponíveis -->
-        <div class="col-md-8">
+        <!-- Coluna 1: Categorias -->
+        <div class="col-md-2">
+            <div class="list-group mb-3 gap-1" id="lista-categorias">
+                <button type="button" class="categoria-item btn btn-outline-secondary active" data-categoria-id="0">
+                    <i class="fa-solid fa-house me-2"></i> Todas
+                </button>
+                <?php foreach ($categorias as $cat): ?>
+                    <button type="button" class="categoria-item btn btn-outline-secondary" data-categoria-id="<?= $cat['categoria_id'] ?>">
+                        <?php if (!empty($cat['icone'])): ?>
+                            <i class="<?= htmlspecialchars($cat['icone']) ?> me-2"></i>
+                        <?php endif; ?>
+                        <?= htmlspecialchars($cat['nome']) ?>
+                    </button>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <!-- Coluna 2: Produtos -->
+        <div class="col-md-6">
             <!-- Campo de pesquisa -->
             <div class="mb-3">
                 <input type="text" id="busca-produto" class="form-control" placeholder="Buscar produto...">
-            </div>
-
-            <!-- Lista horizontal de categorias -->
-            <div class="mb-3 overflow-auto">
-                <div class="btn-group" role="group" aria-label="Categorias">
-                    <button type="button" class="btn btn-outline-secondary active" data-categoria-id="0">
-                        <i class="fa-solid fa-house"></i>
-                        <span>Todas</span>
-                    </button>
-                    <?php foreach ($categorias as $cat): ?>
-                        <button type="button" class="btn btn-outline-secondary" data-categoria-id="<?= $cat['categoria_id'] ?>">
-                            <?php if (!empty($cat['icone'])): ?>
-                                <i class="<?= htmlspecialchars($cat['icone']) ?>"></i>
-                            <?php endif; ?>
-                            <span><?= htmlspecialchars($cat['nome']) ?></span>
-                        </button>
-                    <?php endforeach; ?>
-                </div>
             </div>
 
             <!-- Grid de produtos -->
@@ -38,7 +37,7 @@
             </div>
         </div>
 
-        <!-- Painel direito: Carrinho -->
+        <!-- Coluna 3: Carrinho -->
         <div class="col-md-4">
             <h4>Itens do Pedido</h4>
 

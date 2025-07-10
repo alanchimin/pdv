@@ -27,7 +27,7 @@ class PedidoController
         $currentPage = max(1, (int) ($_GET['pagina'] ?? 1));
         $limit = 12;
         $offset = ($currentPage - 1) * $limit;
-        $categoriaId = $_GET['categoria_id'] ?? null;
+        $categoriaId = $_GET['categoria_id'];
 
         $produtoModel = new Produto();
         $total = $produtoModel->count($search, $categoriaId);

@@ -1,6 +1,6 @@
 class Pedido {
     constructor() {
-        this.$categoriaBtns = $('.btn-group [data-categoria-id]');
+        this.$categoriaBtns = $('.categoria-item');
         this.$produtos = $('.produto-item');
         this.$modal = $('#modalProduto');
         this.$listaItens = $('#lista-itens');
@@ -18,11 +18,6 @@ class Pedido {
 
     listen() {
         this.$buscaProduto.on('input', Utils.debounce(() => this.carregarProdutos()));
-        this.$categoriaBtns.on('click', (e) => {
-            $('.btn-group .btn').removeClass('active');
-            $(e.currentTarget).addClass('active');
-            this.carregarProdutos();
-        });
         this.$categoriaBtns.on('click', this.handleCategoriaClick.bind(this));
         this.$produtos.on('click', this.abrirModalProduto.bind(this));
         $('input[name="tipo-desconto"]').on('change', this.toggleTipoDesconto.bind(this));
@@ -33,15 +28,9 @@ class Pedido {
     }
 
     handleCategoriaClick(e) {
-        const categoriaId = $(e.currentTarget).data('categoria-id');
-        $('.btn-group .btn').removeClass('active');
+        $('.categoria-item').removeClass('active');
         $(e.currentTarget).addClass('active');
-
-        this.$produtos.each(function () {
-            const $col = $(this).closest('.col-md-3');
-            const prodCatId = $(this).data('categoria-id');
-            $col.toggle(categoriaId === 0 || prodCatId == categoriaId);
-        });
+        this.carregarProdutos();
     }
 
     abrirModalProduto(e) {
@@ -250,7 +239,7 @@ class Pedido {
 
     carregarProdutos(pagina = 1) {
         const termo = this.$buscaProduto.val();
-        const categoriaId = $('.btn-group .btn.active').data('categoria-id');
+        const categoriaId = $('.categoria-item.active').data('categoria-id');
 
         $('#grid-produtos').html('<div class="text-center w-100 my-5"><div class="spinner-border text-primary" role="status"></div></div>');
 
