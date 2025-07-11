@@ -23,6 +23,9 @@ cp .env.development .env
 docker-compose up -d
 ```
 
+### 4. A aplicação estará disponível em:
+[http://localhost:8080](http://localhost:8080)
+
 ---
 
 ## 🔐 Autenticação
