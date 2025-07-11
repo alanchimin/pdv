@@ -29,6 +29,7 @@
             <li class="nav-item"><a href="/produto" class="nav-link text-white">Produtos</a></li>
             <li class="nav-item"><a href="/categoria" class="nav-link text-white">Categorias</a></li>
             <li class="nav-item"><a href="/unidadeMedida" class="nav-link text-white">Unidades de Medida</a></li>
+            <li class="nav-item"><a href="/auth/logout" class="nav-link text-white">Sair</a></li>
         </ul>
     </nav>
     <main class="flex-grow-1 p-0">
