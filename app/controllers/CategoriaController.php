@@ -1,31 +1,16 @@
 <?php
 namespace App\controllers;
 
+use App\core\ListagemTrait;
 use App\models\Categoria;
 
 class CategoriaController
 {
+    use ListagemTrait;
+
     public function index()
     {
-        $search = $_GET['q'] ?? '';
-        $currentPage = max(1, (int) ($_GET['pagina'] ?? 1));
-        $limit = 10;
-        $offset = ($currentPage - 1) * $limit;
-        $orderBy = $_GET['ordem'] ?? 'categoria_id';
-        $direction = $_GET['direcao'] ?? 'asc';
-
-        $categoriaModel = new Categoria();
-        $total = $categoriaModel->count($search);
-        $totalPages = ceil($total / $limit);
-
-        $categorias = $categoriaModel->list($search, $limit, $offset, $orderBy, $direction);
-
-        if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
-            include "../views/categorias/table.php";
-            exit;
-        }
-
-        include "../views/categorias/index.php";
+        $this->listar(new Categoria(), 'categorias/index.php', 'categorias/table.php', 'categoria');
     }
 
     public function form()

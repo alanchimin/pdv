@@ -31,12 +31,13 @@ class PedidoController
         $currentPage = max(1, (int) ($_GET['pagina'] ?? 1));
         $limit = 12;
         $offset = ($currentPage - 1) * $limit;
-        $categoriaId = $_GET['categoria_id'];
+        $categoryId = $_GET['categoria_id'] ?? null;
+        $filters = empty($categoryId) ? [] : [ 'categoria_id' => $categoryId ];
 
         $produtoModel = new Produto();
-        $total = $produtoModel->count($search, $categoriaId);
+        $total = $produtoModel->count($search, $filters);
         $totalPages = ceil($total / $limit);
-        $produtos = $produtoModel->list($search, $limit, $offset, 'nome', 'asc', $categoriaId);
+        $produtos = $produtoModel->list($search, $limit, $offset, 'nome', 'asc', $filters);
 
         include "../views/pedidos/grid.php";
     }

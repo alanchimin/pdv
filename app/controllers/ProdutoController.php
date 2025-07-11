@@ -1,33 +1,21 @@
 <?php
 namespace App\controllers;
 
+use App\core\ListagemTrait;
 use App\models\Produto;
 use App\models\UnidadeMedida;
 use App\models\Categoria;
 
 class ProdutoController
 {
+    use ListagemTrait;
+
     public function index()
     {
-        $search = $_GET['q'] ?? '';
-        $currentPage = max(1, (int) ($_GET['pagina'] ?? 1));
-        $limit = 10;
-        $offset = ($currentPage - 1) * $limit;
-        $orderBy = $_GET['ordem'] ?? 'produto_id';
-        $direction = $_GET['direcao'] ?? 'desc';
+        $categoryId = $_GET['categoria_id'] ?? null;
+        $filters = empty($categoryId) ? [] : [ 'categoria_id' => $categoryId ];
 
-        $produtoModel = new Produto();
-        $total = $produtoModel->count($search);
-        $totalPages = ceil($total / $limit);
-
-        $produtos = $produtoModel->list($search, $limit, $offset, $orderBy, $direction);
-
-        if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
-            include "../views/produtos/table.php";
-            exit;
-        }
-
-        include "../views/produtos/index.php";
+        $this->listar(new Produto(), 'produtos/index.php', 'produtos/table.php', 'produto', $filters);
     }
 
     public function form()

@@ -1,31 +1,16 @@
 <?php
 namespace App\controllers;
 
+use App\core\ListagemTrait;
 use App\models\UnidadeMedida;
 
 class UnidadeMedidaController
 {
+    use ListagemTrait;
+
     public function index()
     {
-        $search = $_GET['q'] ?? '';
-        $currentPage = max(1, (int) ($_GET['pagina'] ?? 1));
-        $limit = 10;
-        $offset = ($currentPage - 1) * $limit;
-        $orderBy = $_GET['ordem'] ?? 'unidade_medida_id';
-        $direction = $_GET['direcao'] ?? 'asc';
-
-        $unidadeModel = new UnidadeMedida();
-        $total = $unidadeModel->count($search);
-        $totalPages = ceil($total / $limit);
-
-        $unidades = $unidadeModel->list($search, $limit, $offset, $orderBy, $direction);
-
-        if (isset($_GET['ajax']) && $_GET['ajax'] == 1) {
-            include "../views/unidades/table.php";
-            exit;
-        }
-
-        include "../views/unidades/index.php";
+        $this->listar(new UnidadeMedida(), 'unidades/index.php', 'unidades/table.php', 'unidadeMedida');
     }
 
     public function form()
