@@ -4,32 +4,24 @@ Sistema de Ponto de Venda (PDV) para gerenciamento de pedidos e produtos.
 
 ---
 
-## 🚀 Tecnologias Utilizadas
+## ⚙️ Instalação
 
-- **Backend**: PHP (orientado a objetos, padrão MVC)
-- **Frontend**: HTML5, CSS3, Bootstrap 5, jQuery
-- **Banco de Dados**: MySQL (via PDO)
-- **Outros recursos**:
-  - Font Awesome (ícones dinâmicos)
-  - Bootstrap Toasts e Modals
-  - Sistema de permissões baseado em telas por usuário
-  - Docker
+### 1. Clone o repositório
 
----
+```bash
+git clone https://github.com/alanchimin/pdv.git
+cd pdv
+```
 
-## 📁 Estrutura do Projeto
+### 2. Configurar o arquivo .env
+```bash
+cp .env.development .env
+```
 
-/app
-/controllers # Lógica de controle
-/models # Acesso a dados via PDO
-/views # Arquivos HTML/PHP das telas
-
-/assets # Fontes, imagens, ícones
-/css # Estilos personalizados
-/js # Scripts JS por módulo (produtos, pedidos, etc.)
-
-/public # Ponto de entrada HTTP (index.php)
-/database # Scripts SQL de estrutura e seed
+### 3. Rodar a aplicação (utilizando docker)
+```bash
+docker-compose up -d
+```
 
 ---
 
@@ -40,19 +32,7 @@ Sistema de Ponto de Venda (PDV) para gerenciamento de pedidos e produtos.
 - Usuários e permissões estão vinculados diretamente às rotas disponíveis.
 - Usuários disponíveis:
     - Login: admin | Senha: 1 | Acesso total
-    - Login: autoatendimento | Senha 1 | Acesso limitado à tela de Pedidos
-
----
-
-## 🧱 Modelagem do Banco de Dados
-
-Tabelas principais:
-
-- `usuario`, `tela`, `usuario_tela`
-- `produto`, `categoria`, `unidade_medida`
-- `pedido`, `item`, `forma_pagamento`
-
-Ver arquivo [`database/schema.sql`](database/schema.sql) (exemplo incluído no código).
+    - Login: autoatendimento | Senha: 1 | Acesso limitado à tela de Pedidos
 
 ---
 
@@ -80,21 +60,26 @@ Ver arquivo [`database/schema.sql`](database/schema.sql) (exemplo incluído no c
 
 ---
 
-## ⚙️ Instalação
+## 🚀 Tecnologias Utilizadas
 
-### 1. Clone o repositório
+- **Backend**: PHP (orientado a objetos, padrão MVC)
+- **Frontend**: HTML5, CSS3, Bootstrap 5, jQuery
+- **Banco de Dados**: MySQL (via PDO)
+- **Outros recursos**:
+  - Font Awesome (ícones dinâmicos)
+  - Bootstrap Toasts e Modals
+  - Sistema de permissões baseado em telas por usuário
+  - Docker
 
-```bash
-git clone https://github.com/alanchimin/pdv.git
-cd pdv
-```
+---
 
-### 2. Configurar o arquivo .env
-```bash
-cp .env.development .env
-```
+## 🧱 Modelagem do Banco de Dados
 
-### 3. Rodar a aplicação (utilizando docker)
-```bash
-docker-compose up -d
-```
+Tabelas principais:
+
+- `usuario`, `tela`, `usuario_tela`
+- `produto`, `categoria`, `unidade_medida`
+- `pedido`, `item`, `forma_pagamento`
+
+Ver arquivo `migrations/01 - create_database.sql`.
+
