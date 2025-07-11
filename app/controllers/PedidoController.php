@@ -59,7 +59,8 @@ class PedidoController
             $pdo->beginTransaction();
 
             $pedido_id = $pedidoModel->create([
-                'forma_pagamento_id' => $_POST['forma_pagamento_id']
+                'forma_pagamento_id' => $_POST['forma_pagamento_id'],
+                'usuario_id' => $_SESSION['usuario']['usuario_id']
             ]);
 
             // Insere os itens do pedido
@@ -102,6 +103,7 @@ class PedidoController
         // Variáveis para a view
         $itens = $pedido['itens'];
         $forma_pagamento = $pedido['forma_pagamento'];
+        $usuario = $pedido['usuario'];
 
         // Gera o HTML da view
         ob_start();

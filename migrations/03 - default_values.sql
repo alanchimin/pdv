@@ -92,8 +92,27 @@ INSERT INTO forma_pagamento (nome) VALUES
 ('Vale Alimentação'),
 ('Vale Refeição');
 
--- Inserir usuário admin com senha "1" usando bcrypt (hash gerado via PHP)
-INSERT INTO usuario (usuario, senha) VALUES (
-    'admin',
-    '$2y$10$GMoks1SDe31zmw5OYW8vZOTVKeuugT0P5PCDfL/fF2NmZMtOOLmfW'
-);
+-- Inserindo telas
+INSERT INTO tela (nome) VALUES
+('Pedidos'),
+('Produtos'),
+('Categorias'),
+('Unidades');
+
+-- Inserindo usuários com senha "1" usando bcrypt (hash gerado via PHP)
+INSERT INTO usuario (nome, senha) VALUES
+('admin', '$2y$10$GMoks1SDe31zmw5OYW8vZOTVKeuugT0P5PCDfL/fF2NmZMtOOLmfW'),
+('autoatendimento', '$2y$10$GMoks1SDe31zmw5OYW8vZOTVKeuugT0P5PCDfL/fF2NmZMtOOLmfW');
+
+-- Vinculando telas para usuários
+-- admin (acesso total)
+INSERT INTO usuario_tela (usuario_id, tela_id)
+SELECT u.usuario_id, t.tela_id
+FROM usuario u, tela t
+WHERE u.nome = 'admin';
+
+-- autoatendimento (apenas Pedidos)
+INSERT INTO usuario_tela (usuario_id, tela_id)
+SELECT u.usuario_id, t.tela_id
+FROM usuario u, tela t
+WHERE u.nome = 'autoatendimento' AND t.nome = 'Pedidos';

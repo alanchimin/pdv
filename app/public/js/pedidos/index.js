@@ -209,6 +209,11 @@ class Pedido {
         const formaPagamentoId = this.$selectFormaPagamento.val();
         const itens = this.obterItens();
 
+        if (!formaPagamentoId) {
+            $('#erro-confirmacao-pedido').removeClass('d-none').text('Selecione a forma de pagamento.');
+            return;
+        }
+
         $.post('/pedido/store', {
             forma_pagamento_id: formaPagamentoId,
             itens: JSON.stringify(itens)

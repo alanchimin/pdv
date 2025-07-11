@@ -34,32 +34,33 @@
     <div class="menu-overlay" id="menuOverlay"></div>
 
     <nav class="sidebar bg-dark text-white vh-100">
+        <div class="px-3 pt-3 pb-1 border-bottom border-secondary small">
+            <i class="fa-solid fa-user me-1"></i>
+            <span class="menu-label"><?= htmlspecialchars($_SESSION['usuario']['nome'] ?? '') ?></span>
+        </div>
         <ul class="nav flex-column mt-3">
             <li class="nav-ite align-items-center d-sm-none">
                 <a href="#" id="btnToggleMenu" class="nav-link text-white d-flex align-items-center">
                     <i class="fa-solid fa-bars"></i><span class="menu-label ms-2">Menu</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="/pedido" class="nav-link text-white d-flex align-items-center">
-                    <i class="fa-solid fa-cash-register"></i><span class="menu-label ms-2">Pedidos</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/produto" class="nav-link text-white d-flex align-items-center">
-                    <i class="fa-solid fa-boxes-stacked"></i><span class="menu-label ms-2">Produtos</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/categoria" class="nav-link text-white d-flex align-items-center">
-                    <i class="fa-solid fa-tags"></i><span class="menu-label ms-2">Categorias</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="/unidadeMedida" class="nav-link text-white d-flex align-items-center">
-                    <i class="fa-solid fa-ruler-combined"></i><span class="menu-label ms-2">Unidades</span>
-                </a>
-            </li>
+            <?php
+            $telasUsuario = $_SESSION['telas'] ?? [];
+            $telas = [
+                'Pedidos' => ['icone' => 'fa-cash-register', 'rota' => '/pedido'],
+                'Produtos' => ['icone' => 'fa-boxes-stacked', 'rota' => '/produto'],
+                'Categorias' => ['icone' => 'fa-tags', 'rota' => '/categoria'],
+                'Unidades' => ['icone' => 'fa-ruler-combined', 'rota' => '/unidadeMedida'],
+            ];
+            ?>
+
+            <?php foreach ($telasUsuario as $tela): ?>
+                <li class="nav-item">
+                    <a href="<?= $telas[$tela['nome']]['rota'] ?>" class="nav-link text-white d-flex align-items-center">
+                        <i class="fa-solid <?= $telas[$tela['nome']]['icone'] ?>"></i><span class="menu-label ms-2"><?= $tela['nome'] ?></span>
+                    </a>
+                </li>
+            <?php endforeach; ?>
             <li class="nav-item mt-auto">
                 <a href="/auth/logout" class="nav-link text-white d-flex align-items-center">
                     <i class="fa-solid fa-right-from-bracket"></i><span class="menu-label ms-2">Sair</span>

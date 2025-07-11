@@ -7,7 +7,7 @@ use App\core\Model;
 class Pedido extends Model
 {
     public function create($data) {
-        $sql = "INSERT INTO pedido (forma_pagamento_id) VALUES (:forma_pagamento_id)";
+        $sql = "INSERT INTO pedido (forma_pagamento_id, usuario_id) VALUES (:forma_pagamento_id, :usuario_id)";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($data);
@@ -17,9 +17,10 @@ class Pedido extends Model
 
     public function find($pedido_id) {
         $sql = "
-            SELECT p.*, f.nome AS forma_pagamento
+            SELECT p.*, f.nome AS forma_pagamento, u.nome AS usuario
             FROM pedido p
-            JOIN forma_pagamento f ON f.forma_pagamento_id = p.forma_pagamento_id
+            JOIN forma_pagamento f USING (forma_pagamento_id)
+            JOIN usuario u USING (usuario_id)
             WHERE p.pedido_id = ?
         ";
         $stmt = $this->pdo->prepare($sql);

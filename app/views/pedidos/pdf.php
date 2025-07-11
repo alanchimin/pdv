@@ -18,6 +18,7 @@ $larguraMaxima = 300;
         <h3>SUPERMERCADO EXEMPLO</h3>
         <p>CNPJ: 00.000.000/0001-00</p>
         <p>Pedido Nº <?= $pedido_id ?></p>
+        <p>Usuário: <?= $usuario ?></p>
         <p>Pagamento: <?= htmlspecialchars($forma_pagamento) ?></p>
     </div>
 

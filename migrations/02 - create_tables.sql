@@ -28,11 +28,19 @@ CREATE TABLE forma_pagamento (
     nome VARCHAR(50) NOT NULL
 );
 
+CREATE TABLE usuario (
+    usuario_id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE pedido (
     pedido_id INT AUTO_INCREMENT PRIMARY KEY,
     data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
     forma_pagamento_id INT NOT NULL,
-    FOREIGN KEY (forma_pagamento_id) REFERENCES forma_pagamento(forma_pagamento_id)
+    usuario_id INT NOT NULL,
+    FOREIGN KEY (forma_pagamento_id) REFERENCES forma_pagamento(forma_pagamento_id),
+    FOREIGN KEY (usuario_id) REFERENCES usuario(usuario_id)
 );
 
 CREATE TABLE item (
@@ -47,8 +55,15 @@ CREATE TABLE item (
     FOREIGN KEY (pedido_id) REFERENCES pedido(pedido_id)
 );
 
-CREATE TABLE usuario (
-    usuario_id INT AUTO_INCREMENT PRIMARY KEY,
-    usuario VARCHAR(50) NOT NULL UNIQUE,
-    senha VARCHAR(255) NOT NULL
+CREATE TABLE tela (
+    tela_id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE usuario_tela (
+    usuario_id INT NOT NULL,
+    tela_id INT NOT NULL,
+    PRIMARY KEY (usuario_id, tela_id),
+    FOREIGN KEY (usuario_id) REFERENCES usuario(usuario_id),
+    FOREIGN KEY (tela_id) REFERENCES tela(tela_id)
 );
