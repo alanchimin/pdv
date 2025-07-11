@@ -8,13 +8,17 @@
     display: none;
 }
 
+nav.sidebar {
+    width: 220px;
+    min-width: 220px;
+}
+
 @media (max-width: 575.98px) {
     nav.sidebar {
         position: fixed;
         left: -220px;
         top: 0;
         height: 100vh;
-        width: 220px;
         background-color: #343a40;
         transition: left 0.3s ease;
         z-index: 1050;
@@ -58,8 +62,8 @@
 
 @media (min-width: 576px) and (max-width: 767.98px) {
     nav.sidebar {
-        width: 70px;
-        min-width: 70px;
+        width: 50px;
+        min-width: 50px;
         overflow-x: hidden;
         transition: width 0.3s ease;
     }
