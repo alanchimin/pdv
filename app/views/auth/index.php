@@ -25,3 +25,5 @@
 </div>
 
 <?php include '../views/layout/footer.php'; ?>
+
+<script src="/js/auth/index.js"></script>
