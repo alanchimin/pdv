@@ -111,7 +111,6 @@
             </div>
             <div class="modal-body">
                 <form id="form-adiciona-produto">
-                    <div id="mensagem-erro" class="alert alert-danger d-none" role="alert"></div>
                     <input type="hidden" id="produto-id">
                     <div class="mb-3">
                         <label for="produto-nome" class="form-label">Produto:</label>
@@ -190,8 +189,6 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
-
-                <div class="alert alert-danger d-none" id="erro-confirmacao-pedido"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

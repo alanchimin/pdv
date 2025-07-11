@@ -72,7 +72,7 @@
                 <div class="col-xs-12 col-md-6 col-lg-3">
                     <label for="desconto" class="form-label">Desconto:</label>
                     <div class="input-group">
-                        <input type="number" id="desconto" name="desconto" min="0" max="100" value="0" class="form-control" required>
+                        <input type="number" id="desconto" name="desconto" min="0" max="100" value="0" class="form-control">
                         <span class="input-group-text">%</span>
                     </div>
                 </div>
@@ -111,7 +111,7 @@
             <!-- Botões -->
             <div class="d-flex justify-content-end mt-4">
                 <a href="/produto" class="btn btn-secondary me-2">Cancelar</a>
-                <button class="btn btn-success">Salvar Produto</button>
+                <button id="btn-salvar" class="btn btn-success">Salvar Produto</button>
             </div>
         </form>
 
@@ -121,7 +121,6 @@
                 <div class="modal-content">
                     <div class="modal-header"><h5 class="modal-title">Unidade de Medida</h5></div>
                     <div class="modal-body">
-                        <div id="modal_nova_unidade_medida_erro" class="mt-3"></div>
                         <div class="mb-3">
                             <label for="nova_unidade_nome" class="form-label">Nome da unidade:</label>
                             <input type="text" class="form-control" id="nova_unidade_nome" placeholder="Ex: Quilograma">
@@ -145,8 +144,6 @@
                 <div class="modal-content">
                     <div class="modal-header"><h5 class="modal-title">Nova Categoria</h5></div>
                     <div class="modal-body">
-                        <div id="modal_nova_categoria_erro" class="mt-3"></div>
-
                         <label for="nova_categoria_nome" class="form-label">Nome:</label>
                         <input type="text" class="form-control mb-3" id="nova_categoria_nome" name="nome" placeholder="Ex: Bebidas">
 

@@ -8,8 +8,6 @@ class UnidadeListagem {
 
         this.idExcluir = null;
 
-        this.$modalConfirmarExclusaoErro = this.$ctrl.find('#modal_confirmar_exclusao_erro');
-
         this.listen();
         this.buscar();
     }
@@ -63,7 +61,7 @@ class UnidadeListagem {
                     this.buscar();
                 },
                 error: () => {
-                    Utils.showAlert(this.$modalConfirmarExclusaoErro, 'Erro ao excluir a unidade de medida.');
+                    Utils.showToast('Erro ao excluir a unidade de medida.');
                 }
             });
         });

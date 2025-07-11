@@ -8,8 +8,6 @@ class CategoriaListagem {
 
         this.idExcluir = null;
 
-        this.$modalConfirmarExclusaoErro = this.$ctrl.find('#modal_confirmar_exclusao_erro');
-
         this.listen();
         this.buscar();
     }
@@ -63,7 +61,7 @@ class CategoriaListagem {
                     this.buscar();
                 },
                 error: () => {
-                    Utils.showAlert(this.$modalConfirmarExclusaoErro, 'Erro ao excluir a categoria.');
+                    Utils.showToast('Erro ao excluir a categoria.');
                 }
             });
         });

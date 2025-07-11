@@ -1,6 +1,8 @@
 class ProdutoForm {
     constructor() {
         this.$ctrl = $('.container');
+        this.$nome = this.$ctrl.find('#nome');
+        this.$valorUnitario = this.$ctrl.find('#valor_unitario');
         this.$selects = this.$ctrl.find('.selectpicker');
         this.$imagemUrl = this.$ctrl.find('#imagem-url');
         this.$imagemUpload = this.$ctrl.find('#imagem-upload');
@@ -12,14 +14,12 @@ class ProdutoForm {
         this.$selectCategoria = this.$ctrl.find('#categoria_id');
         this.$novaCategoriaNome = this.$ctrl.find('#nova_categoria_nome');
         this.$btnSalvarCategoria = this.$ctrl.find('#btn-salvar-categoria');
-        this.$modalNovaCategoriaErro = this.$ctrl.find('#modal_nova_categoria_erro');
         this.modalNovaCategoria = bootstrap.Modal.getOrCreateInstance(document.getElementById('modal_nova_categoria'));
 
         this.$selectUnidade = this.$ctrl.find('#unidade_medida_id');
         this.$novaUnidadeNome = this.$ctrl.find('#nova_unidade_nome');
         this.$novaUnidadeSimbolo = this.$ctrl.find('#nova_unidade_simbolo');
         this.$btnSalvarUnidade = this.$ctrl.find('#btn-salvar-unidade-medida');
-        this.$modalNovaUnidadeMedidaErro = this.$ctrl.find('#modal_nova_unidade_medida_erro');
         this.modalNovaUnidade = bootstrap.Modal.getOrCreateInstance(document.getElementById('modal_nova_unidade_medida'));
 
         this.urlAtual = '';
@@ -37,6 +37,7 @@ class ProdutoForm {
         this.initSalvarUnidadeMedida();
         this.initIconPickerModal();
         this.initUpdate();
+        this.initSubmit();
     }
 
     initSelects() {
@@ -111,7 +112,7 @@ class ProdutoForm {
             const icone = $('#icone-modal').val().trim();
 
             if (!nome || !icone) {
-                return Utils.showAlert(this.$modalNovaCategoriaErro, 'Informe nome e ícone.');
+                return Utils.showToast('Informe nome e ícone.');
             }
 
             $.post('/categoria/storeAjax', { nome, icone }, (res) => {
@@ -121,10 +122,10 @@ class ProdutoForm {
                     this.modalNovaCategoria.hide();
                     this.$novaCategoriaNome.val('');
                 } else {
-                    Utils.showAlert(this.$modalNovaCategoriaErro, 'Erro ao salvar categoria.');
+                    Utils.showToast('Erro ao salvar categoria.');
                 }
             }, 'json').fail(() => {
-                Utils.showAlert(this.$modalNovaCategoriaErro, 'Erro ao salvar categoria.');
+                Utils.showToast('Erro ao salvar categoria.');
             });
         });
     }
@@ -137,7 +138,7 @@ class ProdutoForm {
             const simbolo = this.$novaUnidadeSimbolo.val().trim();
 
             if (!nome || !simbolo) {
-                return Utils.showAlert(this.$modalNovaUnidadeMedidaErro, 'Preencha nome e símbolo da unidade.');
+                return Utils.showToast('Preencha nome e símbolo da unidade.');
             }
 
             $.post('/unidadeMedida/storeAjax', { nome, simbolo }, (res) => {
@@ -149,10 +150,10 @@ class ProdutoForm {
                     this.$novaUnidadeNome.val('');
                     this.$novaUnidadeSimbolo.val('');
                 } else {
-                    Utils.showAlert(this.$modalNovaUnidadeMedidaErro, 'Erro ao salvar unidade de medida.');
+                    Utils.showToast('Erro ao salvar unidade de medida.');
                 }
             }, 'json').fail(() => {
-                Utils.showAlert(this.$modalNovaUnidadeMedidaErro, 'Erro ao salvar unidade de medida.');
+                Utils.showToast('Erro ao salvar unidade de medida.');
             });
         });
     }
@@ -206,8 +207,8 @@ class ProdutoForm {
 
         const p = window.updateData;
 
-        this.$ctrl.find('#nome').val(p.nome);
-        this.$ctrl.find('#valor_unitario').val(p.valor_unitario);
+        this.$nome.val(p.nome);
+        this.$valorUnitario.val(p.valor_unitario);
         Utils.setSelectOption(this.$selectUnidade, p.unidade_medida_id);
         Utils.setSelectOption(this.$selectCategoria, p.categoria_id);
 
@@ -222,6 +223,25 @@ class ProdutoForm {
         }
 
         this.$desconto.val(p.desconto || 0);
+    }
+
+    initSubmit() {
+        $('#btn-salvar').on('click', (e) => {
+            if (!this.$nome.val())
+                return;
+
+            if (!this.$selectCategoria.val()) {
+                Utils.showToast('Selecione uma categoria.');
+                e.preventDefault();
+                return;
+            }
+
+            if (!this.$selectUnidade.val()) {
+                Utils.showToast('Selecione uma unidade de medida.');
+                e.preventDefault();
+                return;
+            }
+        });
     }
 }
 

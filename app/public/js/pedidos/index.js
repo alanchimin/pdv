@@ -7,7 +7,6 @@ class Pedido {
         this.$btnAdicionar = $('#btn-adicionar');
         this.$btnFinalizar = $('#btn-finalizar-pedido');
         this.$btnConfirmarLimpeza = $('#btn-confirmar-limpeza');
-        this.$mensagemErro = $('#mensagem-erro');
         this.$mensagemFinalizar = $('#mensagem-finalizar');
         this.$placeholder = $('#lista-placeholder');
         this.$buscaProduto = $('#busca-produto');
@@ -103,7 +102,6 @@ class Pedido {
     }
 
     adicionarItem() {
-        this.limparErro();
         const id = $('#produto-id').val();
         const nome = $('#produto-nome').val();
         const qtd = parseInt(this.$quantidade.val());
@@ -111,7 +109,10 @@ class Pedido {
         const unidade = this.$btnAdicionar.data('unidade');
         const descontoPercentual = parseFloat(this.$btnAdicionar.data('desconto')) || 0;
 
-        if (!qtd || qtd <= 0) return this.mostrarErro('Informe uma quantidade válida maior que zero.');
+        if (!qtd || qtd <= 0) {
+            Utils.showToast('Informe uma quantidade válida maior que zero.');
+            return;
+        }
 
         const descontoTotal = (valor * (descontoPercentual / 100)) * qtd;
         const total = qtd * valor - descontoTotal;
@@ -155,7 +156,10 @@ class Pedido {
 
     finalizarPedido() {
         const itens = this.obterItens();
-        if (itens.length === 0) return this.mostrarErroFinalizar('Nenhum item no pedido.');
+        if (itens.length === 0) {
+            Utils.showToast('Nenhum item no pedido.');
+            return;
+        }
 
         const $tbody = $('#modalConfirmarPedido table tbody');
         $tbody.empty(); // limpa o conteúdo atual
@@ -192,8 +196,6 @@ class Pedido {
             </tr>
         `);
 
-        // Limpa erros anteriores e reset no select
-        $('#erro-confirmacao-pedido').addClass('d-none').text('');
         this.$selectFormaPagamento.val('');
 
         $('#modalConfirmarPedido').modal('show');
@@ -210,7 +212,7 @@ class Pedido {
         const itens = this.obterItens();
 
         if (!formaPagamentoId) {
-            $('#erro-confirmacao-pedido').removeClass('d-none').text('Selecione a forma de pagamento.');
+            Utils.showToast('Selecione a forma de pagamento.');
             return;
         }
 
@@ -225,11 +227,11 @@ class Pedido {
                         $('#modalConfirmarPedido').modal('hide');
                         this.limparCarrinho();
                     } else {
-                        $('#erro-confirmacao-pedido').removeClass('d-none').text('Erro ao gerar o PDF.');
+                        Utils.showToast('Erro ao gerar o PDF.');
                     }
                 });
             } else {
-                $('#erro-confirmacao-pedido').removeClass('d-none').text(res.error || 'Erro ao salvar o pedido.');
+                Utils.showToast('Erro ao salvar o pedido.');
             }
         }, 'json');
     }
@@ -248,19 +250,6 @@ class Pedido {
     handleClickCarrinhoBtnVoltar() {
         this.$carrinhoContainer.addClass('d-none');
         this.$categoriasProdutosContainer.removeClass('d-none');
-    }
-
-    mostrarErro(msg) {
-        this.$mensagemErro.text(msg).removeClass('d-none');
-    }
-
-    limparErro() {
-        this.$mensagemErro.text('').addClass('d-none');
-    }
-
-    mostrarErroFinalizar(msg) {
-        this.$mensagemFinalizar.text(msg).removeClass('d-none');
-        setTimeout(() => this.$mensagemFinalizar.text('').addClass('d-none'), 4000);
     }
 
     salvarListaEmLocalStorage() {

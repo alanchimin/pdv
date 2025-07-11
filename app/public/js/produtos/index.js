@@ -8,8 +8,6 @@ class ProdutoListagem {
 
         this.idExcluir = null;
 
-        this.$modalConfirmarExclusaoErro = this.$ctrl.find('#modal_confirmar_exclusao_erro');
-
         this.listen();
         this.buscar();
     }
@@ -63,7 +61,7 @@ class ProdutoListagem {
                     this.buscar();
                 },
                 error: () => {
-                    Utils.showAlert(this.$modalConfirmarExclusaoErro, 'Erro ao excluir o produto.');
+                    Utils.showToast('Erro ao excluir o produto.');
                 }
             });
         });

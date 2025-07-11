@@ -22,24 +22,37 @@ Utils.debounce = function (fn, delay = 300) {
     };
 };
 
-Utils.showAlert = function($container, message, type = 'danger', duration = 5000) {
-    $container.empty();
-    const alertId = `alert-${Date.now()}`;
-    const alertHtml = `
-        <div id="${alertId}" class="alert alert-${type} alert-dismissible fade show" role="alert">
-            ${message}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+Utils.showToast = function(message, type = 'danger', duration = 5000) {
+    const toastId = `toast-${Date.now()}`;
+    const iconMap = {
+        success: 'fa-check-circle',
+        danger: 'fa-circle-exclamation',
+        warning: 'fa-triangle-exclamation',
+        info: 'fa-circle-info'
+    };
+    const icon = iconMap[type] || 'fa-info-circle';
+
+    const toastHtml = `
+        <div id="${toastId}" class="toast align-items-center text-white bg-${type} border-0 shadow-sm mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body d-flex align-items-center">
+                    <i class="fa-solid ${icon} me-2"></i> ${message}
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Fechar"></button>
+            </div>
         </div>
     `;
-    $container.append($(alertHtml));
 
-    if (duration > 0) {
-        setTimeout(() => {
-            const alertEl = $(`#${alertId}`)[0];
-            if (alertEl) {
-                const alertInstance = bootstrap.Alert.getOrCreateInstance(alertEl);
-                alertInstance.close();
-            }
-        }, duration);
-    }
+    const $toast = $(toastHtml);
+    $('#toast-container').append($toast);
+
+    const bsToast = new bootstrap.Toast($toast[0], {
+        autohide: duration > 0,
+        delay: duration
+    });
+
+    bsToast.show();
+
+    // Remover da DOM após ocultar
+    $toast.on('hidden.bs.toast', () => $toast.remove());
 };

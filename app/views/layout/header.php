@@ -69,4 +69,5 @@
         </ul>
     </nav>
     <main class="flex-grow-1 p-0">
+        <div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080"></div>
 <?php endif; ?>
