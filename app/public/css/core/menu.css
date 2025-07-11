@@ -1,0 +1,100 @@
+.menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.menu-title {
+    display: none;
+}
+
+@media (max-width: 575.98px) {
+    nav.sidebar {
+        position: fixed;
+        left: -220px;
+        top: 0;
+        height: 100vh;
+        width: 220px;
+        background-color: #343a40;
+        transition: left 0.3s ease;
+        z-index: 1050;
+    }
+
+    nav.sidebar.open {
+        left: 0;
+    }
+
+    .menu-label {
+        display: inline;
+    }
+
+    .menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        z-index: 1040;
+    }
+
+    .menu-overlay.show {
+        display: block;
+    }
+
+    .menu-toggle-btn {
+        display: inline-block;
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 1100;
+    }
+
+    main {
+        margin-left: 0 !important;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+    nav.sidebar:hover .menu-title {
+        display: block;
+    }
+
+    nav.sidebar {
+        width: 70px;
+        min-width: 70px;
+        overflow-x: hidden;
+        transition: width 0.3s ease;
+    }
+
+    nav.sidebar:hover {
+        width: 220px;
+    }
+
+    .menu-label {
+        display: none;
+    }
+
+    nav.sidebar:hover .menu-label {
+        display: inline;
+    }
+
+    .nav-link {
+        white-space: nowrap;
+    }
+}
+
+@media (min-width: 768px) {
+    .menu-title {
+        display: block;
+    }
+
+    .menu-label {
+        display: inline;
+    }
+
+    #btnToggleMenu {
+        display: inline-flex !important;
+    }
+}

@@ -17,19 +17,54 @@
     
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="/css/core/core.css">
+    <link rel="stylesheet" href="/css/core/menu.css">
 </head>
 <body>
 
 <?php if (!str_contains($_SERVER['REQUEST_URI'], '/auth')): ?>
 <div class="d-flex">
-    <nav class="bg-dark text-white p-3 vh-100" style="min-width: 220px;">
-        <h5>PDV Menu</h5>
+    <!-- Botão Flutuante Menu Mobile -->
+    <div class="d-flex align-items-center d-sm-none p-2">
+        <button class="btn btn-dark menu-toggle-btn" id="btnToggleMenuMobile">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+
+    <!-- Overlay para fechar o menu no mobile -->
+    <div class="menu-overlay" id="menuOverlay"></div>
+
+    <nav class="sidebar bg-dark text-white vh-100">
         <ul class="nav flex-column mt-3">
-            <li class="nav-item"><a href="/pedido" class="nav-link text-white">Pedidos</a></li>
-            <li class="nav-item"><a href="/produto" class="nav-link text-white">Produtos</a></li>
-            <li class="nav-item"><a href="/categoria" class="nav-link text-white">Categorias</a></li>
-            <li class="nav-item"><a href="/unidadeMedida" class="nav-link text-white">Unidades de Medida</a></li>
-            <li class="nav-item"><a href="/auth/logout" class="nav-link text-white">Sair</a></li>
+            <li class="nav-ite align-items-center">
+                <a href="#" id="btnToggleMenu" class="nav-link text-white d-flex align-items-center">
+                    <i class="fa-solid fa-bars"></i><span class="menu-label ms-2">Menu</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/pedido" class="nav-link text-white d-flex align-items-center">
+                    <i class="fa-solid fa-cash-register"></i><span class="menu-label ms-2">Pedidos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/produto" class="nav-link text-white d-flex align-items-center">
+                    <i class="fa-solid fa-boxes-stacked"></i><span class="menu-label ms-2">Produtos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/categoria" class="nav-link text-white d-flex align-items-center">
+                    <i class="fa-solid fa-tags"></i><span class="menu-label ms-2">Categorias</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="/unidadeMedida" class="nav-link text-white d-flex align-items-center">
+                    <i class="fa-solid fa-ruler-combined"></i><span class="menu-label ms-2">Unidades</span>
+                </a>
+            </li>
+            <li class="nav-item mt-auto">
+                <a href="/auth/logout" class="nav-link text-white d-flex align-items-center">
+                    <i class="fa-solid fa-right-from-bracket"></i><span class="menu-label ms-2">Sair</span>
+                </a>
+            </li>
         </ul>
     </nav>
     <main class="flex-grow-1 p-0">
