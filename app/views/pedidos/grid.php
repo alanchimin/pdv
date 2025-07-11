@@ -1,7 +1,7 @@
 <div id="produtos-grid-content">
     <div class="row" id="grid-produtos">
         <?php foreach ($produtos as $produto): ?>
-            <div class="col-md-3 mb-4">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                 <div class="card h-100 produto-item"
                     data-id="<?= $produto['produto_id'] ?>"
                     data-nome="<?= htmlspecialchars($produto['nome']) ?>"

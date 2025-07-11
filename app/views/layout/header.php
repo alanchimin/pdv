@@ -35,7 +35,7 @@
 
     <nav class="sidebar bg-dark text-white vh-100">
         <ul class="nav flex-column mt-3">
-            <li class="nav-ite align-items-center">
+            <li class="nav-ite align-items-center d-sm-none">
                 <a href="#" id="btnToggleMenu" class="nav-link text-white d-flex align-items-center">
                     <i class="fa-solid fa-bars"></i><span class="menu-label ms-2">Menu</span>
                 </a>

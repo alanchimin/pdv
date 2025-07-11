@@ -20,6 +20,10 @@ class Pedido {
         this.$descontoTotal = $('#desconto-total');
         this.$btnConfirmarPedido = $('#btn-confirmar-pedido');
         this.$selectFormaPagamento = $('#forma_pagamento_id');
+        this.$btnCarrinho = $('#btn-carrinho');
+        this.$categoriasProdutosContainer = $('#categorias-produtos-container');
+        this.$carrinhoContainer = $('#carrinho-container');
+        this.$carrinhoBtnVoltar = $('#carrinho-btn-voltar');
 
         this.listen();
         this.carregarTela();
@@ -35,6 +39,8 @@ class Pedido {
         this.$listaItens.on('click', '.btn-remover-item', this.handleClickBtnRemoverItem.bind(this));
         this.$quantidade.on('input', this.atualizarResumoPreco.bind(this));
         this.$btnConfirmarPedido.on('click', this.handleClickBtnConfirmarPedido.bind(this));
+        this.$btnCarrinho.on('click', this.handleClickBtnCarrinho.bind(this));
+        this.$carrinhoBtnVoltar.on('click', this.handleClickCarrinhoBtnVoltar.bind(this));
     }
 
     handleCategoriaClick(e) {
@@ -221,6 +227,22 @@ class Pedido {
                 $('#erro-confirmacao-pedido').removeClass('d-none').text(res.error || 'Erro ao salvar o pedido.');
             }
         }, 'json');
+    }
+
+    handleClickBtnCarrinho() {
+        this.carrinho = !this.carrinho;
+        if (this.carrinho) {
+            this.$categoriasProdutosContainer.addClass('d-none');
+            this.$carrinhoContainer.removeClass('d-none');
+        } else {
+            this.$carrinhoContainer.addClass('d-none');
+            this.$categoriasProdutosContainer.removeClass('d-none');
+        }
+    }
+
+    handleClickCarrinhoBtnVoltar() {
+        this.$carrinhoContainer.addClass('d-none');
+        this.$categoriasProdutosContainer.removeClass('d-none');
     }
 
     mostrarErro(msg) {

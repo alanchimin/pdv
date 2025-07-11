@@ -32,3 +32,36 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+/* Categoria horizontal */
+#categorias-horizontal {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+}
+
+/* Impede quebra de linha nas categorias horizontais */
+#categorias-horizontal .categoria-item {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+#carrinho-container.d-block.d-md-block {
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .categoria-item {
+        font-size: 0.85rem;
+        padding: 8px 10px;
+    }
+
+    .produto-img {
+        height: 100px;
+    }
+
+    .card-title {
+        font-size: 0.9rem;
+    }
+}
