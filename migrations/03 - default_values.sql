@@ -89,7 +89,7 @@ INSERT INTO forma_pagamento (nome) VALUES
 ('Cartão de Crédito'),
 ('Cartão de Débito'),
 ('PIX'),
-('Vale Alimentação')
+('Vale Alimentação'),
 ('Vale Refeição');
 
 -- Inserir usuário admin com senha "1" usando bcrypt (hash gerado via PHP)
