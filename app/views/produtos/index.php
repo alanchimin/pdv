@@ -1,15 +1,15 @@
 <?php include '../views/layout/header.php'; ?>
 
 <div id="produto-container" class="list-wrapper">
-    <div class="d-flex justify-content-between align-items-end mb-3 flex-wrap gap-2">
-        <div class="flex-grow-1">
+    <div class="row mb-3 align-items-end">
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
             <h2 class="mb-2">Produtos</h2>
             <form method="GET" action="/produto" class="d-flex">
                 <input type="text" name="q" value="<?= htmlspecialchars($_GET['q'] ?? '') ?>" class="form-control" placeholder="Buscar produto...">
             </form>
         </div>
-        <div>
-            <a href="/produto/form" class="btn btn-success">Novo Produto</a>
+        <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2 text-md-end mt-2 mt-md-0">
+            <a href="/produto/form" class="btn btn-success w-100 w-md-auto">Novo Produto</a>
         </div>
     </div>
 

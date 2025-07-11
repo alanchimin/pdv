@@ -29,3 +29,7 @@ th.sorted-desc::after {
 .list-wrapper {
     padding: 1.5rem;
 }
+
+.nav-pagination {
+    margin-top: 1rem;
+}
