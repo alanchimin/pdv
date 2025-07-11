@@ -2,7 +2,7 @@
 
 <div class="container min-vh-100 d-flex justify-content-center align-items-center">
     <div class="w-100" style="max-width: 400px;">
-        <h2 class="text-center mb-4">Login</h2>
+        <h2 class="text-center mb-4">PDV</h2>
 
         <?php if (!empty($_GET['error'])): ?>
             <div class="alert alert-danger text-center">Usuário ou senha inválidos.</div>

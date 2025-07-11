@@ -1,4 +1,4 @@
-# 🛒 PDV Supermercado
+# 🛒 PDV
 
 Sistema de Ponto de Venda (PDV) para gerenciamento de pedidos e produtos.
 

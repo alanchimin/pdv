@@ -1,5 +1,5 @@
 {
-  "description": "PDV Supermercado",
+  "description": "PDV",
   "autoload": {
     "psr-4": {
       "App\\": "app/"
