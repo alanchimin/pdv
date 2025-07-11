@@ -39,7 +39,7 @@ class CategoriaController
         $data = [
             'categoria_id' => $_POST['categoria_id'] ?? null,
             'nome' => $_POST['nome'],
-            'icone' => $_POST['icone'] ?? null
+            'icone' => $_POST['icone']
         ];
 
         (new Categoria())->upsert($data);
@@ -73,10 +73,11 @@ class CategoriaController
 
     public function storeAjax()
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['nome'])) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['nome']) && !empty($_POST['icone'])) {
             $nome = trim($_POST['nome']);
+            $icone = $_POST['icone'];
             $categoria = new Categoria();
-            $id = $categoria->upsert(['nome' => $nome]);
+            $id = $categoria->upsert(['categoria_id' => null, 'nome' => $nome, 'icone' => $icone]);
             $nova = $categoria->findById($id);
 
             header('Content-Type: application/json');

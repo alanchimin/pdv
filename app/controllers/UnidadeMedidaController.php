@@ -78,7 +78,7 @@ class UnidadeMedidaController
             $simbolo = trim($_POST['simbolo']);
 
             $unidade = new UnidadeMedida();
-            $id = $unidade->upsert(['nome' => $nome, 'simbolo' => $simbolo]);
+            $id = $unidade->upsert(['unidade_medida_id' => null, 'nome' => $nome, 'simbolo' => $simbolo]);
             $nova = $unidade->findById($id);
 
             header('Content-Type: application/json');

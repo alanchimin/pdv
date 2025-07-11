@@ -35,6 +35,7 @@ class ProdutoForm {
         this.initUploadPreview();
         this.initSalvarCategoria();
         this.initSalvarUnidadeMedida();
+        this.initIconPickerModal();
         this.initUpdate();
     }
 
@@ -107,9 +108,13 @@ class ProdutoForm {
         this.$btnSalvarCategoria.on('click', (e) => {
             e.preventDefault();
             const nome = this.$novaCategoriaNome.val().trim();
-            if (!nome) return Utils.showAlert(this.$modalNovaCategoriaErro, 'Informe um nome válido para a categoria.');
+            const icone = $('#icone-modal').val().trim();
 
-            $.post('/categoria/storeAjax', { nome }, (res) => {
+            if (!nome || !icone) {
+                return Utils.showAlert(this.$modalNovaCategoriaErro, 'Informe nome e ícone.');
+            }
+
+            $.post('/categoria/storeAjax', { nome, icone }, (res) => {
                 if (res.success && res.categoria) {
                     const nova = res.categoria;
                     Utils.addNewSelectOption(this.$selectCategoria, nova.categoria_id, nova.nome);
@@ -149,6 +154,50 @@ class ProdutoForm {
             }, 'json').fail(() => {
                 Utils.showAlert(this.$modalNovaUnidadeMedidaErro, 'Erro ao salvar unidade de medida.');
             });
+        });
+    }
+
+    initIconPickerModal() {
+        $.getJSON('/icone/list', (icons) => {
+            const $dropdown = $('#icone-dropdown-modal');
+            $dropdown.empty();
+
+            // Listagem
+            icons.forEach(icon => {
+                const $item = $(`
+                    <li>
+                        <a href="#" class="dropdown-item d-flex align-items-center" data-class="${String(icon.class)}" data-name="${String(icon.name)}">
+                            <i class="${icon.class} me-2"></i> ${icon.name.replace(/-/g, ' ')}
+                        </a>
+                    </li>
+                `);
+                $dropdown.append($item);
+            });
+
+            // Clique no item
+            $dropdown.on('click', 'a', (e) => {
+                e.preventDefault();
+                const classe = String($(e.currentTarget).data('class'));
+                const nome = String($(e.currentTarget).data('name'));
+
+                $('#icone-preview-modal').attr('class', classe + ' me-2');
+                $('#icone-nome-modal').text(nome.replace(/-/g, ' '));
+                $('#icone-modal').val(classe);
+
+                // Fecha o dropdown
+                $('#dropdown-container-modal').removeClass('show');
+                $('#icone-btn-modal').attr('aria-expanded', 'false');
+            });
+
+            // Filtro
+            $('#icone-search-modal').on('input', Utils.debounce(function () {
+                const search = $(this).val().toLowerCase();
+                $dropdown.find('a.dropdown-item').each(function () {
+                    const nome = $(this).data('name').toLowerCase();
+                    const show = nome.includes(search);
+                    $(this).closest('li').toggle(show);
+                });
+            }));
         });
     }
 

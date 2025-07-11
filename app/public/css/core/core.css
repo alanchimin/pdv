@@ -33,3 +33,16 @@ th.sorted-desc::after {
 .nav-pagination {
     margin-top: 1rem;
 }
+
+.input-group .bootstrap-select {
+    flex: 1 1 auto;
+    width: 1% !important;
+}
+
+.input-group .bootstrap-select > .dropdown-toggle {
+    width: 100% !important;
+}
+
+:not(.input-group) > .bootstrap-select {
+    width: 100% !important;
+}
