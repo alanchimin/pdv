@@ -1,3 +1,5 @@
+USE pdv;
+
 -- Inserindo unidades de medida
 INSERT INTO units (name, symbol) VALUES
 ('Unidade', 'Un'),

@@ -5,10 +5,12 @@ use PDO;
 use PDOException;
 use RuntimeException;
 use Dotenv\Dotenv;
-
+use App\core\ResponseTrait;
 
 class Database
 {
+    use ResponseTrait;
+
     private static ?PDO $instance = null;
 
     public static function getInstance(): PDO {
@@ -38,7 +40,7 @@ class Database
                     PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES $charset"
                 ]);
             } catch (PDOException $e) {
-                die("Erro ao conectar ao banco de dados: " . $e->getMessage());
+                $this->terminate("Erro ao conectar ao banco de dados: " . $e->getMessage());
             }
         }
 

@@ -10,6 +10,7 @@ services:
     volumes:
       - ./app:/var/www/html/app
       - ./migrations:/var/www/html/migrations
+      - ./tests:/var/www/html/tests
     depends_on:
       - db
     environment:

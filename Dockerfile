@@ -1,4 +1,4 @@
-FROM php:8.2-apache
+FROM php:8.3-apache
 
 # Instala dependências do sistema
 RUN apt-get update && apt-get install -y \
@@ -35,8 +35,12 @@ WORKDIR /var/www/html
 RUN curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/local/bin/composer
 
+# Define diretório como confiável para o Git (evita erro de ownership)
+RUN git config --global --add safe.directory /var/www/html
+
 # Instala dependências do Composer
-RUN composer install --no-interaction --optimize-autoloader
+RUN composer install --no-interaction --optimize-autoloader \
+    && composer dump-autoload
 
 # Corrige permissões
 RUN chown -R www-data:www-data /var/www/html

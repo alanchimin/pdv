@@ -60,8 +60,8 @@ class ProductController
         ];
 
         (new Product())->upsert($data);
-        header("Location: /product");
-        exit;
+
+        $this->redirect('/product');
     }
 
     public function edit($id)
@@ -71,8 +71,7 @@ class ProductController
         $product = $productModel->findById((int)$id);
 
         if (!$product) {
-            header('Location: /product');
-            exit;
+            $this->redirect('/product');
         }
 
         $units = (new Unit())->all();
@@ -85,8 +84,6 @@ class ProductController
         $productModel = new Product();
         $productModel->delete($id);
 
-        header('Content-Type: application/json');
-        echo json_encode(['success' => true]);
-        exit;
+        $this->json(['success' => true]);
     }
 }

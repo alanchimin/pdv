@@ -28,8 +28,8 @@ class UnitController
         ];
 
         (new Unit())->upsert($data);
-        header("Location: /unit");
-        exit;
+
+        $this->redirect('/unit');
     }
 
     public function edit($id)
@@ -39,8 +39,7 @@ class UnitController
         $unit = $unitModel->findById((int)$id);
 
         if (!$unit) {
-            header('Location: /unit');
-            exit;
+            $this->redirect('/unit');
         }
 
         include "../views/units/form.php";
@@ -51,9 +50,7 @@ class UnitController
         $unitModel = new Unit();
         $unitModel->delete((int)$id);
 
-        header('Content-Type: application/json');
-        echo json_encode(['success' => true]);
-        exit;
+        $this->json(['success' => true]);
     }
 
     public function storeAjax()

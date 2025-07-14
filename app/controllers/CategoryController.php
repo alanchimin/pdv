@@ -28,8 +28,7 @@ class CategoryController
         ];
 
         (new Category())->upsert($data);
-        header("Location: /category");
-        exit;
+        $this->redirect('/category');
     }
 
     public function edit($id)
@@ -39,8 +38,7 @@ class CategoryController
         $category = $categoryModel->findById((int)$id);
 
         if (!$category) {
-            header('Location: /category');
-            exit;
+            $this->redirect('/category');
         }
 
         include "../views/categories/form.php";
@@ -51,9 +49,7 @@ class CategoryController
         $categoryModel = new Category();
         $categoryModel->delete((int)$id);
 
-        header('Content-Type: application/json');
-        echo json_encode(['success' => true]);
-        exit;
+        $this->json(['success' => true]);
     }
 
     public function storeAjax()

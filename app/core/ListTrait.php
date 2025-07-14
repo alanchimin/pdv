@@ -2,9 +2,12 @@
 namespace App\core;
 
 use App\core\Model;
+use App\core\ResponseTrait;
 
 trait ListTrait
 {
+    use ResponseTrait;
+
     /**
      * Executes a generic listing for any Model that has count() and list() methods.
      *
@@ -40,7 +43,7 @@ trait ListTrait
         // 4) render partial or full
         if ($isAjax) {
             include __DIR__ . "/../views/{$viewTable}";
-            exit;
+            $this->terminate();
         }
 
         include __DIR__ . "/../views/{$viewIndex}";

@@ -1,8 +1,12 @@
 <?php
 namespace App\controllers;
 
+use App\core\ResponseTrait;
+
 class IconController
 {
+    use ResponseTrait;
+
     public function list()
     {
         $icons = [];
@@ -23,8 +27,6 @@ class IconController
             }
         }
 
-        header('Content-Type: application/json');
-        echo json_encode($icons);
-        exit;
+        $this->json($icons);
     }
 }

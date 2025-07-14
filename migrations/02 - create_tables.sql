@@ -1,3 +1,5 @@
+USE pdv;
+
 CREATE TABLE units (
     unit_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(50) NOT NULL,

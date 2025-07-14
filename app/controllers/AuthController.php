@@ -1,11 +1,14 @@
 <?php
 namespace App\controllers;
 
+use App\core\ResponseTrait;
 use App\models\User;
 use App\models\Screen;
 
 class AuthController
 {
+    use ResponseTrait;
+
     public function index()
     {
         $this->startSession();
@@ -20,7 +23,7 @@ class AuthController
         $pass = trim($_POST['pass'] ?? '');
 
         if (empty($user) || empty($pass)) {
-            $this->redirectToLoginWithError();
+            $this->redirect('/auth?error=1');
             return;
         }
 
@@ -38,19 +41,17 @@ class AuthController
             $screenModel = new Screen();
             $_SESSION['screens'] = $screenModel->getScreensByUser($user['user_id']);
 
-            header("Location: /order");
-            exit;
+            $this->redirect('/order');
         }
 
-        $this->redirectToLoginWithError();
+        $this->redirect('/auth?error=1');
     }
 
     public function logout()
     {
         $this->startSession();
         session_destroy();
-        header("Location: /auth");
-        exit;
+        $this->redirect('/auth');
     }
 
     private function startSession()
@@ -58,11 +59,5 @@ class AuthController
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
         }
-    }
-
-    private function redirectToLoginWithError()
-    {
-        header("Location: /auth?error=1");
-        exit;
     }
 }

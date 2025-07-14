@@ -1,8 +1,12 @@
 <?php
 namespace App\core;
 
+use App\core\ResponseTrait;
+
 class AuthMiddleware
 {
+    use ResponseTrait;
+
     public static function check()
     {
         if (session_status() === PHP_SESSION_NONE) {
@@ -29,8 +33,7 @@ class AuthMiddleware
         if (!$authenticated && !$isPublicRoute) {
             // Evita redirecionamento infinito ao garantir que já não está na tela de login
             if ($currentRoute !== 'auth/index') {
-                header("Location: /auth");
-                exit;
+                $this->redirect('/auth');
             }
         }
     }
