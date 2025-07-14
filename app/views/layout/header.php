@@ -25,39 +25,39 @@
 <div class="d-flex">
     <!-- Botão Flutuante Menu Mobile -->
     <div class="d-flex align-items-center d-sm-none p-2">
-        <button class="btn btn-dark menu-toggle-btn" id="btnToggleMenuMobile">
+        <button class="btn btn-dark menu-toggle-btn" id="btn_toggle_menu_mobile">
             <i class="fa-solid fa-bars"></i>
         </button>
     </div>
 
     <!-- Overlay para fechar o menu no mobile -->
-    <div class="menu-overlay" id="menuOverlay"></div>
+    <div class="menu-overlay"></div>
 
     <nav class="sidebar bg-dark text-white vh-100">
         <div class="px-3 pt-3 pb-1 border-bottom border-secondary small">
             <i class="fa-solid fa-user me-1"></i>
-            <span class="menu-label"><?= htmlspecialchars($_SESSION['usuario']['nome'] ?? '') ?></span>
+            <span class="menu-label"><?= htmlspecialchars($_SESSION['user']['name'] ?? '') ?></span>
         </div>
         <ul class="nav flex-column mt-3">
             <li class="nav-ite align-items-center d-sm-none">
-                <a href="#" id="btnToggleMenu" class="nav-link text-white d-flex align-items-center">
+                <a href="#" id="btn_toggle_menu" class="nav-link text-white d-flex align-items-center">
                     <i class="fa-solid fa-bars"></i><span class="menu-label ms-2">Menu</span>
                 </a>
             </li>
             <?php
-            $telasUsuario = $_SESSION['telas'] ?? [];
-            $telas = [
-                'Pedidos' => ['icone' => 'fa-cash-register', 'rota' => '/pedido'],
-                'Produtos' => ['icone' => 'fa-boxes-stacked', 'rota' => '/produto'],
-                'Categorias' => ['icone' => 'fa-tags', 'rota' => '/categoria'],
-                'Unidades' => ['icone' => 'fa-ruler-combined', 'rota' => '/unidadeMedida'],
+            $userScreens = $_SESSION['screens'] ?? [];
+            $screens = [
+                'Pedidos' => ['icon' => 'fa-cash-register', 'route' => '/order'],
+                'Produtos' => ['icon' => 'fa-boxes-stacked', 'route' => '/product'],
+                'Categorias' => ['icon' => 'fa-tags', 'route' => '/category'],
+                'Unidades' => ['icon' => 'fa-ruler-combined', 'route' => '/unit'],
             ];
             ?>
 
-            <?php foreach ($telasUsuario as $tela): ?>
+            <?php foreach ($userScreens as $screen): ?>
                 <li class="nav-item">
-                    <a href="<?= $telas[$tela['nome']]['rota'] ?>" class="nav-link text-white d-flex align-items-center">
-                        <i class="fa-solid <?= $telas[$tela['nome']]['icone'] ?>"></i><span class="menu-label ms-2"><?= $tela['nome'] ?></span>
+                    <a href="<?= $screens[$screen['name']]['route'] ?>" class="nav-link text-white d-flex align-items-center">
+                        <i class="fa-solid <?= $screens[$screen['name']]['icon'] ?>"></i><span class="menu-label ms-2"><?= $screen['name'] ?></span>
                     </a>
                 </li>
             <?php endforeach; ?>
@@ -70,4 +70,21 @@
     </nav>
     <main class="flex-grow-1 p-0">
         <div id="toast-container" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1080"></div>
+
+        <!-- Modal confirmação exclusão -->
+        <div class="modal fade" id="modal_confirm_delete" tabindex="-1" aria-labelledby="modal_confirm_delete_label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal_confirm_delete_label">Confirmar exclusão</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                    </div>
+                    <div class="modal-body">Deseja realmente excluir este registro?</div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button id="btn_confirm_delete" type="button" class="btn btn-danger">Excluir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 <?php endif; ?>

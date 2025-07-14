@@ -16,7 +16,7 @@ echo "Migrations concluídas."
 
 # Corrige permissões
 echo "Corrigindo permissões das pastas públicas..."
-chown -R www-data:www-data /var/www/html/app/public/pedidos
+chown -R www-data:www-data /var/www/html/app/public/orders
 chown -R www-data:www-data /var/www/html/app/public/upload
 
 # Executa o comando padrão do container (Apache)

@@ -8,7 +8,7 @@ class Router {
         // Remove barras iniciais/finais e divide a URL
         $segments = array_values(array_filter(explode('/', trim($path, '/'))));
 
-        $controller = $segments[0] ?? 'pedido';
+        $controller = $segments[0] ?? 'order';
         $action     = $segments[1] ?? 'index';
         $params     = array_slice($segments, 2); // tudo após /controller/action/
 

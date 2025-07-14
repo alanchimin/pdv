@@ -1,12 +1,12 @@
 -- Inserindo unidades de medida
-INSERT INTO unidade_medida (nome, simbolo) VALUES
+INSERT INTO units (name, symbol) VALUES
 ('Unidade', 'Un'),
 ('Quilograma', 'Kg'),
 ('Litro', 'L'),
 ('Pacote', 'Pct');
 
 -- Inserindo categorias de produtos
-INSERT INTO categoria (categoria_id, nome, icone) VALUES
+INSERT INTO categories (category_id, name, icon) VALUES
 (1, 'Mercearia', 'fa-solid fa-shopping-cart'),
 (2, 'Hortifruti', 'fa-solid fa-leaf'),
 (3, 'Bebidas', 'fa-solid fa-coffee'),
@@ -20,8 +20,7 @@ INSERT INTO categoria (categoria_id, nome, icone) VALUES
 (11, 'Utilidades', 'fa-solid fa-wrench');
 
 -- Inserindo produtos
--- Inserindo produtos com unidade_medida_id corrigido
-INSERT INTO produto (produto_id, nome, imagem, unidade_medida_id, valor_unitario, desconto, categoria_id) VALUES
+INSERT INTO products (product_id, name, image, unit_id, unit_price, discount, category_id) VALUES
 (1, 'Arroz 5kg', 'https://m.media-amazon.com/images/I/71rBEHnIkXL._UF894,1000_QL80_.jpg', 1, 24.90, NULL, 1),
 (2, 'Feijão Carioca 1kg', 'https://carrefourbrfood.vtexassets.com/arquivos/ids/194917/466506_1.jpg?v=637272434027000000', 1, 8.50, NULL, 1),
 (3, 'Açúcar Refinado 1kg', 'https://kioskbrazil.com/cdn/shop/files/1D5C4868-0765-41D0-9603-764B82B043E9.jpg?v=1741288887', 1, 4.90, 7.0, 1),
@@ -84,7 +83,7 @@ INSERT INTO produto (produto_id, nome, imagem, unidade_medida_id, valor_unitario
 (50, 'Pano de Prato', 'https://live.staticflickr.com/2311/2326021204_bde17c2771_z.jpg', 1, 3.80, NULL, 11);
 
 -- Inserindo formas de pagamento
-INSERT INTO forma_pagamento (nome) VALUES
+INSERT INTO payment_methods (name) VALUES
 ('Dinheiro'),
 ('Cartão de Crédito'),
 ('Cartão de Débito'),
@@ -93,26 +92,26 @@ INSERT INTO forma_pagamento (nome) VALUES
 ('Vale Refeição');
 
 -- Inserindo telas
-INSERT INTO tela (nome) VALUES
+INSERT INTO screens (name) VALUES
 ('Pedidos'),
 ('Produtos'),
 ('Categorias'),
 ('Unidades');
 
 -- Inserindo usuários com senha "1" usando bcrypt (hash gerado via PHP)
-INSERT INTO usuario (nome, senha) VALUES
+INSERT INTO users (name, password) VALUES
 ('admin', '$2y$10$GMoks1SDe31zmw5OYW8vZOTVKeuugT0P5PCDfL/fF2NmZMtOOLmfW'),
 ('autoatendimento', '$2y$10$GMoks1SDe31zmw5OYW8vZOTVKeuugT0P5PCDfL/fF2NmZMtOOLmfW');
 
 -- Vinculando telas para usuários
 -- admin (acesso total)
-INSERT INTO usuario_tela (usuario_id, tela_id)
-SELECT u.usuario_id, t.tela_id
-FROM usuario u, tela t
-WHERE u.nome = 'admin';
+INSERT INTO user_screens (user_id, screen_id)
+SELECT u.user_id, s.screen_id
+FROM users u, screens s
+WHERE u.name = 'admin';
 
 -- autoatendimento (apenas Pedidos)
-INSERT INTO usuario_tela (usuario_id, tela_id)
-SELECT u.usuario_id, t.tela_id
-FROM usuario u, tela t
-WHERE u.nome = 'autoatendimento' AND t.nome = 'Pedidos';
+INSERT INTO user_screens (user_id, screen_id)
+SELECT u.user_id, s.screen_id
+FROM users u, screens s
+WHERE u.name = 'autoatendimento' AND s.name = 'Pedidos';

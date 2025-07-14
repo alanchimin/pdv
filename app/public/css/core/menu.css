@@ -86,7 +86,7 @@ nav.sidebar {
         display: inline;
     }
 
-    #btnToggleMenu {
+    #btn_toggle_menu {
         display: inline-flex !important;
     }
 }

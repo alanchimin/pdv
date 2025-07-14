@@ -13,7 +13,7 @@ class AuthMiddleware
         $path = $_SERVER['PATH_INFO'] ?? parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
         $segments = array_values(array_filter(explode('/', trim($path, '/'))));
-        $controller = strtolower($segments[0] ?? 'pedido');
+        $controller = strtolower($segments[0] ?? 'order');
         $action     = strtolower($segments[1] ?? 'index');
 
         $currentRoute = "$controller/$action";

@@ -1,69 +1,69 @@
-CREATE TABLE unidade_medida (
-    unidade_medida_id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(50) NOT NULL,
-    simbolo VARCHAR(10) NOT NULL
+CREATE TABLE units (
+    unit_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    symbol VARCHAR(10) NOT NULL
 );
 
-CREATE TABLE categoria (
-    categoria_id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(50) NOT NULL,
-    icone VARCHAR(255)
+CREATE TABLE categories (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    icon VARCHAR(255)
 );
 
-CREATE TABLE produto (
-    produto_id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(100) NOT NULL,
-    imagem VARCHAR(255),
-    tipo_imagem ENUM('upload', 'url') NOT NULL DEFAULT 'url',
-    unidade_medida_id INT NOT NULL,
-    valor_unitario DECIMAL(10,2) NOT NULL,
-    desconto DECIMAL(10,2),
-    categoria_id INT NOT NULL,
-    FOREIGN KEY (unidade_medida_id) REFERENCES unidade_medida(unidade_medida_id),
-    FOREIGN KEY (categoria_id) REFERENCES categoria(categoria_id)
+CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    image VARCHAR(255),
+    image_type ENUM('upload', 'url') NOT NULL DEFAULT 'url',
+    unit_id INT NOT NULL,
+    unit_price DECIMAL(10,2) NOT NULL,
+    discount DECIMAL(10,2),
+    category_id INT NOT NULL,
+    FOREIGN KEY (unit_id) REFERENCES units(unit_id),
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
 );
 
-CREATE TABLE forma_pagamento (
-    forma_pagamento_id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(50) NOT NULL
+CREATE TABLE payment_methods (
+    payment_method_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
 );
 
-CREATE TABLE usuario (
-    usuario_id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(50) NOT NULL UNIQUE,
-    senha VARCHAR(255) NOT NULL
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE pedido (
-    pedido_id INT AUTO_INCREMENT PRIMARY KEY,
-    data_hora DATETIME DEFAULT CURRENT_TIMESTAMP,
-    forma_pagamento_id INT NOT NULL,
-    usuario_id INT NOT NULL,
-    FOREIGN KEY (forma_pagamento_id) REFERENCES forma_pagamento(forma_pagamento_id),
-    FOREIGN KEY (usuario_id) REFERENCES usuario(usuario_id)
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    datetime DATETIME DEFAULT CURRENT_TIMESTAMP,
+    payment_method_id INT NOT NULL,
+    user_id INT NOT NULL,
+    FOREIGN KEY (payment_method_id) REFERENCES payment_methods(payment_method_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
-CREATE TABLE item (
+CREATE TABLE items (
     item_id INT AUTO_INCREMENT PRIMARY KEY,
-    quantidade INT NOT NULL,
-    desconto_valor DECIMAL(10,2) DEFAULT 0,
-    valor_unitario DECIMAL(10,2) NOT NULL,
-    valor_total DECIMAL(10,2) NOT NULL,
-    produto_id INT NOT NULL,
-    pedido_id INT NOT NULL,
-    FOREIGN KEY (produto_id) REFERENCES produto(produto_id),
-    FOREIGN KEY (pedido_id) REFERENCES pedido(pedido_id)
+    amount INT NOT NULL,
+    discount DECIMAL(10,2) DEFAULT 0,
+    unit_price DECIMAL(10,2) NOT NULL,
+    total_price DECIMAL(10,2) NOT NULL,
+    product_id INT NOT NULL,
+    order_id INT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES products(product_id),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id)
 );
 
-CREATE TABLE tela (
-    tela_id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(50) NOT NULL UNIQUE
+CREATE TABLE screens (
+    screen_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
 );
 
-CREATE TABLE usuario_tela (
-    usuario_id INT NOT NULL,
-    tela_id INT NOT NULL,
-    PRIMARY KEY (usuario_id, tela_id),
-    FOREIGN KEY (usuario_id) REFERENCES usuario(usuario_id),
-    FOREIGN KEY (tela_id) REFERENCES tela(tela_id)
+CREATE TABLE user_screens (
+    user_id INT NOT NULL,
+    screen_id INT NOT NULL,
+    PRIMARY KEY (user_id, screen_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (screen_id) REFERENCES screens(screen_id)
 );

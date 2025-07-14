@@ -1,17 +1,17 @@
 class Menu {
     constructor() {
         this.$sidebar = $('.sidebar');
-        this.$btnToggle = $('#btnToggleMenu');
-        this.$btnToggleMobile = $('#btnToggleMenuMobile');
-        this.$overlay = $('#menuOverlay');
+        this.$btnToggleMenu = $('#btn_toggle_menu');
+        this.$btnToggleMenuMobile = $('#btn_toggle_menu_mobile');
+        this.$menuOverlay = $('.menu-overlay');
 
         this.listen();
     }
 
     listen() {
-        this.$btnToggle.on('click', this.toggleMenu.bind(this));
-        this.$btnToggleMobile.on('click', this.toggleMenu.bind(this));
-        this.$overlay.on('click', this.closeMenu.bind(this));
+        this.$btnToggleMenu.on('click', this.toggleMenu.bind(this));
+        this.$btnToggleMenuMobile.on('click', this.toggleMenu.bind(this));
+        this.$menuOverlay.on('click', this.closeMenu.bind(this));
         $(window).on('resize', this.handleWindowResize.bind(this));
     }
 
@@ -23,29 +23,29 @@ class Menu {
 
     openMenu() {
         this.$sidebar.addClass('open');
-        this.$overlay.addClass('show');
+        this.$menuOverlay.addClass('show');
 
         // Esconde o botão flutuante apenas em telas pequenas
         if (window.innerWidth < 576) {
-            this.$btnToggleMobile.hide();
+            this.$btnToggleMenuMobile.hide();
         }
     }
 
     closeMenu() {
         this.$sidebar.removeClass('open');
-        this.$overlay.removeClass('show');
+        this.$menuOverlay.removeClass('show');
 
         // Mostra o botão flutuante apenas em telas pequenas
         if (window.innerWidth < 576) {
-            this.$btnToggleMobile.show();
+            this.$btnToggleMenuMobile.show();
         }
     }
 
     handleWindowResize() {
         if (window.innerWidth >= 576) {
-            this.$btnToggleMobile.hide();
+            this.$btnToggleMenuMobile.hide();
         } else if (!this.$sidebar.hasClass('open')) {
-            this.$btnToggleMobile.show();
+            this.$btnToggleMenuMobile.show();
         }
     }
 }

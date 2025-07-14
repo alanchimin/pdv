@@ -1,8 +1,8 @@
 <?php
 namespace App\controllers;
 
-use App\models\Usuario;
-use App\models\Tela;
+use App\models\User;
+use App\models\Screen;
 
 class AuthController
 {
@@ -24,21 +24,21 @@ class AuthController
             return;
         }
 
-        $usuarioModel = new Usuario();
-        $usuario = $usuarioModel->findByName($user);
+        $userModel = new User();
+        $user = $userModel->findByName($user);
 
-        if ($usuario && password_verify($pass, $usuario['senha'])) {
+        if ($user && password_verify($pass, $user['password'])) {
             $_SESSION['auth'] = true;
-            $_SESSION['usuario'] = [
-                'usuario_id' => $usuario['usuario_id'],
-                'nome' => $usuario['nome'],
+            $_SESSION['user'] = [
+                'user_id' => $user['user_id'],
+                'name' => $user['name'],
             ];
 
             // Busca as telas do usuário
-            $telaModel = new Tela();
-            $_SESSION['telas'] = $telaModel->getTelasPorUsuario($usuario['usuario_id']);
+            $screenModel = new Screen();
+            $_SESSION['screens'] = $screenModel->getScreensByUser($user['user_id']);
 
-            header("Location: /pedido");
+            header("Location: /order");
             exit;
         }
 

@@ -1,98 +1,98 @@
-class ListagemBase {
-    constructor({ entidade, containerId, colunas, ordemPadrao = null, modalId = 'modal_confirmar_exclusao' }) {
-        this.entidade = entidade;
-        this.colunas = colunas;
-        this.$ctrl = $(`#${containerId}`);
-        this.$inputBusca = this.$ctrl.find('input[name="q"]');
-        this.ordem = ordemPadrao || colunas[0].campo;
-        this.direcao = 'desc';
-        this.pagina = 1;
-        this.idExcluir = null;
+class BaseList {
+    constructor({ entity, containerId, columns, defaultOrder = null, modalId = 'modal_confirm_delete' }) {
+        this.entity = entity;
+        this.columns = columns;
+        this.$container = $(`#${containerId}`);
+        this.$searchInput = this.$container.find('input[name="q"]');
+        this.order = defaultOrder || columns[0].field;
+        this.direction = 'desc';
+        this.page = 1;
+        this.idToDelete = null;
         this.modalId = modalId;
 
         this.listen();
-        this.buscar();
+        this.fetchData();
     }
 
     listen() {
-        if (this.$inputBusca.length) {
-            this.$inputBusca.on('input', Utils.debounce(() => {
-                this.pagina = 1;
-                this.buscar();
+        if (this.$searchInput.length) {
+            this.$searchInput.on('input', Utils.debounce(() => {
+                this.page = 1;
+                this.fetchData();
             }));
         }
 
-        this.$ctrl.on('click', 'th.sortable', (e) => {
+        this.$container.on('click', 'th.sortable', (e) => {
             const $th = $(e.currentTarget);
-            const campo = $th.data('campo');
+            const field = $th.data('field');
 
-            if (this.ordem === campo) {
-                this.direcao = this.direcao === 'asc' ? 'desc' : 'asc';
+            if (this.order === field) {
+                this.direction = this.direction === 'asc' ? 'desc' : 'asc';
             } else {
-                this.ordem = campo;
-                this.direcao = 'asc';
+                this.order = field;
+                this.direction = 'asc';
             }
 
             this.updateSortIcons();
-            this.buscar();
+            this.fetchData();
         });
 
-        this.$ctrl.on('click', '.nav-pagination a', (e) => {
+        this.$container.on('click', '.nav-pagination a', (e) => {
             e.preventDefault();
             const $a = $(e.currentTarget);
-            const pagina = parseInt($a.data('pagina'));
-            if (!isNaN(pagina)) {
-                this.pagina = pagina;
-                this.buscar();
+            const page = parseInt($a.data('page'));
+            if (!isNaN(page)) {
+                this.page = page;
+                this.fetchData();
             }
         });
 
-        this.$ctrl.on('click', '.btn-excluir', (e) => {
+        this.$container.on('click', '.btn-delete', (e) => {
             const $btn = $(e.currentTarget);
-            this.idExcluir = $btn.data('id');
-            this.modalExcluir = new bootstrap.Modal(document.getElementById(this.modalId));
-            this.modalExcluir.show();
+            this.idToDelete = $btn.data('id');
+            this.deleteModal = new bootstrap.Modal(document.getElementById(this.modalId));
+            this.deleteModal.show();
         });
 
-        this.$ctrl.on('click', '#btn_confirmar_excluir', () => {
-            if (!this.idExcluir) return;
+        $('#btn_confirm_delete').on('click', () => {
+            if (!this.idToDelete) return;
             $.ajax({
-                url: `/${this.entidade}/delete/${this.idExcluir}?ajax=1`,
+                url: `/${this.entity}/delete/${this.idToDelete}?ajax=1`,
                 method: 'POST',
                 success: () => {
-                    this.idExcluir = null;
-                    this.modalExcluir.hide();
-                    this.buscar();
+                    this.idToDelete = null;
+                    this.deleteModal.hide();
+                    this.fetchData();
                 },
                 error: () => {
-                    Utils.showToast(`Erro ao excluir ${this.entidade}.`);
+                    Utils.showToast('Erro ao excluir o registro');
                 }
             });
         });
     }
 
     updateSortIcons() {
-        this.$ctrl.find('th.sortable').each((_, th) => {
+        this.$container.find('th.sortable').each((_, th) => {
             const $th = $(th);
-            const campo = $th.data('campo');
+            const field = $th.data('field');
             $th.removeClass('sorted-asc sorted-desc');
-            if (campo === this.ordem) {
-                $th.addClass(`sorted-${this.direcao}`);
+            if (field === this.order) {
+                $th.addClass(`sorted-${this.direction}`);
             }
         });
     }
 
-    buscar() {
-        $.get(`/${this.entidade}`, {
-            q: this.$inputBusca.val(),
-            pagina: this.pagina,
-            ordem: this.ordem,
-            direcao: this.direcao,
+    fetchData() {
+        $.get(`/${this.entity}`, {
+            q: this.$searchInput.val(),
+            page: this.page,
+            order: this.order,
+            direction: this.direction,
             ajax: 1
         }, (html) => {
-            const $novo = $(html);
-            const seletor = `#tabela-${this.entidade}`;
-            this.$ctrl.find(seletor).html($novo.html());
+            const $new = $(html);
+            const selector = `#table-${this.entity}`;
+            this.$container.find(selector).html($new.html());
             this.updateSortIcons();
         });
     }

@@ -1,1 +1,1 @@
-localStorage.removeItem('itensPedido');
+localStorage.removeItem('pdv_order');

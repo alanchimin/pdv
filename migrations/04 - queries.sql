@@ -1,11 +1,11 @@
 USE pdv;
 
-select * from unidade_medida order by unidade_medida_id desc;
-select * from categoria order by categoria_id desc;
-select * from produto order by produto_id desc;
-select * from forma_pagamento order by forma_pagamento_id desc;
-select * from usuario order by usuario_id desc;
-select * from pedido order by pedido_id desc;
-select * from item order by item_id desc;
-select * from tela order by tela_id desc;
-select * from usuario_tela order by usuario_id desc, tela_id desc;
+SELECT * FROM units ORDER BY unit_id DESC;
+SELECT * FROM categories ORDER BY category_id DESC;
+SELECT * FROM products ORDER BY product_id DESC;
+SELECT * FROM payment_methods ORDER BY payment_method_id DESC;
+SELECT * FROM users ORDER BY user_id DESC;
+SELECT * FROM orders ORDER BY order_id DESC;
+SELECT * FROM items ORDER BY item_id DESC;
+SELECT * FROM screens ORDER BY screen_id DESC;
+SELECT * FROM user_screens ORDER BY user_id DESC, screen_id DESC;

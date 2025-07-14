@@ -31,7 +31,7 @@ docker-compose up -d
 ## 🔐 Autenticação
 
 - Login baseado em sessão.
-- Cada usuário tem permissões de acesso definidas por tela (`usuario_tela`).
+- Cada usuário tem permissões de acesso definidas por tela (`user_screens`).
 - Usuários e permissões estão vinculados diretamente às rotas disponíveis.
 - Usuários disponíveis:
     - Login: admin | Senha: 1 | Acesso total
@@ -80,9 +80,9 @@ docker-compose up -d
 
 Tabelas principais:
 
-- `usuario`, `tela`, `usuario_tela`
-- `produto`, `categoria`, `unidade_medida`
-- `pedido`, `item`, `forma_pagamento`
+- `users`, `screens`, `user_screens`
+- `products`, `categories`, `units`
+- `orders`, `items`, `payment_methods`
 
 Ver arquivo `migrations/01 - create_database.sql`.
 

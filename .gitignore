@@ -1,5 +1,5 @@
 .env
 !/app/public/upload/.gitkeep
 /app/public/upload/*
-!/app/public/pedidos/.gitkeep
-/app/public/pedidos/*
+!/app/public/orders/.gitkeep
+/app/public/orders/*

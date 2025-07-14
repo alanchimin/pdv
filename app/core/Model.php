@@ -19,7 +19,7 @@ abstract class Model {
         int $offset = 0,
         string $orderBy = 'id',
         string $direction = 'desc',
-        string $searchColumn = 'nome',
+        string $searchColumn = 'name',
         string $additionalWhere = '',
         array $bindings = [],
         string $selectColumns = '*',
@@ -65,14 +65,14 @@ abstract class Model {
     }
 
     public function findById(int $id): ?array {
-        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE {$this->table}_id = :id");
+        $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE {$this->primaryKey} = :id");
         $stmt->execute(['id' => $id]);
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
         return $row ?: null;
     }
 
     public function delete(int $id): void {
-        $stmt = $this->pdo->prepare("DELETE FROM {$this->table} WHERE {$this->table}_id = :id");
+        $stmt = $this->pdo->prepare("DELETE FROM {$this->table} WHERE {$this->primaryKey} = :id");
         $stmt->execute(['id' => $id]);
     }
 
@@ -88,7 +88,6 @@ abstract class Model {
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($data);
 
-        $pk = "{$this->table}_id";
-        return $data[$pk] ?? $this->pdo->lastInsertId();
+        return $data[$this->primaryKey] ?? $this->pdo->lastInsertId();
     }
 }

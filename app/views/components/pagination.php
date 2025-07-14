@@ -14,12 +14,12 @@ $totalPages = max(1, $totalPages ?? 1);
 
         <!-- Primeira página -->
         <li class="page-item <?= $currentPage === 1 ? 'disabled' : '' ?>">
-            <a class="page-link" href="#" data-pagina="1" aria-label="Primeira página">&laquo;</a>
+            <a class="page-link" href="#" data-page="1" aria-label="Primeira página">&laquo;</a>
         </li>
 
         <!-- Página anterior -->
         <li class="page-item <?= $currentPage === 1 ? 'disabled' : '' ?>">
-            <a class="page-link" href="#" data-pagina="<?= max(1, $currentPage - 1) ?>" aria-label="Página anterior">&lsaquo;</a>
+            <a class="page-link" href="#" data-page="<?= max(1, $currentPage - 1) ?>" aria-label="Página anterior">&lsaquo;</a>
         </li>
 
         <!-- Página atual no col-xs -->
@@ -42,19 +42,19 @@ $totalPages = max(1, $totalPages ?? 1);
 
             for ($i = $begin; $i <= $end; $i++): ?>
                 <li class="page-item <?= $i === $currentPage ? 'active' : '' ?>">
-                    <a class="page-link" href="#" data-pagina="<?= $i ?>" aria-label="Página <?= $i ?>"><?= $i ?></a>
+                    <a class="page-link" href="#" data-page="<?= $i ?>" aria-label="Página <?= $i ?>"><?= $i ?></a>
                 </li>
             <?php endfor; ?>
         </span>
 
         <!-- Próxima página -->
         <li class="page-item <?= $currentPage >= $totalPages ? 'disabled' : '' ?>">
-            <a class="page-link" href="#" data-pagina="<?= min($totalPages, $currentPage + 1) ?>" aria-label="Próxima página">&rsaquo;</a>
+            <a class="page-link" href="#" data-page="<?= min($totalPages, $currentPage + 1) ?>" aria-label="Próxima página">&rsaquo;</a>
         </li>
 
         <!-- Última página -->
         <li class="page-item <?= $currentPage >= $totalPages ? 'disabled' : '' ?>">
-            <a class="page-link" href="#" data-pagina="<?= $totalPages ?>" aria-label="Última página">&raquo;</a>
+            <a class="page-link" href="#" data-page="<?= $totalPages ?>" aria-label="Última página">&raquo;</a>
         </li>
     </ul>
 </nav>
