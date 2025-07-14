@@ -20,7 +20,7 @@ cp .env.development .env
 
 ### 3. Rodar a aplicação (utilizando docker)
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 4. A aplicação estará disponível em:
