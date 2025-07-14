@@ -12,9 +12,9 @@ Ideia inicial:
     - Tela para lançamento dos itens (tela venda mercado)
 
 
-TODO:
+TODO: Ideias para implementação futura:
 
-    Prioridade 1: Funcionalidades Essenciais de Gestão e Operação do PDV
+    # Prioridade 1: Funcionalidades Essenciais de Gestão e Operação do PDV
         1.1. Controle de Estoque (Módulo Essencial)
             [ ] Definir Estrutura de Dados: Adicionar campo quantidade_em_estoque na tabela de produtos.
             [ ] Entrada de Estoque:
@@ -55,7 +55,7 @@ TODO:
                 [ ] Pesquisar e planejar integração com TEF (Transferência Eletrônica de Fundos) para maquininhas de cartão.
                 [ ] Pesquisar e planejar integração com APIs de pagamentos (Ex: para PIX automatizado).
 
-    Prioridade 2: Funcionalidades de Gestão de Relacionamento e Relatórios
+    # Prioridade 2: Funcionalidades de Gestão de Relacionamento e Relatórios
         2.1. Gerenciamento de Clientes (CRM Básico)
             [ ] Cadastro de Clientes: Desenvolver tela para cadastro de clientes com Nome, CPF/CNPJ, Endereço, Contato.
             [ ] Associação na Venda: Permitir associar um cliente a uma venda (opcional no PDV).
@@ -81,7 +81,7 @@ TODO:
             [ ] Cadastro de Fornecedores: Desenvolver tela para cadastro de Nome, Contato, Produtos Fornecidos.
             [ ] Histórico de Compras a Fornecedores: Registrar e visualizar pedidos de compra feitos a cada fornecedor.
 
-    Prioridade 3: Melhorias e Otimizações (Qualidade de Vida e Futuras Expansões)
+    # Prioridade 3: Melhorias e Otimizações (Qualidade de Vida e Futuras Expansões)
         3.1. Gerenciamento de Promoções e Cupons (Módulo de Marketing)
             [ ] Promoções Simples: Implementar "Leve X pague Y", "Desconto por quantidade".
             [ ] Cupons de Desconto: Geração e validação de códigos de cupom.
