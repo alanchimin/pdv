@@ -16,5 +16,13 @@ trait GlobalResetTrait
         $_POST = [];
         $_GET = [];
         $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        // Limpa os arquivos temporários criados para o teste
+        $viewDir = $_ENV['VIEWS_PATH'] ?? '';
+        if (is_dir($viewDir)) {
+            array_map('unlink', glob("$viewDir/*/*.php"));
+        }
+
+        unset($_ENV['VIEWS_PATH']);
     }
 }

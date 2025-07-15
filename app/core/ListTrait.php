@@ -40,12 +40,16 @@ trait ListTrait
         // 3) page data
         $items       = $model->list($search, $limit, $offset, $orderBy, $direction);
 
+        // Define o path base (permite override nos testes via $_ENV)
+        $viewsPath = $_ENV['VIEWS_PATH'] ?? (__DIR__ . '/../views');
+
         // 4) render partial or full
         if ($isAjax) {
-            include __DIR__ . "/../views/{$viewTable}";
+            include "{$viewsPath}/{$viewTable}";
             $this->terminate();
+            return;
         }
 
-        include __DIR__ . "/../views/{$viewIndex}";
+        include "{$viewsPath}/{$viewIndex}";
     }
 }
