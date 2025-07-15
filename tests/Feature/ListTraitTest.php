@@ -6,6 +6,11 @@ use App\models\Unit;
 use App\core\ListTrait;
 use Tests\Traits\GlobalResetTrait;
 
+/**
+ * Testes para o trait ListTrait.
+ * Verifica o comportamento de renderização de views completas e parciais (AJAX),
+ * além do funcionamento da paginação e filtros.
+ */
 class ListTraitTest extends TestCase
 {
     use GlobalResetTrait;
@@ -14,10 +19,13 @@ class ListTraitTest extends TestCase
     {
         parent::setUp();
 
-        // Define a constante de views temporária para simular includes
+        // Define o caminho temporário onde as views serão criadas para teste
         $_ENV['VIEWS_PATH'] = sys_get_temp_dir() . '/views';
     }
 
+    /**
+     * Cria um arquivo de view temporário com conteúdo definido.
+     */
     private function createViewFile(string $path, string $content): void
     {
         $fullPath = $_ENV['VIEWS_PATH'] . '/' . $path;
@@ -28,11 +36,17 @@ class ListTraitTest extends TestCase
         file_put_contents($fullPath, $content);
     }
 
+    /**
+     * Cria uma instância anônima que utiliza o ListTrait para facilitar testes.
+     */
     private function getListTraitInstance(): object
     {
         return new class {
             use ListTrait;
 
+            /**
+             * Método auxiliar para chamar o método list do trait e capturar saída.
+             */
             public function callList(
                 Unit $model,
                 string $viewIndex,
@@ -48,9 +62,11 @@ class ListTraitTest extends TestCase
         };
     }
 
+    /**
+     * Testa se o método list inclui a view completa (index.php) quando não é requisição AJAX.
+     */
     public function testListIncludesFullView()
     {
-        // Arrange
         $this->createViewFile('units/index.php', '<div id="view-completa">Index view carregada</div>');
         $this->createViewFile('units/table.php', '<div id="view-tabela">Table view carregada</div>');
 
@@ -69,16 +85,17 @@ class ListTraitTest extends TestCase
 
         $trait = $this->getListTraitInstance();
 
-        // Act
         $output = $trait->callList($mock, 'units/index.php', 'units/table.php', 'unit');
 
-        // Assert
         $this->assertStringContainsString('Index view carregada', $output);
     }
 
+    /**
+     * Testa se o método list inclui apenas a view parcial (table.php) em requisição AJAX,
+     * garantindo que a view completa não é exibida.
+     */
     public function testListIncludesPartialViewInAjax()
     {
-        // Arrange
         $this->createViewFile('units/index.php', '<div>Index não deveria aparecer</div>');
         $this->createViewFile('units/table.php', '<div id="view-tabela">Tabela AJAX</div>');
 
@@ -98,10 +115,8 @@ class ListTraitTest extends TestCase
 
         $trait = $this->getListTraitInstance();
 
-        // Act
         $output = $trait->callList($mock, 'units/index.php', 'units/table.php', 'unit');
 
-        // Assert
         $this->assertStringContainsString('Tabela AJAX', $output);
         $this->assertStringNotContainsString('Index não deveria aparecer', $output);
     }

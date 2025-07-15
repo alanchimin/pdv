@@ -10,6 +10,9 @@ class UserTest extends TestCase
 {
     use GlobalResetTrait;
 
+    /**
+     * Testa se o método findByName retorna um array contendo os dados do usuário 'admin'.
+     */
     public function testFindByNameReturnsUser()
     {
         $model = new User();

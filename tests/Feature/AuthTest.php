@@ -9,6 +9,10 @@ class AuthTest extends TestCase
 {
     use GlobalResetTrait;
 
+    /**
+     * Cria uma instância do controller de autenticação com modo de teste ativado.
+     * Permite capturar headers e saída sem interromper a execução.
+     */
     protected function createTestController(): \App\controllers\AuthController
     {
         return new class extends \App\controllers\AuthController {
@@ -18,6 +22,10 @@ class AuthTest extends TestCase
         };
     }
 
+    /**
+     * Testa o comportamento do login com credenciais inválidas.
+     * Espera que o usuário seja redirecionado para a página de login com erro.
+     */
     public function testLoginWithInvalidCredentials()
     {
         $_POST['user'] = 'invalid';
@@ -36,6 +44,10 @@ class AuthTest extends TestCase
         );
     }
 
+    /**
+     * Testa o login com credenciais válidas.
+     * Verifica se a sessão é iniciada corretamente e o usuário autenticado está setado.
+     */
     public function testLoginWithValidCredentials()
     {
         $_POST['user'] = 'admin';

@@ -15,7 +15,10 @@ trait GlobalResetTrait
         parent::tearDown();
         $_POST = [];
         $_GET = [];
+        $_SESSION = [];
         $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = '/';
+        unset($_SERVER['PATH_INFO']);
 
         // Limpa os arquivos temporários criados para o teste
         $viewDir = $_ENV['VIEWS_PATH'] ?? '';
