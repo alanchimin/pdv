@@ -8,46 +8,63 @@ class CategoryController
 {
     use ListTrait;
 
+    protected Category $model;
+
+    public function __construct(?Category $model = null)
+    {
+        $this->model = $model ?? new Category();
+    }
+
     public function index()
     {
-        $this->list(new Category(), 'categories/index.php', 'categories/table.php', 'category');
+        $this->list($this->model, 'categories/index.php', 'categories/table.php', 'category');
     }
 
     public function form()
     {
         $isUpdate = false;
-        include "../views/categories/form.php";
+        include __DIR__ . '/../views/categories/form.php';
     }
 
     public function store()
     {
-        $data = [
-            'category_id' => $_POST['category_id'] ?? null,
-            'name' => $_POST['name'],
-            'icon' => $_POST['icon']
-        ];
+        $name = $_POST['name'] ?? '';
+        $icon = $_POST['icon'] ?? '';
+        $id = $_POST['category_id'] ?? null;
 
-        (new Category())->upsert($data);
+        if (trim($name) === '' || trim($icon) === '') {
+            $this->json([
+                'success' => false,
+                'message' => 'Nome e ícone são obrigatórios.'
+            ], 400);
+            return;
+        }
+
+        $this->model->upsert([
+            'category_id' => $id,
+            'name' => $name,
+            'icon' => $icon
+        ]);
+
         $this->redirect('/category');
     }
 
     public function edit($id)
     {
         $isUpdate = true;
-        $categoryModel = new Category();
-        $category = $categoryModel->findById((int)$id);
+        $category = $this->model->findById((int)$id);
 
         if (!$category) {
             $this->redirect('/category');
+            return;
         }
 
-        include "../views/categories/form.php";
+        include __DIR__ . '/../views/categories/form.php';
     }
 
     public function delete($id)
     {
-        $categoryModel = new Category();
-        $categoryModel->delete((int)$id);
+        $this->model->delete((int)$id);
 
         $this->json(['success' => true]);
     }
@@ -57,15 +74,18 @@ class CategoryController
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['name']) && !empty($_POST['icon'])) {
             $name = trim($_POST['name']);
             $icon = $_POST['icon'];
-            $category = new Category();
-            $id = $category->upsert(['category_id' => null, 'name' => $name, 'icon' => $icon]);
-            $nova = $category->findById($id);
 
-            header('Content-Type: application/json');
-            echo json_encode(['success' => true, 'category' => $nova]);
+            $id = $this->model->upsert([
+                'category_id' => null,
+                'name' => $name,
+                'icon' => $icon
+            ]);
+
+            $nova = $this->model->findById($id);
+
+            $this->json(['success' => true, 'category' => $nova]);
         } else {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'Dados inválidos']);
+            $this->json(['success' => false, 'message' => 'Dados inválidos'], 400);
         }
     }
 }

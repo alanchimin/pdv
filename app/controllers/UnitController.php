@@ -63,11 +63,9 @@ class UnitController
             $id = $unit->upsert(['unit_id' => null, 'name' => $name, 'symbol' => $symbol]);
             $nova = $unit->findById($id);
 
-            header('Content-Type: application/json');
-            echo json_encode(['success' => true, 'unit' => $nova]);
+            $this->json(['success' => true, 'unit' => $nova]);
         } else {
-            http_response_code(400);
-            echo json_encode(['success' => false, 'message' => 'Dados inválidos']);
+            $this->json(['success' => false, 'message' => 'Dados inválidos'], 400);
         }
     }
 }

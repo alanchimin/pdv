@@ -53,10 +53,17 @@ trait ResponseTrait
     protected function terminate(?string $msg = null): void
     {
         if ($this->testMode || defined('PHPUNIT_RUNNING')) {
-            $this->mockedOutput .= "[TERMINATED: $msg]";
-        } else {
-            exit($msg ?? '');
+            $isJson = str_contains(implode('', $this->mockedHeaders), 'application/json');
+
+            if (!$isJson) {
+                $terminatedMsg = empty($msg) ? '[TERMINATED]' : "[TERMINATED: $msg]";
+                $this->mockedOutput .= $terminatedMsg;
+            }
+
+            return;
         }
+
+        exit($msg ?? '');
     }
 
     // Métodos de acesso para testes

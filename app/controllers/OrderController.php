@@ -4,6 +4,7 @@ namespace App\controllers;
 use Dompdf\Dompdf;
 
 use App\config\Database;
+use App\core\ResponseTrait;
 use App\models\Order;
 use App\models\Item;
 use App\models\Category;
@@ -12,6 +13,8 @@ use App\models\PaymentMethod;
 
 class OrderController
 {
+    use ResponseTrait;
+
     public function index() {
         $categoryModel = new Category();
         $categories = $categoryModel->all();
@@ -82,8 +85,7 @@ class OrderController
 
             $pdo->commit();
 
-            header('Content-Type: application/json');
-            echo json_encode(['success' => true, 'order_id' => $orderId]);
+            $this->json(['success' => true, 'order_id' => $orderId]);
 
         } catch (\Exception $e) {
             $pdo->rollBack();
@@ -131,9 +133,6 @@ class OrderController
         file_put_contents($path, $output);
 
         // Retorna a URL para o frontend
-        header('Content-Type: application/json');
-        echo json_encode([
-            'url' => '/orders/' . $filename
-        ]);
+        $this->json(['url' => '/orders/' . $filename]);
     }
 }

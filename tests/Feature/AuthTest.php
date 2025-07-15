@@ -3,9 +3,12 @@
 namespace Tests\Feature;
 
 use PHPUnit\Framework\TestCase;
+use Tests\Traits\GlobalResetTrait;
 
 class AuthTest extends TestCase
 {
+    use GlobalResetTrait;
+
     protected function createTestController(): \App\controllers\AuthController
     {
         return new class extends \App\controllers\AuthController {

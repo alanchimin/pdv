@@ -9,8 +9,8 @@ abstract class Model {
     protected string $table;
     protected array $orderableColumns = [];
 
-    public function __construct() {
-        $this->pdo = Database::getInstance();
+    public function __construct(?PDO $pdo = null) {
+        $this->pdo = $pdo ?? Database::getInstance();
     }
 
     protected function baseListQuery(

@@ -1,7 +1,12 @@
 <?php
 namespace App\core;
 
-class Router {
+use App\core\ResponseTrait;
+
+class Router
+{
+    use ResponseTrait;
+
     public function handleRequest() {
         $path = $_SERVER['PATH_INFO'] ?? parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
@@ -14,8 +19,7 @@ class Router {
 
         // Segurança
         if (!preg_match('/^[a-zA-Z0-9_]+$/', $controller) || !preg_match('/^[a-zA-Z0-9_]+$/', $action)) {
-            http_response_code(400);
-            echo "Requisição inválida.";
+            $this->respond('Requisição inválida.', 'text/plain', 400);
             return;
         }
 
@@ -31,7 +35,6 @@ class Router {
             }
         }
 
-        http_response_code(404);
-        echo "Página não encontrada.";
+        $this->respond('Página não encontrada.', 'text/plain', 404);
     }
 }

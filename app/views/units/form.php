@@ -1,4 +1,4 @@
-<?php include '../views/layout/header.php'; ?>
+<?php include __DIR__ . '/../layout/header.php'; ?>
 
 <div class="container mt-4">
     <div class="form-wrapper">
@@ -38,6 +38,6 @@
     </div>
 </div>
 
-<?php include '../views/layout/footer.php'; ?>
+<?php include __DIR__ . '/../layout/footer.php'; ?>
 
 <script src="/js/units/form.js"></script>

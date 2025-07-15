@@ -1,4 +1,4 @@
-<?php include '../views/layout/header.php'; ?>
+<?php include __DIR__ . '/../layout/header.php'; ?>
 
 <!-- CSS Personalizado -->
 <link rel="stylesheet" href="/css/categories/form.css">
@@ -61,6 +61,6 @@
     </div>
 </div>
 
-<?php include '../views/layout/footer.php'; ?>
+<?php include __DIR__ . '/../layout/footer.php'; ?>
 
 <script src="/js/categories/form.js"></script>
