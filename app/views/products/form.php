@@ -156,7 +156,7 @@
                                     data-bs-auto-close="outside"
                                     aria-expanded="false">
                                 <span>
-                                    <i id="icon_preview_modal" class="fa-solid fa-tag me-2"></i>
+                                    <i id="icon_preview_modal" class="fa-solid fa-house me-2"></i>
                                     <span id="icon_name_modal">house</span>
                                 </span>
                                 <span class="dropdown-toggle"></span>
@@ -168,7 +168,7 @@
                                 <ul id="icon_dropdown_modal"></ul>
                             </div>
                         </div>
-                        <input type="hidden" name="icon" id="icon_modal" value="fa-solid fa-tag">
+                        <input type="hidden" name="icon" id="icon_modal" value="fa-solid fa-house">
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
