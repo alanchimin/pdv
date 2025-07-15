@@ -8,7 +8,8 @@ use App\core\Router;
 // Habilita suporte a caracteres especiais corretamente
 header('Content-Type: text/html; charset=utf-8');
 
-AuthMiddleware::check();
+$authMiddleware = new AuthMiddleware();
+$authMiddleware->check();
 
 $router = new Router();
 $router->handleRequest();

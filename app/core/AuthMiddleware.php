@@ -7,7 +7,7 @@ class AuthMiddleware
 {
     use ResponseTrait;
 
-    public static function check()
+    public function check()
     {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
