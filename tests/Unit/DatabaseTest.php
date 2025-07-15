@@ -17,7 +17,7 @@ class DatabaseTest extends TestCase
         $reflection = new \ReflectionClass(Database::class);
         $prop = $reflection->getProperty('instance');
         $prop->setAccessible(true);
-        $prop->setValue(null);
+        $prop->setValue(null, null);
     }
 
     /**
