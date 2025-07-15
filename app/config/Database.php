@@ -13,6 +13,10 @@ class Database
 
     private static ?PDO $instance = null;
 
+    /**
+     * Retorna a instância singleton do PDO para conexão com banco de dados.
+     * Se ainda não foi criada, inicializa com dados do arquivo .env.
+     */
     public static function getInstance(): PDO {
         if (self::$instance === null) {
             $envPath = dirname(__DIR__, 2) . '/.env';
@@ -40,7 +44,7 @@ class Database
                     PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES $charset"
                 ]);
             } catch (PDOException $e) {
-                $this->terminate("Erro ao conectar ao banco de dados: " . $e->getMessage());
+                throw new RuntimeException("Erro ao conectar ao banco de dados: " . $e->getMessage());
             }
         }
 

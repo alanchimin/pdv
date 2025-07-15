@@ -13,7 +13,7 @@ abstract class Model {
         $this->pdo = $pdo ?? Database::getInstance();
     }
 
-    protected function baseListQuery(
+    public function baseListQuery(
         string $search = '',
         int $limit = 10,
         int $offset = 0,
