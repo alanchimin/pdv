@@ -25,7 +25,7 @@ class OrderController
         $paymentMethodModel = new PaymentMethod();
         $paymentMethods = $paymentMethodModel->all();
 
-        include "../views/orders/index.php";
+        include __DIR__ . '/../views/orders/index.php';
     }
 
     public function grid()
@@ -42,7 +42,7 @@ class OrderController
         $totalPages = ceil($total / $limit);
         $products = $productModel->list($search, $limit, $offset, 'name', 'asc', $filters);
 
-        include "../views/orders/grid.php";
+        include __DIR__ . '/../views/orders/grid.php';
     }
 
     public function store() {
@@ -110,7 +110,7 @@ class OrderController
 
         // Gera o HTML da view
         ob_start();
-        include '../views/orders/pdf.php';
+        include __DIR__ . '/../views/orders/pdf.php';
         $html = ob_get_clean();
 
         // Gera o PDF

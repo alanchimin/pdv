@@ -23,7 +23,7 @@ class ProductController
         $isUpdate = false;
         $units = (new Unit())->all();
         $categories = (new Category())->all();
-        include "../views/products/form.php";
+        include __DIR__ . '/../views/products/form.php';
     }
 
     public function store()
@@ -76,7 +76,7 @@ class ProductController
 
         $units = (new Unit())->all();
         $categories = (new Category())->all();
-        include "../views/products/form.php";
+        include __DIR__ . '/../views/products/form.php';
     }
 
     public function delete($id)

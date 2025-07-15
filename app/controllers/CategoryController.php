@@ -28,11 +28,13 @@ class CategoryController
 
     public function store()
     {
-        $name = $_POST['name'] ?? '';
-        $icon = $_POST['icon'] ?? '';
-        $id = $_POST['category_id'] ?? null;
+        $data = [
+            'category_id' => $_POST['category_id'] ?? null,
+            'name' => $_POST['name'] ?? '',
+            'icon' => $_POST['icon'] ?? ''
+        ];
 
-        if (trim($name) === '' || trim($icon) === '') {
+        if (trim($data['name']) === '' || trim($data['icon']) === '') {
             $this->json([
                 'success' => false,
                 'message' => 'Nome e ícone são obrigatórios.'
@@ -40,11 +42,7 @@ class CategoryController
             return;
         }
 
-        $this->model->upsert([
-            'category_id' => $id,
-            'name' => $name,
-            'icon' => $icon
-        ]);
+        $this->model->upsert($data);
 
         $this->redirect('/category');
     }

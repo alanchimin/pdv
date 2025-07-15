@@ -12,7 +12,7 @@ class AuthController
     public function index()
     {
         $this->startSession();
-        include "../views/auth/index.php";
+        include __DIR__ . '/../views/auth/index.php';
     }
 
     public function login()
