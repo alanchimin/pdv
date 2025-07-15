@@ -10,19 +10,30 @@ class ProductController
 {
     use ListTrait;
 
+    protected Product $productModel;
+    protected Unit $unitModel;
+    protected Category $categoryModel;
+
+    public function __construct(?Product $product = null, ?Unit $unit = null, ?Category $category = null)
+    {
+        $this->productModel = $product ?? new Product();
+        $this->unitModel = $unit ?? new Unit();
+        $this->categoryModel = $category ?? new Category();
+    }
+
     public function index()
     {
         $categoryId = $_GET['category_id'] ?? null;
         $filters = empty($categoryId) ? [] : [ 'category_id' => $categoryId ];
 
-        $this->list(new Product(), 'products/index.php', 'products/table.php', 'product', $filters);
+        $this->list($this->productModel, 'products/index.php', 'products/table.php', 'product', $filters);
     }
 
     public function form()
     {
         $isUpdate = false;
-        $units = (new Unit())->all();
-        $categories = (new Category())->all();
+        $units = $this->unitModel->all();
+        $categories = $this->categoryModel->all();
         include __DIR__ . '/../views/products/form.php';
     }
 
@@ -59,7 +70,25 @@ class ProductController
             'category_id' => $_POST['category_id']
         ];
 
-        (new Product())->upsert($data);
+        $invalidData = (
+            trim($data['name']) === ''
+            || empty($data['category_id'])
+            || empty($data['unit_id'])
+            || empty($data['unit_price'])
+            || +$data['unit_price'] <= 0
+            || is_numeric($data['discount']) && (+$data['discount'] < 0 || +$data['discount'] > 100)
+            || !in_array($data['image_type'], ['url', 'upload'])
+        );
+
+        if ($invalidData) {
+            $this->json([
+                'success' => false,
+                'message' => 'Dados inválidos.'
+            ], 400);
+            return;
+        }
+
+        $this->productModel->upsert($data);
 
         $this->redirect('/product');
     }
@@ -67,22 +96,21 @@ class ProductController
     public function edit($id)
     {
         $isUpdate = true;
-        $productModel = new Product();
-        $product = $productModel->findById((int)$id);
+        $product = $this->productModel->findById((int)$id);
 
         if (!$product) {
             $this->redirect('/product');
+            return;
         }
 
-        $units = (new Unit())->all();
-        $categories = (new Category())->all();
+        $units = $this->unitModel->all();
+        $categories = $this->categoryModel->all();
         include __DIR__ . '/../views/products/form.php';
     }
 
     public function delete($id)
     {
-        $productModel = new Product();
-        $productModel->delete($id);
+        $this->productModel->delete($id);
 
         $this->json(['success' => true]);
     }

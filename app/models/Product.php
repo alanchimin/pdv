@@ -82,7 +82,7 @@ class Product extends Model
         if (!$product) return;
 
         if ($product['image_type'] === 'upload' && $product['image']) {
-            $path = $_SERVER['DOCUMENT_ROOT'] . '/upload/' . $product['image'];
+            $file = $_SERVER['DOCUMENT_ROOT'] . '/upload/' . $product['image'];
             if (file_exists($file)) {
                 unlink($file);
             }
