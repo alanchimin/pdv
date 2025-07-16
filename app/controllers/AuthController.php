@@ -50,6 +50,7 @@ class AuthController
     public function logout()
     {
         $this->startSession();
+        $_SESSION = [];
         session_destroy();
         $this->redirect('/auth');
     }

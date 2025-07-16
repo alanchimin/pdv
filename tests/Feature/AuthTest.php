@@ -63,4 +63,35 @@ class AuthTest extends TestCase
         $this->assertTrue(isset($_SESSION['auth']) && $_SESSION['auth'] === true);
         $this->assertEquals('admin', $_SESSION['user']['name']);
     }
+
+    /**
+     * Testa se o método index inclui corretamente a view de login.
+     */
+    public function testIndexShouldRenderLoginForm()
+    {
+        ob_start();
+        $controller = $this->createTestController();
+        $controller->index();
+        $output = ob_get_clean();
+
+        $this->assertStringContainsString('<form method="POST" action="/auth/login">', $output);
+        $this->assertStringContainsString('Usuário:', $output);
+        $this->assertStringContainsString('Senha:', $output);
+    }
+
+    /**
+     * Testa se o método logout destrói a sessão e redireciona corretamente.
+     */
+    public function testLogoutShouldDestroySessionAndRedirect()
+    {
+        $_SESSION = ['auth' => true, 'user' => ['user_id' => 1]];
+
+        $controller = $this->createTestController();
+        $controller->logout();
+
+        $headers = $controller->getMockedHeaders();
+
+        $this->assertContains('Location: /auth', $headers);
+        $this->assertSame([], $_SESSION, 'A sessão deve estar vazia após logout');
+    }
 }
