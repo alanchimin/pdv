@@ -10,70 +10,83 @@ use App\models\Item;
 use App\models\Category;
 use App\models\Product;
 use App\models\PaymentMethod;
+use PDO;
 
 class OrderController
 {
     use ResponseTrait;
 
-    public function index() {
-        $categoryModel = new Category();
-        $categories = $categoryModel->all();
+    protected Category $categoryModel;
+    protected Product $productModel;
+    protected PaymentMethod $paymentMethodModel;
+    protected Order $orderModel;
+    protected Item $itemModel;
+    protected PDO $pdo;
 
-        $productModel = new Product();
-        $products = $productModel->all();
+    public function __construct(
+        ?Category $category = null,
+        ?Product $product = null,
+        ?PaymentMethod $paymentMethod = null,
+        ?Order $order = null,
+        ?Item $item = null,
+        ?PDO $pdo = null
+    ) {
+        $this->categoryModel = $category ?? new Category();
+        $this->productModel = $product ?? new Product();
+        $this->paymentMethodModel = $paymentMethod ?? new PaymentMethod();
+        $this->orderModel = $order ?? new Order();
+        $this->itemModel = $item ?? new Item();
+        $this->pdo = $pdo ?? Database::getInstance();
+    }
 
-        $paymentMethodModel = new PaymentMethod();
-        $paymentMethods = $paymentMethodModel->all();
+    public function index(): void
+    {
+        $categories = $this->categoryModel->all();
+        $products = $this->productModel->all();
+        $paymentMethods = $this->paymentMethodModel->all();
 
         include __DIR__ . '/../views/orders/index.php';
     }
 
-    public function grid()
+    public function grid(): void
     {
         $search = $_GET['q'] ?? '';
         $currentPage = max(1, (int) ($_GET['page'] ?? 1));
         $limit = 12;
         $offset = ($currentPage - 1) * $limit;
         $categoryId = $_GET['category_id'] ?? null;
-        $filters = empty($categoryId) ? [] : [ 'category_id' => $categoryId ];
+        $filters = empty($categoryId) ? [] : ['category_id' => $categoryId];
 
-        $productModel = new Product();
-        $total = $productModel->count($search, $filters);
+        $total = $this->productModel->count($search, $filters);
         $totalPages = ceil($total / $limit);
-        $products = $productModel->list($search, $limit, $offset, 'name', 'asc', $filters);
+        $products = $this->productModel->list($search, $limit, $offset, 'name', 'asc', $filters);
 
         include __DIR__ . '/../views/orders/grid.php';
     }
 
-    public function store() {
+    public function store(): void
+    {
         $items = json_decode($_POST['items'] ?? '[]', true);
 
         if (empty($items)) {
-            echo json_encode(['error' => 'Sem itens para finalizar o pedido.']);
+            $this->json(['error' => 'Sem itens para finalizar o pedido.']);
             return;
         }
 
-        $pdo = Database::getInstance();
-
         try {
-            $orderModel = new Order();
-            $itemModel = new Item();
+            $this->pdo->beginTransaction();
 
-            // Inicia transação
-            $pdo->beginTransaction();
-
-            $orderId = $orderModel->create([
+            $orderId = $this->orderModel->create([
                 'payment_method_id' => $_POST['payment_method_id'],
                 'user_id' => $_SESSION['user']['user_id']
             ]);
 
-            // Insere os itens do pedido
             foreach ($items as $item) {
                 if (!isset($item['amount'], $item['discount'], $item['unitPrice'], $item['productId'])) {
                     throw new \Exception("Dados do item inválidos.");
                 }
 
-                $itemModel->create([
+                $this->itemModel->create([
                     'amount' => $item['amount'],
                     'discount' => $item['discount'],
                     'unit_price' => $item['unitPrice'],
@@ -83,23 +96,22 @@ class OrderController
                 ]);
             }
 
-            $pdo->commit();
+            $this->pdo->commit();
 
             $this->json(['success' => true, 'order_id' => $orderId]);
 
         } catch (\Exception $e) {
-            $pdo->rollBack();
-            echo json_encode(['error' => 'Erro ao salvar o pedido: ' . $e->getMessage()]);
-            return;
+            $this->pdo->rollBack();
+            $this->json(['error' => 'Erro ao salvar o pedido: ' . $e->getMessage()]);
         }
     }
 
-    public function getPdfLink($orderId) {
-        $orderModel = new Order();
-        $order = $orderModel->find($orderId);
+    public function getPdfLink(int $orderId): void
+    {
+        $order = $this->orderModel->find($orderId);
 
         if (!$order || empty($order['items'])) {
-            echo json_encode(['error' => 'Pedido não encontrado.']);
+            $this->json(['error' => 'Pedido não encontrado.']);
             return;
         }
 
@@ -108,7 +120,6 @@ class OrderController
         $paymentMethod = $order['payment_method'];
         $user = $order['user'];
 
-        // Gera o HTML da view
         ob_start();
         include __DIR__ . '/../views/orders/pdf.php';
         $html = ob_get_clean();
