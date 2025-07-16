@@ -23,7 +23,7 @@ class IconTest extends TestCase
     }
 
     /**
-     * Deve retornar um JSON contendo os ícones disponíveis no diretório assets/fontawesome/svgs/solid.
+     * Deve retornar um JSON contendo os ícones disponíveis no diretório vendor/fontawesome/svgs/solid.
      * O teste cria arquivos mock .svg e um arquivo não relacionado para verificar o filtro por extensão.
      */
     public function testListShouldReturnJsonWithIcons()
@@ -31,7 +31,7 @@ class IconTest extends TestCase
         $controller = $this->makeTestableController();
 
         // Simula diretório com arquivos SVG
-        $iconsDir = $_SERVER['DOCUMENT_ROOT'] . '/assets/fontawesome/svgs/solid';
+        $iconsDir = $_SERVER['DOCUMENT_ROOT'] . '/vendor/fontawesome/svgs/solid';
         if (!is_dir($iconsDir)) {
             mkdir($iconsDir, 0777, true);
         }
@@ -74,7 +74,7 @@ class IconTest extends TestCase
         $controller = $this->makeTestableController();
 
         // Garante que diretório não existe
-        $path = $_SERVER['DOCUMENT_ROOT'] . '/assets/fontawesome/svgs/solid';
+        $path = $_SERVER['DOCUMENT_ROOT'] . '/vendor/fontawesome/svgs/solid';
         if (is_dir($path)) {
             rmdir($path);
         }
