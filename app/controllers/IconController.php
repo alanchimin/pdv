@@ -11,7 +11,7 @@ class IconController
     {
         $icons = [];
         $style = 'solid';
-        $path = "{$_SERVER['DOCUMENT_ROOT']}/assets/fontawesome/svgs/$style";
+        $path = "{$_SERVER['DOCUMENT_ROOT']}/vendor/fontawesome/svgs/$style";
 
         if (is_dir($path)) {
             $files = scandir($path);

@@ -8,12 +8,12 @@
     <title>PDV</title>
     
     <!-- Font Awesome -->
-    <link href="/assets/fontawesome/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/vendor/fontawesome/css/all.min.css" />
     
     <!-- CSS Bootstrap -->
-    <link rel="stylesheet" href="/css/lib/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/lib/bootstrap/bootstrap-select.min.css">
-    <link rel="stylesheet" href="/css/lib/bootstrap/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/vendor/bootstrap-select/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="/vendor/bootstrap-icons/css/bootstrap-icons.min.css">
     
     <!-- CSS Personalizado -->
     <link rel="stylesheet" href="/css/core/core.css">
