@@ -1,0 +1,95 @@
+2 semanas
+
+Sistema PDV
+    PHP raiz
+    MySQL
+    JS JQuery
+    HTML
+    Bootstrap
+
+Ideia inicial:
+    - Tela para cadastro de produtos
+    - Tela para lançamento dos itens (tela venda mercado)
+
+
+TODO: Ideias para implementação futura:
+
+    # Prioridade 1: Funcionalidades Essenciais de Gestão e Operação do PDV
+        1.1. Controle de Estoque (Módulo Essencial)
+            [ ] Definir Estrutura de Dados: Adicionar campo quantidade_em_estoque na tabela de produtos.
+            [ ] Entrada de Estoque:
+                [ ] Desenvolver tela para registro de recebimento de mercadorias (entrada de estoque).
+                [ ] Implementar lógica para atualizar quantidade_em_estoque automaticamente após recebimento.
+            [ ] Saída de Estoque:
+                [ ] Implementar lógica para decrementar quantidade_em_estoque automaticamente após cada venda.
+                [ ] Desenvolver tela para ajustes manuais de estoque (perdas, quebras, inventário).
+            [ ] Alertas de Estoque:
+                [ ] Implementar funcionalidade para definir estoque_minimo por produto.
+                [ ] Desenvolver sistema de alertas (visual no painel admin, e-mail) para produtos abaixo do estoque mínimo.
+            [ ] Inventário:
+                [ ] Desenvolver funcionalidade para realizar inventários periódicos (contagem física e ajuste).
+
+        1.2. Gerenciamento de Usuários e Permissões (Módulo de Segurança)
+            [ ] Criação de Perfis/Cargos: Definir perfis de usuário (Ex: Caixa, Gerente, Administrador, Estoquista).
+            [ ] Cadastro de Usuários: Desenvolver tela para cadastro de novos usuários com Nome, E-mail, Senha, Perfil.
+            [ ] Controle de Acesso (RBAC - Role-Based Access Control):
+            [ ] Implementar sistema de permissões para cada perfil (ex: Caixa só pode vender, Gerente pode dar descontos, Admin pode tudo).
+            [ ] Aplicar permissões a cada rota/funcionalidade do sistema.
+
+        1.3. Gestão de Caixa (Módulo Financeiro no PDV)
+            [ ] Abertura de Caixa:
+                [ ] Desenvolver tela para registro do valor inicial (fundo de troco) ao abrir o caixa.
+                [ ] Registrar usuário e data/hora da abertura.
+            [ ] Sangrias e Suprimentos:
+                [ ] Implementar funcionalidade para registrar retiradas (sangrias) e depósitos (suprimentos) no caixa.
+                [ ] Registrar motivo, valor, usuário e data/hora.
+            [ ] Fechamento de Caixa:
+                [ ] Desenvolver tela para registro do valor final do caixa.
+                [ ] Calcular diferença (quebra/sobra de caixa) e registrar.
+                [ ] Gerar relatório de vendas do período do caixa (por forma de pagamento).
+
+        1.4. Formas de Pagamento Adicionais (Módulo Financeiro no PDV)
+            [ ] Configuração de Formas de Pagamento: Desenvolver tela para cadastrar e gerenciar diferentes formas de pagamento (Crédito, Débito, Dinheiro, Vale Alimentação/Refeição, etc.).
+            [ ] Registro Detalhado na Venda: Modificar o fluxo de pagamento para permitir o registro do valor pago por cada forma de pagamento (Ex: R$ 50 no Débito, R10 em Dinheiro).
+            [ ] Integração (Opcional, mas Importante):
+                [ ] Pesquisar e planejar integração com TEF (Transferência Eletrônica de Fundos) para maquininhas de cartão.
+                [ ] Pesquisar e planejar integração com APIs de pagamentos (Ex: para PIX automatizado).
+
+    # Prioridade 2: Funcionalidades de Gestão de Relacionamento e Relatórios
+        2.1. Gerenciamento de Clientes (CRM Básico)
+            [ ] Cadastro de Clientes: Desenvolver tela para cadastro de clientes com Nome, CPF/CNPJ, Endereço, Contato.
+            [ ] Associação na Venda: Permitir associar um cliente a uma venda (opcional no PDV).
+            [ ] Histórico de Compras: Desenvolver tela para visualizar o histórico de compras de um cliente específico.
+            [ ] Pontos/Fidelidade (Opcional): Considerar implementar um sistema de pontos ou cashback.
+
+        2.2. Relatórios e Análises (Módulo de Business Intelligence)
+            [ ] Relatório de Vendas:
+                [ ] Vendas por Período (Dia, Semana, Mês, Ano).
+                [ ] Vendas por Produto.
+                [ ] Vendas por Categoria.
+                [ ] Vendas por Forma de Pagamento.
+                [ ] Vendas por Usuário (Caixa).
+                [ ] Relatório de Descontos Concedidos.
+                [ ] Relatório de Lucratividade: Calcular lucratividade por produto/categoria (necessita campo de custo do produto).
+            [ ] Relatório de Estoque:
+                [ ] Estoque Atual.
+                [ ] Produtos Abaixo do Estoque Mínimo.
+                [ ] Movimentação de Estoque.
+                [ ] Dashboard: Criar um painel de controle com KPIs (Key Performance Indicators) visuais.
+
+        2.3. Gerenciamento de Fornecedores (Módulo de Suprimentos)
+            [ ] Cadastro de Fornecedores: Desenvolver tela para cadastro de Nome, Contato, Produtos Fornecidos.
+            [ ] Histórico de Compras a Fornecedores: Registrar e visualizar pedidos de compra feitos a cada fornecedor.
+
+    # Prioridade 3: Melhorias e Otimizações (Qualidade de Vida e Futuras Expansões)
+        3.1. Gerenciamento de Promoções e Cupons (Módulo de Marketing)
+            [ ] Promoções Simples: Implementar "Leve X pague Y", "Desconto por quantidade".
+            [ ] Cupons de Desconto: Geração e validação de códigos de cupom.
+        3.2. Devoluções e Trocas (Módulo de Pós-Venda)
+            [ ] Desenvolver fluxo para registrar devoluções e trocas de produtos, com ajuste de estoque e financeiro.
+        3.3. Integração com Hardware de PDV (Otimização Operacional)
+            [ ] Leitor de Código de Barras: Otimizar a interface para entrada rápida de produtos via leitor.
+            [ ] Impressora Não Fiscal: Garantir compatibilidade e formatação correta para impressão de recibos.
+            [ ] Balança (para Hortifruti/Carnes): Estudar integração para pesagem automática.
+        3.4. Auditoria de Log (Segurança e Rastreabilidade)
+            [ ] Implementar registro de todas as ações importantes realizadas no sistema (quem fez o quê, quando).
